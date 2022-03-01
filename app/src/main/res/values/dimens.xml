@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="wcag_min_touch_size">48dp</dimen>
+    <dimen name="text_md">16sp</dimen>
+    <dimen name="text_lg">18sp</dimen>
+    <dimen name="text_xlg">26sp</dimen>
+
+    <!-- Common margins/paddings see: https://material.io/design/layout/understanding-layout.html#usage -->
+    <dimen name="sm">4dp</dimen>
+    <dimen name="md">8dp</dimen>
+    <dimen name="lg">16dp</dimen>
+    <dimen name="xlg">24dp</dimen>
+    <dimen name="xxlg">32dp</dimen>
+</resources>

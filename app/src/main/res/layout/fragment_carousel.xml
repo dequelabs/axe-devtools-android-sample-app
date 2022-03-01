@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title_acronym"
+        style="@style/Theme.AxeDevToolsSampleApp.SmallTitleAcronym"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cb"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        style="@style/Theme.AxeDevToolsSampleApp.SmallLogoText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="@dimen/xlg"
+        android:paddingTop="@dimen/sm"
+        android:paddingEnd="@dimen/xlg"
+        android:paddingBottom="@dimen/sm"
+        android:text="@string/app_title"
+        app:layout_constraintTop_toTopOf="@id/title_acronym"
+        app:layout_constraintBottom_toBottomOf="@id/title_acronym"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/carousel_sentence"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/lg"
+        android:layout_marginTop="@dimen/lg"
+        android:layout_marginEnd="@dimen/lg"
+        android:lineHeight="@dimen/xlg"
+        android:text="@string/ipsum_sentence"
+        app:layout_constraintTop_toBottomOf="@id/title_acronym"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/carousel_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/carousel_sentence"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/carousel_position_indicator_rv"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="@dimen/sm"
+        android:layout_marginEnd="@dimen/sm"
+        android:layout_marginBottom="@dimen/xlg"
+        app:layout_constraintBottom_toTopOf="@id/carousel_bottom_divider"
+        app:layout_constraintStart_toStartOf="@id/carousel_bottom_divider"
+        app:layout_constraintEnd_toEndOf="@id/carousel_bottom_divider" />
+
+    <Button
+        android:id="@+id/next_button"
+        style="@style/Theme.AxeDevToolsSamplesApp.Button.Light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/xlg"
+        android:layout_marginEnd="@dimen/md"
+        android:text="@string/next"
+        app:layout_constraintTop_toTopOf="@id/carousel_position_indicator_rv"
+        app:layout_constraintBottom_toBottomOf="@id/carousel_position_indicator_rv"
+        app:layout_constraintStart_toEndOf="@id/carousel_position_indicator_rv"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/lg"
+        android:paddingTop="2dp"
+        android:src="@drawable/ic_chevron_right"
+        app:layout_constraintTop_toTopOf="@id/next_button"
+        app:layout_constraintEnd_toEndOf="@id/next_button"
+        app:layout_constraintBottom_toBottomOf="@id/next_button" />
+
+    <View
+        android:id="@+id/carousel_bottom_divider"
+        android:layout_width="120dp"
+        android:layout_height="4dp"
+        android:layout_marginBottom="@dimen/lg"
+        android:background="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:background="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

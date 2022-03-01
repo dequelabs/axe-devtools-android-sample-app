@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AxeDevTools Sample App</string>
+    <string name="cb">CB</string>
+    <string name="app_title">CHIC BOUTIQUE</string>
+    <string name="start">Start</string>
+    <string name="ipsum_sentence">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</string>
+    <string name="next">Next</string>
+</resources>
