@@ -65,7 +65,7 @@
 
     <Button
         android:id="@+id/next_button"
-        style="@style/Theme.AxeDevToolsSamplesApp.Button.Light"
+        style="@style/Theme.AxeDevToolsSampleApp.Button.Light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/xxlg"

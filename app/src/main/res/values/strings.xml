@@ -9,4 +9,6 @@
     <string name="catalog">Catalog</string>
     <string name="cart">Cart</string>
     <string name="menu">Menu</string>
+    <string name="chic_boutique">Chic Boutique</string>
+    <string name="search">Search</string>
 </resources>
