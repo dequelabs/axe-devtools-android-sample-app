@@ -45,11 +45,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/carousel_rv"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="60dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:background="@color/black"
         app:layout_constraintTop_toBottomOf="@id/carousel_sentence"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -70,7 +68,7 @@
         style="@style/Theme.AxeDevToolsSamplesApp.Button.Light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/xlg"
+        android:layout_marginStart="@dimen/xxlg"
         android:layout_marginEnd="@dimen/md"
         android:text="@string/next"
         app:layout_constraintTop_toTopOf="@id/carousel_position_indicator_rv"

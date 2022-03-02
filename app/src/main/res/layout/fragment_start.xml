@@ -48,7 +48,7 @@
         android:layout_height="5dp"
         android:layout_marginStart="@dimen/lg"
         android:layout_marginEnd="@dimen/lg"
-        android:layout_marginBottom="@dimen/md"
+        android:layout_marginBottom="@dimen/lg"
         android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/start_button"
