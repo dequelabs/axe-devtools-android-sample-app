@@ -5,4 +5,8 @@
     <string name="start">Start</string>
     <string name="ipsum_sentence">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</string>
     <string name="next">Next</string>
+    <string name="home">Home</string>
+    <string name="catalog">Catalog</string>
+    <string name="cart">Cart</string>
+    <string name="menu">Menu</string>
 </resources>

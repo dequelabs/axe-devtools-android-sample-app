@@ -35,7 +35,7 @@ class FragmentCarousel : Fragment() {
         val view = inflater.inflate(R.layout.fragment_carousel, null)
 
         view.findViewById<Button>(R.id.next_button)
-            .setOnClickListener { (activity as MainActivity).nextFragment.value = FragmentStart() }
+            .setOnClickListener { (activity as MainActivity).nextFragment.value = FragmentHome() }
 
         val carouselRV = view.findViewById<RecyclerView>(R.id.carousel_rv)
         carouselRV.adapter = CarouselAdapter()
