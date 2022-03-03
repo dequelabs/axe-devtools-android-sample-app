@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
@@ -27,6 +28,9 @@ private var counter = 0
 
 class FragmentCarousel : Fragment() {
 
+    lateinit var carouselRV: RecyclerView
+    lateinit var positionRv: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,14 +41,14 @@ class FragmentCarousel : Fragment() {
         view.findViewById<Button>(R.id.next_button)
             .setOnClickListener { (activity as MainActivity).nextFragment.value = FragmentHome() }
 
-        val carouselRV = view.findViewById<RecyclerView>(R.id.carousel_rv)
+        carouselRV = view.findViewById<RecyclerView>(R.id.carousel_rv)
         carouselRV.adapter = CarouselAdapter()
         carouselRV.layoutManager =
             CarouselLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
         LinearSnapHelper().attachToRecyclerView(carouselRV)
 
-        val positionRv = view.findViewById<RecyclerView>(R.id.carousel_position_indicator_rv)
+        positionRv = view.findViewById<RecyclerView>(R.id.carousel_position_indicator_rv)
         positionRv.adapter = CarouselPositionAdapter()
         positionRv.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -54,27 +58,27 @@ class FragmentCarousel : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val rv = view.findViewById<RecyclerView>(R.id.carousel_rv)
-        val posRv = view.findViewById<RecyclerView>(R.id.carousel_position_indicator_rv)
-        carouselScroll(rv, posRv)
+        carouselScroll()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun carouselScroll(rv: RecyclerView, posRv: RecyclerView) {
+    private fun carouselScroll() {
         if (counter == images.size) {
-            toggleScrollable(rv, false)
+            toggleScrollable(carouselRV, false)
             return
         }
-        rv.postDelayed({
+        carouselRV.postDelayed({
             counter++
-            toggleScrollable(rv, true)
+            toggleScrollable(carouselRV, true)
 
-            posRv.adapter?.notifyDataSetChanged()
-            rv.smoothScrollToPosition(counter)
+            positionRv.adapter?.notifyDataSetChanged()
+            carouselRV.smoothScrollToPosition(counter)
 
-            rv.postDelayed({toggleScrollable(rv, false)}, 500)
-            rv.postDelayed({ carouselScroll(rv, posRv) }, 4000)
-        }, 1000)
+            LinearSmoothScroller(carouselRV.context).targetPosition = counter
+
+            carouselRV.postDelayed({toggleScrollable(carouselRV, false)}, 500)
+            carouselRV.postDelayed({ carouselScroll() }, 1000)
+        }, 4000)
     }
 
     private fun toggleScrollable(rv: RecyclerView, next: Boolean) {
@@ -83,6 +87,12 @@ class FragmentCarousel : Fragment() {
         } else {
             rv.postDelayed({ toggleScrollable(rv, next) }, 500)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        counter = 0
+        carouselRV.removeCallbacks(null)
     }
 }
 
