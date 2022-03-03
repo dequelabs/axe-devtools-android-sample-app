@@ -30,4 +30,11 @@
     <string name="winter">Winter 2022</string>
     <string name="spring">Spring 2022</string>
     <string name="summer">Summer 2022</string>
+    <string name="catalog_collection_image">Catalog collection image</string>
+    <string name="t_shirts">T-Shirts</string>
+    <string name="sweatshirts">Sweatshirts</string>
+    <string name="tank_tops">Tank Tops</string>
+    <string name="bottoms">Bottoms</string>
+    <string name="accessories">Accessories</string>
+    <string name="category_catalog_desc">%s for every taste</string>
 </resources>

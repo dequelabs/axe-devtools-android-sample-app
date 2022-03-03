@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/xlg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/catalog_collection_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/md"
+        android:background="@drawable/rounded_grey_background"
+        app:layout_constraintTop_toTopOf="@id/catalog_collection_image"
+        app:layout_constraintBottom_toBottomOf="@id/catalog_collection_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/catalog_collection_heading"
+        style="@style/Theme.AxeDevToolsSampleApp.MainHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/xxlg"
+        android:layout_marginTop="@dimen/xlg"
+        android:accessibilityHeading="true"
+        tools:text="T-Shirts"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/catalog_collection_background" />
+
+    <TextView
+        android:id="@+id/catalog_collection_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/catalog_collection_heading"
+        app:layout_constraintStart_toStartOf="@id/catalog_collection_heading"
+        tools:text="T-shirts for every taste" />
+
+    <ImageView
+        android:id="@+id/catalog_collection_image"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:contentDescription="@string/catalog_collection_image"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/tee" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-
-    <TextView
-        android:text="hello catalog"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/catalog_heading"
+            style="@style/Theme.AxeDevToolsSampleApp.MainHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxlg"
+            android:accessibilityHeading="true"
+            android:text="@string/catalog"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/logo_guide_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/logo_guide_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/catalog_search_box"
+            style="@style/Theme.AxeDevToolsSampleApp.BlackOutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xxlg"
+            android:layout_marginTop="@dimen/lg"
+            android:layout_marginEnd="@dimen/xxlg"
+            android:hint="@string/search"
+            android:padding="0dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:endIconTint="@color/black"
+            app:endIconDrawable="@drawable/ic_close"
+            app:endIconMode="custom"
+            app:endIconContentDescription="@string/search"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/main_black"
+                app:iconGravity="textEnd" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/catalog_search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/lg"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/search"
+            android:src="@drawable/ic_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/catalog_heading"
+            app:layout_constraintBottom_toBottomOf="@id/catalog_heading" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/catalog_filter_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/xxlg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/catalog_heading" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/catalog_carousel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/xlg"
+            android:layout_marginEnd="@dimen/lg"
+            app:layout_constraintTop_toBottomOf="@+id/catalog_filter_rv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/catalog_carousel_pos_rv"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/catalog_carousel"
+            app:layout_constraintStart_toStartOf="@id/catalog_carousel"
+            app:layout_constraintEnd_toEndOf="@id/catalog_carousel" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/catalog_categories_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxlg"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginEnd="@dimen/lg"
+            app:layout_constraintTop_toBottomOf="@id/catalog_carousel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
