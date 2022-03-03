@@ -86,11 +86,23 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/catalog_carousel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:layout_marginStart="@dimen/lg"
             android:layout_marginTop="@dimen/xlg"
             android:layout_marginEnd="@dimen/lg"
             app:layout_constraintTop_toBottomOf="@+id/catalog_filter_rv" />
+
+        <TextView
+            style="@style/Theme.AxeDevToolsSampleApp.FunHeading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xlg"
+            android:layout_marginStart="@dimen/xlg"
+            android:layout_marginEnd="@dimen/xlg"
+            android:text="@string/new_collection"
+            app:layout_constraintTop_toTopOf="@id/catalog_carousel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/catalog_carousel_pos_rv"
@@ -104,8 +116,8 @@
             android:id="@+id/catalog_categories_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/xxlg"
             android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/xxlg"
             android:layout_marginEnd="@dimen/lg"
             app:layout_constraintTop_toBottomOf="@id/catalog_carousel" />
 

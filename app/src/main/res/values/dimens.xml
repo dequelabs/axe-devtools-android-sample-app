@@ -5,7 +5,6 @@
     <dimen name="text_md">16sp</dimen>
     <dimen name="text_lg">18sp</dimen>
     <dimen name="text_xlg">26sp</dimen>
-
     <!-- Common margins/paddings see: https://material.io/design/layout/understanding-layout.html#usage -->
     <dimen name="sm">4dp</dimen>
     <dimen name="md">8dp</dimen>

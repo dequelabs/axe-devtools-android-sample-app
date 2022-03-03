@@ -64,6 +64,9 @@ class MainActivity : AppCompatActivity() {
         val bottomNavBar: NavigationBarView = findViewById(R.id.bottom_nav_bar)
         val startFrame: FrameLayout = findViewById(R.id.start_frame)
         val mainFrame: FrameLayout = findViewById(R.id.main_frame)
+
+        carouselStop()
+
         if (fragment is FragmentStart || fragment is FragmentCarousel) {
             bottomNavBar.visibility = GONE
             startFrame.visibility = VISIBLE

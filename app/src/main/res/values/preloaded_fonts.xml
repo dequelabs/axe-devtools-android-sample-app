@@ -2,8 +2,10 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/alice</item>
+        <item>@font/bungee_shade</item>
         <item>@font/cantata_one</item>
         <item>@font/dm_serif_text</item>
         <item>@font/quattrocento</item>
+        <item>@font/vast_shadow</item>
     </array>
 </resources>

@@ -1,5 +1,7 @@
 package com.deque.mobile.axedevtoolssampleapp
 
+import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +16,14 @@ import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 
 class FragmentCatalog : Fragment() {
+
+    lateinit var carouselRV: RecyclerView
+    lateinit var positionRv: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,14 +49,37 @@ class FragmentCatalog : Fragment() {
         }
 
         val filterRv = view.findViewById<RecyclerView>(R.id.catalog_filter_rv)
-        val carouselRv = view.findViewById<RecyclerView>(R.id.catalog_carousel)
-        val carouselPosRv = view.findViewById<RecyclerView>(R.id.catalog_carousel_pos_rv)
+        carouselRV = view.findViewById(R.id.catalog_carousel)
+        positionRv = view.findViewById(R.id.catalog_carousel_pos_rv)
         val categoriesRv = view.findViewById<RecyclerView>(R.id.catalog_categories_rv)
+
+        filterRv.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        filterRv.adapter = FilterAdapter()
+
+        carouselRV.adapter = CarouselAdapter()
+        carouselRV.layoutManager =
+            CarouselLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        LinearSnapHelper().attachToRecyclerView(carouselRV)
+
+        positionRv.adapter = CarouselPositionAdapter()
+        positionRv.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
         categoriesRv.layoutManager = LinearLayoutManager(activity)
         categoriesRv.adapter = CategoriesAdapter()
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        carouselScroll(carouselRV, positionRv)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        carouselStop()
     }
 }
 
@@ -96,3 +125,52 @@ class CategoriesItem(
     @StringRes val desc: Int,
     @DrawableRes val image: Int
 )
+
+class FilterAdapter : RecyclerView.Adapter<FilterViewHolder>() {
+    private val list =
+        listOf(R.string.all, R.string.male, R.string.female, R.string.boy, R.string.girl)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
+        return FilterViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_filter, parent, false)
+        )
+    }
+
+    override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
+        val res = holder.text.resources
+        holder.text.text = res.getString(list[position])
+        holder.text.tag = WHITE
+        holder.text.setOnClickListener {
+            toggleFilterColor(res, holder.text)
+        }
+    }
+
+    private fun toggleFilterColor(res: Resources, textView: TextView) {
+        if (textView.tag == BLACK) {
+            textView.backgroundTintList = null
+            textView.background =
+                ResourcesCompat.getDrawable(res, R.drawable.rounded_grey_border, null)
+            textView.setTextColor(res.getColor(R.color.black, null))
+            textView.tag = WHITE
+        } else {
+            textView.backgroundTintList =
+                ColorStateList.valueOf(res.getColor(R.color.black, null))
+            textView.setTextColor(res.getColor(R.color.white, null))
+            textView.tag = BLACK
+        }
+
+    }
+
+    override fun getItemCount(): Int {
+        return list.size
+    }
+
+    companion object {
+        const val WHITE = "white"
+        const val BLACK = "black"
+    }
+}
+
+class FilterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val text: TextView = itemView.findViewById(R.id.filter_text)
+}

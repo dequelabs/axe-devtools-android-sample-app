@@ -37,4 +37,10 @@
     <string name="bottoms">Bottoms</string>
     <string name="accessories">Accessories</string>
     <string name="category_catalog_desc">%s for every taste</string>
+    <string name="all">All</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="boy">Boy</string>
+    <string name="girl">Girl</string>
+    <string name="new_collection">NEW COLLECTION</string>
 </resources>
