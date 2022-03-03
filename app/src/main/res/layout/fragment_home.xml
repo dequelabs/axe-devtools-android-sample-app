@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/search_black_background"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/rounded_bottom_black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xlg"
+            android:contentDescription="@string/chic_boutique"
+            android:src="@drawable/chic_boutique"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/logo_guide_left"
+            app:layout_constraintEnd_toStartOf="@id/logo_guide_right" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/logo_guide_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/logo_guide_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Theme.AxeDevToolsSampleApp.WhiteOutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xxlg"
+            android:layout_marginEnd="@dimen/xxlg"
+            android:hint="@string/search"
+            android:padding="0dp"
+            app:endIconTint="@color/white"
+            app:endIconDrawable="@drawable/ic_search"
+            app:endIconMode="custom"
+            app:endIconContentDescription="@string/search"
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:iconGravity="textEnd" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/hero_image"
+            android:layout_width="0dp"
+            android:layout_height="350dp"
+            android:layout_marginStart="@dimen/xlg"
+            android:layout_marginEnd="@dimen/xlg"
+            android:contentDescription="@string/hero_description"
+            android:src="@drawable/hero"
+            app:layout_constraintTop_toBottomOf="@id/search_black_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/sm"
+            android:text="@string/winter_2022_best_collection"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/limited_num_products"
+            app:layout_constraintStart_toStartOf="@id/hero_image"
+            app:layout_constraintEnd_toEndOf="@id/hero_image" />
+
+        <TextView
+            android:id="@+id/limited_num_products"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/md"
+            android:text="@string/limited_number_of_products"
+            android:textColor="@color/text_grey"
+            android:textSize="@dimen/text_sm"
+            app:layout_constraintBottom_toTopOf="@id/check_cta"
+            app:layout_constraintStart_toStartOf="@id/hero_image"
+            app:layout_constraintEnd_toEndOf="@id/hero_image" />
+
+        <TextView
+            android:id="@+id/check_cta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/xlg"
+            android:text="@string/check"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/hero_image"
+            app:layout_constraintStart_toStartOf="@id/hero_image"
+            app:layout_constraintEnd_toEndOf="@id/hero_image" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="@dimen/sm"
+            android:layout_marginTop="2dp"
+            android:contentDescription="@string/right_arrow"
+            android:src="@drawable/ic_arrow_right"
+            app:tint="@color/white"
+            app:layout_constraintStart_toEndOf="@id/check_cta"
+            app:layout_constraintTop_toTopOf="@id/check_cta"
+            app:layout_constraintBottom_toBottomOf="@id/check_cta" />
+
+        <TextView
+            android:id="@+id/most_popular_heading"
+            style="@style/Theme.AxeDevToolsSampleApp.MainHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/xxlg"
+            android:accessibilityHeading="true"
+            android:text="@string/most_popular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hero_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/sm"
+            android:text="@string/_56_items"
+            android:textColor="@color/text_grey"
+            android:textSize="@dimen/text_md"
+            app:layout_constraintEnd_toStartOf="@id/most_popular_arrow"
+            app:layout_constraintTop_toTopOf="@id/most_popular_heading"
+            app:layout_constraintBottom_toBottomOf="@id/most_popular_heading" />
+
+        <ImageView
+            android:id="@+id/most_popular_arrow"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="@dimen/lg"
+            android:contentDescription="@string/right_arrow"
+            android:src="@drawable/ic_arrow_right"
+            app:tint="@color/text_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/most_popular_heading"
+            app:layout_constraintBottom_toBottomOf="@id/most_popular_heading" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/popular_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/xxlg"
+            android:layout_marginEnd="@dimen/lg"
+            app:layout_constraintTop_toBottomOf="@id/most_popular_heading" />
+
+        <TextView
+            android:id="@+id/collection_heading"
+            style="@style/Theme.AxeDevToolsSampleApp.MainHeading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/xlg"
+            android:accessibilityHeading="true"
+            android:text="@string/collection"
+            app:layout_constraintTop_toBottomOf="@id/popular_rv"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/collection_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/lg"
+            android:layout_marginEnd="@dimen/lg"
+            app:layout_constraintTop_toBottomOf="@id/collection_heading" />
+
+        <TextView
+            android:id="@+id/recommended_heading"
+            style="@style/Theme.AxeDevToolsSampleApp.MainHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/xlg"
+            android:accessibilityHeading="true"
+            android:text="@string/recommended"
+            app:layout_constraintTop_toBottomOf="@id/collection_rv"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/sm"
+            android:text="@string/_13_items"
+            android:textColor="@color/text_grey"
+            android:textSize="@dimen/text_md"
+            app:layout_constraintEnd_toStartOf="@id/recommended_arrow"
+            app:layout_constraintTop_toTopOf="@id/recommended_heading"
+            app:layout_constraintBottom_toBottomOf="@id/recommended_heading" />
+
+        <ImageView
+            android:id="@+id/recommended_arrow"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="@dimen/lg"
+            android:contentDescription="@string/right_arrow"
+            android:src="@drawable/ic_arrow_right"
+            app:tint="@color/text_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/recommended_heading"
+            app:layout_constraintBottom_toBottomOf="@id/recommended_heading" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recommended_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/lg"
+            android:layout_marginTop="@dimen/lg"
+            android:layout_marginEnd="@dimen/lg"
+            app:layout_constraintTop_toBottomOf="@id/recommended_heading" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

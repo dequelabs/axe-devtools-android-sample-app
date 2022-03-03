@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/md"
+    android:layout_marginEnd="@dimen/md"
+    android:layout_marginBottom="@dimen/lg">
+
+    <ImageView
+        android:id="@+id/inventory_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/sale_item"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/a" />
+
+    <ImageButton
+        android:id="@+id/inventory_fav_btn"
+        android:layout_width="@dimen/wcag_min_touch_size"
+        android:layout_height="@dimen/wcag_min_touch_size"
+        android:layout_marginTop="@dimen/lg"
+        android:layout_marginEnd="@dimen/lg"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/favorite"
+        android:scaleType="centerCrop"
+        android:src="@drawable/heart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/inventory_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/md"
+        android:layout_marginBottom="@dimen/xlg"
+        android:text="@string/explorinc_life"
+        android:textColor="@color/main_black"
+        app:layout_constraintTop_toBottomOf="@id/inventory_image"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/inventory_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sm"
+        android:text="@string/price"
+        android:textSize="@dimen/text_lg"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inventory_name"
+        tools:text="$ 26.00" />
+
+    <ImageButton
+        android:id="@+id/inventory_bag_btn"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/add_to_bag"
+        android:scaleType="fitEnd"
+        android:src="@drawable/bag_shop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/inventory_name"
+        app:layout_constraintBottom_toBottomOf="@id/inventory_price" />
+
+    <ImageButton
+        android:id="@+id/inventory_bag_btn_full"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/add_to_bag"
+        android:paddingTop="8dp"
+        android:src="@drawable/bag_shop_bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/inventory_name"
+        app:layout_constraintBottom_toBottomOf="@id/inventory_price" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

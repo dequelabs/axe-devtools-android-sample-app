@@ -11,4 +11,23 @@
     <string name="menu">Menu</string>
     <string name="chic_boutique">Chic Boutique</string>
     <string name="search">Search</string>
+    <string name="hero_description">Fashionable lady on a rowboat in winter.</string>
+    <string name="check">Check</string>
+    <string name="limited_number_of_products">Limited number of products</string>
+    <string name="winter_2022_best_collection">Winter 2022 best collection</string>
+    <string name="right_arrow">Right arrow</string>
+    <string name="most_popular">Most popular</string>
+    <string name="_56_items">56 Items</string>
+    <string name="collection">Collection</string>
+    <string name="recommended">Recommended</string>
+    <string name="_13_items">13 Items</string>
+    <string name="sale_item">Sale item</string>
+    <string name="favorite">Favorite</string>
+    <string name="explorinc_life">Explorinc Life</string>
+    <string name="price">$ %s</string>
+    <string name="add_to_bag">Add to bag</string>
+    <string name="collection_image">Collection image</string>
+    <string name="winter">Winter 2022</string>
+    <string name="spring">Spring 2022</string>
+    <string name="summer">Summer 2022</string>
 </resources>

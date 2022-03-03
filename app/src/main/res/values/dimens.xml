@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="wcag_min_touch_size">48dp</dimen>
+    <dimen name="text_sm">12sp</dimen>
     <dimen name="text_md">16sp</dimen>
     <dimen name="text_lg">18sp</dimen>
     <dimen name="text_xlg">26sp</dimen>
