@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/main_black</item>
         <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/main_black</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/white</item>
@@ -75,5 +75,10 @@
     <style name="Theme.AxeDevToolsSampleApp.FunHeading" parent="Theme.AxeDevToolsSampleApp.MainHeading">
         <item name="fontFamily">@font/vast_shadow</item>
         <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="Theme.AxeDevToolsSampleApp.CartButton" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

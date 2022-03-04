@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="125dp"
+    android:layout_margin="@dimen/md">
+
+    <View
+        android:id="@+id/cart_item_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_light_grey_background" />
+
+    <ImageView
+        android:id="@+id/cart_item_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/cart_item_image"
+        android:padding="@dimen/sm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:src="@drawable/c"
+        app:layout_constraintEnd_toStartOf="@id/cart_item_left_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cart_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/lg"
+        android:layout_marginTop="@dimen/lg"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/cart_item_left_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Explorinc Life" />
+
+    <TextView
+        android:id="@+id/cart_item_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/md"
+        android:textColor="@color/text_grey"
+        tools:text="Gray"
+        app:layout_constraintTop_toBottomOf="@+id/cart_item_title"
+        app:layout_constraintStart_toStartOf="@id/cart_item_title" />
+
+    <TextView
+        android:id="@+id/cart_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/lg"
+        android:textStyle="bold"
+        tools:text="$ 126.00"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/cart_item_title" />
+
+    <TextView
+        android:id="@+id/cart_item_counter"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/rounded_black_border"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/cart_item_increment"
+        app:layout_constraintTop_toTopOf="@id/cart_item_increment"
+        app:layout_constraintBottom_toBottomOf="@id/cart_item_increment"
+        tools:text="1" />
+
+    <Button
+        android:id="@+id/cart_item_decrement"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="@dimen/sm"
+        android:padding="0dp"
+        android:text="@string/minus_symbol"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/cart_item_counter" />
+
+    <Button
+        android:id="@+id/cart_item_increment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="@dimen/md"
+        android:layout_marginBottom="@dimen/sm"
+        android:padding="0dp"
+        android:gravity="center"
+        android:background="@drawable/rounded_background"
+        android:text="@string/plus_symbol"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/cart_item_left_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

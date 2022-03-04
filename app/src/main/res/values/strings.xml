@@ -43,4 +43,12 @@
     <string name="boy">Boy</string>
     <string name="girl">Girl</string>
     <string name="new_collection">NEW COLLECTION</string>
+    <string name="delete_all">Delete all</string>
+    <string name="proceed_to_checkout">Proceed to checkout</string>
+    <string name="cart_item_image">Cart item image</string>
+    <string name="plus_symbol">+</string>
+    <string name="minus_symbol">-</string>
+    <string name="gray">Gray</string>
+    <string name="cart_total_items">Total ( %s items ):</string>
+    <string name="cart_total_price">$ %s.00</string>
 </resources>
