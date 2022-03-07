@@ -51,4 +51,19 @@
     <string name="gray">Gray</string>
     <string name="cart_total_items">Total ( %s items ):</string>
     <string name="cart_total_price">$ %s.00</string>
+    <string name="profile_image">Profile image</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="customer">Customer</string>
+    <string name="james_anderson">James Anderson</string>
+    <string name="_45_sale">45% SALE</string>
+    <string name="promo_code">XT4FH33D</string>
+    <string name="promo_for_you">Promo for you</string>
+    <string name="my_details_icon">My details icon</string>
+    <string name="dancing_woman_on_purple_background">Dancing woman on purple background</string>
+    <string name="my_details">My details</string>
+    <string name="log_out">Log out</string>
+    <string name="need_help">Need help?</string>
+    <string name="address_book">Address book</string>
+    <string name="payment_methods">Payment methods</string>
+    <string name="my_orders">My orders</string>
 </resources>

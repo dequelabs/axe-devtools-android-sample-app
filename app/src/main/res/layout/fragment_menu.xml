@@ -1,11 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
+    <ImageView
+        android:id="@+id/menu_profile_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/profile_image"
+        android:src="@drawable/ic_profile"
+        android:layout_marginStart="@dimen/lg"
+        android:padding="@dimen/md"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:text="hello menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:id="@+id/menu_customer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xlg"
+        android:text="@string/customer"
+        android:textColor="@color/text_grey"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/menu_profile_image" />
+
+    <TextView
+        android:id="@+id/menu_customer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/james_anderson"
+        android:textSize="@dimen/text_lg"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/menu_profile_image"
+        app:layout_constraintTop_toBottomOf="@id/menu_customer_text" />
+
+    <ImageButton
+        android:id="@+id/menu_edit_button"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/edit_profile"
+        android:padding="25dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit"
+        app:tint="@color/main_black"
+        app:layout_constraintTop_toTopOf="@id/menu_profile_image"
+        app:layout_constraintBottom_toBottomOf="@id/menu_profile_image"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/menu_promo_background"
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="@dimen/xlg"
+        android:layout_marginTop="@dimen/lg"
+        android:layout_marginEnd="@dimen/xlg"
+        android:contentDescription="@string/dancing_woman_on_purple_background"
+        android:src="@drawable/promo_background"
+        app:layout_constraintTop_toBottomOf="@id/menu_profile_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/menu_promo_for_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/sm"
+        android:text="@string/promo_for_you"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_sm"
+        app:layout_constraintStart_toStartOf="@id/menu_promo_code"
+        app:layout_constraintBottom_toTopOf="@id/menu_promo_code" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/lg"
+        android:layout_marginEnd="@dimen/lg"
+        android:text="@string/_45_sale"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/menu_promo_background"
+        app:layout_constraintEnd_toEndOf="@id/menu_promo_background" />
+
+    <TextView
+        android:id="@+id/menu_promo_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/xlg"
+        android:layout_marginBottom="@dimen/lg"
+        android:text="@string/promo_code"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_lg"
+        app:layout_constraintBottom_toBottomOf="@id/menu_promo_background"
+        app:layout_constraintStart_toStartOf="@id/menu_promo_background" />
+
+    <ImageView
+        android:id="@+id/menu_item_1_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:layout_marginTop="@dimen/xlg"
+        android:contentDescription="@string/my_details_icon"
+        android:src="@drawable/ic_user"
+        app:layout_constraintTop_toBottomOf="@id/menu_promo_background"
+        app:layout_constraintStart_toStartOf="@id/menu_promo_background" />
+
+    <TextView
+        android:id="@+id/menu_item_1_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:text="@string/my_details"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/menu_item_1_icon"
+        app:layout_constraintStart_toEndOf="@id/menu_item_1_icon"
+        app:layout_constraintBottom_toBottomOf="@id/menu_item_1_icon" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/xlg"
+        android:contentDescription="@string/right_arrow"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/menu_item_1_icon"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/menu_item_2_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:layout_marginTop="@dimen/lg"
+        android:contentDescription="@string/my_details_icon"
+        android:src="@drawable/ic_note"
+        app:layout_constraintTop_toBottomOf="@id/menu_item_1_icon"
+        app:layout_constraintStart_toStartOf="@id/menu_promo_background" />
+
+    <TextView
+        android:id="@+id/menu_item_2_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:text="@string/my_orders"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/menu_item_2_icon"
+        app:layout_constraintStart_toEndOf="@id/menu_item_2_icon"
+        app:layout_constraintBottom_toBottomOf="@id/menu_item_2_icon" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/xlg"
+        android:contentDescription="@string/right_arrow"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/menu_item_2_icon"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/menu_item_3_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:layout_marginTop="@dimen/lg"
+        android:contentDescription="@string/my_details_icon"
+        android:src="@drawable/ic_wallet_outline"
+        app:layout_constraintTop_toBottomOf="@id/menu_item_2_icon"
+        app:layout_constraintStart_toStartOf="@id/menu_promo_background" />
+
+    <TextView
+        android:id="@+id/menu_item_3_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:text="@string/payment_methods"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/menu_item_3_icon"
+        app:layout_constraintStart_toEndOf="@id/menu_item_3_icon"
+        app:layout_constraintBottom_toBottomOf="@id/menu_item_3_icon" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/xlg"
+        android:contentDescription="@string/right_arrow"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/menu_item_3_icon"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/menu_item_4_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:layout_marginTop="@dimen/lg"
+        android:contentDescription="@string/my_details_icon"
+        android:src="@drawable/ic_map_marker"
+        app:layout_constraintTop_toBottomOf="@id/menu_item_3_icon"
+        app:layout_constraintStart_toStartOf="@id/menu_promo_background" />
+
+    <TextView
+        android:id="@+id/menu_item_4_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:text="@string/address_book"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/menu_item_4_icon"
+        app:layout_constraintStart_toEndOf="@id/menu_item_4_icon"
+        app:layout_constraintBottom_toBottomOf="@id/menu_item_4_icon" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/xlg"
+        android:contentDescription="@string/right_arrow"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/menu_item_4_icon"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/menu_item_5_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:layout_marginTop="44dp"
+        android:contentDescription="@string/my_details_icon"
+        android:src="@drawable/ic_info"
+        app:layout_constraintTop_toBottomOf="@id/menu_item_4_icon"
+        app:layout_constraintStart_toStartOf="@id/menu_promo_background" />
+
+    <TextView
+        android:id="@+id/menu_item_5_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:text="@string/need_help"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/menu_item_5_icon"
+        app:layout_constraintStart_toEndOf="@id/menu_item_5_icon"
+        app:layout_constraintBottom_toBottomOf="@id/menu_item_5_icon" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/xlg"
+        android:contentDescription="@string/right_arrow"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/menu_item_5_icon"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/menu_item_6_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:layout_marginTop="@dimen/lg"
+        android:contentDescription="@string/my_details_icon"
+        android:src="@drawable/ic_logout"
+        app:tint="@color/red"
+        android:rotationY="180"
+        app:layout_constraintTop_toBottomOf="@id/menu_item_5_icon"
+        app:layout_constraintStart_toStartOf="@id/menu_promo_background" />
+
+    <TextView
+        android:id="@+id/menu_item_6_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/md"
+        android:text="@string/log_out"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/menu_item_6_icon"
+        app:layout_constraintStart_toEndOf="@id/menu_item_6_icon"
+        app:layout_constraintBottom_toBottomOf="@id/menu_item_6_icon" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
