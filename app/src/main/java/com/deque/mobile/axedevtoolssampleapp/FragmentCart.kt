@@ -1,5 +1,6 @@
 package com.deque.mobile.axedevtoolssampleapp
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,8 @@ class FragmentCart : Fragment() {
         updateTotals(hasItems)
     }
 
+    private var canUpdateTotals: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,7 +60,18 @@ class FragmentCart : Fragment() {
         return view
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        canUpdateTotals = true
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        canUpdateTotals = false
+    }
+
     private fun updateTotals(hasItems: Boolean) {
+        if(!canUpdateTotals) return
         val totalItemsString = getString(R.string.cart_total_items)
         val totalPriceString = getString(R.string.cart_total_price)
         val cartItemView1 =
