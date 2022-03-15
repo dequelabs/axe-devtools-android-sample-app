@@ -1,0 +1,44 @@
+version: 2.1
+apiVersion: v1alpha
+kind: espresso
+sauce:
+  region: us-west-1
+  # Controls how many suites are executed at the same time (sauce test env only).
+  concurrency: 10
+  metadata:
+    tags:
+      - e2e
+    build: Sample App
+espresso:
+  app: ./app/build/outputs/apk/debug/app-debug.apk
+  testApp: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+suites:
+  - name: "Android DevTools Sample App"
+    testOptions:
+      clearPackageData: true
+      useTestOrchestrator: true
+    emulators:
+      - name: "Google Pixel 3 GoogleAPI Emulator"
+        platformVersions:
+          - "11.0"
+      - name: "Google Pixel 3a GoogleAPI Emulator"
+        platformVersions:
+          - "10.0"
+      - name: "Google Pixel 3 XL GoogleAPI Emulator"
+        platformVersions:
+          - "9.0"
+      - name: "Samsung Galaxy S7 GoogleAPI Emulator"
+        platformVersions:
+          - "8.1"
+      - name: "Samsung Galaxy S8 Plus HD GoogleAPI Emulator"
+        platformVersions:
+          - "8.0"
+      - name: "Samsung Galaxy S9 Plus FHD GoogleAPI Emulator"
+        platformVersions:
+          - "7.1"
+      - name: "Samsung Galaxy S8 Plus FHD GoogleAPI Emulator"
+        platformVersions:
+          - "7.0"
+      - name: "Android Emulator"
+        platformVersions:
+          - "6.0"

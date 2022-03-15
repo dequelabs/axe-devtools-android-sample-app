@@ -21,10 +21,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            buildConfigField "String", "AXE_DEVTOOLS_ANDROID_APIKEY", "\"84ffb834-ec90-4f94-a919-4983d193b946\""
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -37,7 +45,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+    implementation 'com.deque.android.beta:axe-devtools-android:beta-3299d70'
 
     testImplementation 'junit:junit:4.13.2'
 
