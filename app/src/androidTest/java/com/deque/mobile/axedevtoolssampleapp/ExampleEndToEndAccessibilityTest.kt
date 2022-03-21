@@ -2,22 +2,15 @@ package com.deque.mobile.axedevtoolssampleapp
 
 import android.graphics.Rect
 import android.view.View
-import android.widget.HorizontalScrollView
-import android.widget.ScrollView
 import androidx.core.widget.NestedScrollView
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ScrollToAction
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.espresso.util.HumanReadables
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.deque.mobile.attest.AttestClient
 import com.deque.mobile.attest.AxeDevTools
@@ -25,12 +18,11 @@ import com.deque.mobile.attest.testingconfigs.AttestEspressoConfig
 import com.deque.mobile.auth.AccessToken
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.anyOf
+import org.junit.After
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
 import org.junit.Rule
 
 /**
@@ -44,11 +36,16 @@ class ExampleEndToEndAccessibilityTest {
     private val axe = AxeDevTools()
 
     init {
+        //Waiting on QA Api Key
         axe.connect(
-            BuildConfig.AXE_DEVTOOLS_ANDROID_APIKEY
+            "",
+            "",
+            AxeDevTools.ConnectionConfig(AttestClient.QA_REALM, AccessToken.QA_URL, AttestClient.DB_QA_URL)
         )
 
-//        axe.setTestingConfig(AttestEspressoConfig(IdlingRegistry.getInstance()))
+        axe.setTestingConfig(AttestEspressoConfig(IdlingRegistry.getInstance()))
+
+        BuildConfig.IS_TESTING.set(true)
     }
 
     @Rule
@@ -60,51 +57,68 @@ class ExampleEndToEndAccessibilityTest {
         rule.scenario.onActivity { axe.startTesting(it) }
 
         //Launch screen
-//        runAccessibilityScan()
+        a11yScan()
         onView(withText("Start")).perform(click())
 
         //Intro screen
-//        runAccessibilityScan()
+        a11yScan()
         onView(withText("Next")).perform(click())
 
         //Home screen
-//        runAccessibilityScan()
+        a11yScan()
         onView(withHint("Search")).perform(click())
-//        runAccessibilityScan()
+        a11yScan()
         closeSoftKeyboard()
         onView(withId(R.id.most_popular_heading)).perform(nestedScrollTo())
-//        runAccessibilityScan()
+        a11yScan()
         onView(withId(R.id.collection_heading)).perform(nestedScrollTo())
-//        runAccessibilityScan()
+        a11yScan()
         onView(withId(R.id.recommended_heading)).perform(nestedScrollTo())
-//        runAccessibilityScan()
+        a11yScan()
 
         //Catalog screen
+        onView(withId(R.id.home)).perform(click())
         onView(withId(R.id.catalog)).perform(click())
-//        runAccessibilityScan()
+        a11yScan()
         onView(withText("Male")).perform(click())
         onView(withText("Female")).perform(click())
         onView(withText("Girl")).perform(click())
-//        runAccessibilityScan()
+        a11yScan()
         onView(withText("Tank Tops")).perform(nestedScrollTo())
-//        runAccessibilityScan()
+        a11yScan()
 
         //Cart screen
         onView(withId(R.id.cart)).perform(click())
-        pressBack()
-//        runAccessibilityScan()
-//        onView(withId(R.id.cart_item_increment)).perform(click())
-//        runAccessibilityScan()
-//        onView(allOf(withId(R.id.cart_delete_all), withText("Delete all"))).perform(click())
-//        runAccessibilityScan()
+        a11yScan()
 
         //Menu screen
         onView(withId(R.id.menu)).perform(click())
-//        runAccessibilityScan()
+        a11yScan()
     }
 
-    private fun runAccessibilityScan() {
-        onView(withContentDescription("Axe")).perform(click())
+    @After
+    fun after() {
+        axe.tearDown()
+    }
+
+    private fun a11yScan() {
+        rule.scenario.onActivity {
+            val scan = axe.scan(it)
+            //Now you can do what you want with your result
+            //Upload it to our backend
+            scan?.uploadToDashboard()
+
+            //Peruse the results in your test suite
+//            val result: AxeResult? = scan?.getResultLocally()
+//            result?.axeRuleResults?.forEach { result ->
+//                if(result.status == AxeStatus.FAIL) {
+//                    //uh-oh!
+//                }
+//            }
+
+            //Save the result JSON to a local file for later use
+//            scan?.saveResult()
+        }
     }
 
     private fun nestedScrollTo(): ViewAction = actionWithAssertions(NestedScrollTo())
