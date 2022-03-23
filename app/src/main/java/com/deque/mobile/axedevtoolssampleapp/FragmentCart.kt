@@ -38,6 +38,8 @@ class FragmentCart : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cart, null)
+        totalItems = view.findViewById(R.id.cart_total_items)
+        totalPrice = view.findViewById(R.id.cart_total_price)
 
         val cartAdapter = CartAdapter(updateTotalsCallback)
 
@@ -57,9 +59,6 @@ class FragmentCart : Fragment() {
             (cartRv.adapter as CartAdapter).clear()
             it.visibility = GONE
         }
-
-        totalItems = view.findViewById(R.id.cart_total_items)
-        totalPrice = view.findViewById(R.id.cart_total_price)
 
         return view
     }

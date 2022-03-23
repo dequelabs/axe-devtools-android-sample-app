@@ -22,7 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "AXE_DEVTOOLS_ANDROID_APIKEY", "\"84ffb834-ec90-4f94-a919-4983d193b946\""
+            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"YOUR_API_KEY\""
             buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
         }
     }
@@ -51,7 +51,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-    implementation 'com.deque.android.beta:axe-devtools-android:beta-509f3f1'
+    implementation 'com.deque.android.beta:axe-devtools-android:beta-69a77a5'
 
     testImplementation 'junit:junit:4.13.2'
 

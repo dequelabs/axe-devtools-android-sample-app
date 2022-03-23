@@ -27,18 +27,3 @@ suites:
       - name: "Google Pixel 3 XL GoogleAPI Emulator"
         platformVersions:
           - "9.0"
-      - name: "Samsung Galaxy S7 GoogleAPI Emulator"
-        platformVersions:
-          - "8.1"
-      - name: "Samsung Galaxy S8 Plus HD GoogleAPI Emulator"
-        platformVersions:
-          - "8.0"
-      - name: "Samsung Galaxy S9 Plus FHD GoogleAPI Emulator"
-        platformVersions:
-          - "7.1"
-      - name: "Samsung Galaxy S8 Plus FHD GoogleAPI Emulator"
-        platformVersions:
-          - "7.0"
-      - name: "Android Emulator"
-        platformVersions:
-          - "6.0"

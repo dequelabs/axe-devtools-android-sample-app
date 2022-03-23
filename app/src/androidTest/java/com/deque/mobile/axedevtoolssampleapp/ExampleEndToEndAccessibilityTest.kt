@@ -36,10 +36,8 @@ class ExampleEndToEndAccessibilityTest {
     private val axe = AxeDevTools()
 
     init {
-        //Waiting on QA Api Key
         axe.connect(
-            "",
-            "",
+            BuildConfig.AXE_DEVTOOLS_APIKEY,
             AxeDevTools.ConnectionConfig(AttestClient.QA_REALM, AccessToken.QA_URL, AttestClient.DB_QA_URL)
         )
 
@@ -103,21 +101,22 @@ class ExampleEndToEndAccessibilityTest {
 
     private fun a11yScan() {
         rule.scenario.onActivity {
-            val scan = axe.scan(it)
-            //Now you can do what you want with your result
-            //Upload it to our backend
-            scan?.uploadToDashboard()
+            //Scan and receive the ScanResultHandler locally
+            val scanResultHandler = axe.scan(it)
 
-            //Peruse the results in your test suite
-//            val result: AxeResult? = scan?.getResultLocally()
-//            result?.axeRuleResults?.forEach { result ->
-//                if(result.status == AxeStatus.FAIL) {
-//                    //uh-oh!
-//                }
-//            }
+            //Upload it to our backend
+            scanResultHandler?.uploadToDashboard()
+
+            // Peruse the results in your test suite
+            // val result: AxeResult? = scanResultHandler?.getSerializedResult()
+            // result?.axeRuleResults?.forEach { result ->
+            //     if(result.status == AxeStatus.FAIL) {
+            //         //uh-oh!
+            //     }
+            // }
 
             //Save the result JSON to a local file for later use
-//            scan?.saveResult()
+            // scanResultHandler?.saveResultToLocalStorage("your_file_prefix")
         }
     }
 
