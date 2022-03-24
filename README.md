@@ -1,6 +1,6 @@
 # axe-devtools-android-sample-app
 
-This repo contains an inaccessible fluff application for the purpose of trying out AxeDevTools Android.
+This repo contains an inaccessible sample application to try out axeDevTools for Android.
 
 In order to use this repository, clone it and replace the build.gradle (:app) BuildConfig property `AXE_DEVTOOLS_APIKEY` with your Axe Devtools API Key. If you do not have an API key, generate one on your [settings page.](https://axe.deque.com/settings)
 
