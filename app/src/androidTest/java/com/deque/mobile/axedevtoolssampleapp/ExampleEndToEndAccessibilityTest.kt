@@ -37,10 +37,7 @@ class ExampleEndToEndAccessibilityTest {
     private val axe = AxeDevTools()
 
     init {
-        axe.connect(
-            BuildConfig.AXE_DEVTOOLS_APIKEY,
-            ConnectionConfig(AxeDevToolsClient.QA_REALM, AccessToken.QA_URL, AxeDevToolsClient.DB_QA_URL)
-        )
+        axe.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
 
         axe.setTestingConfig(AxeDevToolsEspressoConfig(IdlingRegistry.getInstance()))
 
