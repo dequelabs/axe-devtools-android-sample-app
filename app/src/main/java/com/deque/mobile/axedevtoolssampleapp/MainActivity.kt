@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.deque.mobile.devtools.AxeDevTools
 import com.google.android.material.navigation.NavigationBarView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -15,6 +15,13 @@ import kotlinx.coroutines.flow.collectLatest
 class MainActivity : AppCompatActivity() {
     val nextFragment = MutableStateFlow<Fragment>(FragmentStart())
 
+    companion object {
+        var axe: AxeDevTools? = null
+        init {
+            if (!isRunningTest) axe = AxeDevTools()
+            axe?.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +65,8 @@ class MainActivity : AppCompatActivity() {
                 launchNextFragment(it)
             }
         }
+
+        axe?.showA11yFAB(this)
     }
 
     private fun launchNextFragment(fragment: Fragment) {
@@ -103,5 +112,14 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
             super.onBackPressed()
         }
+    }
+}
+
+val isRunningTest : Boolean by lazy {
+    try {
+        Class.forName("androidx.test.espresso.Espresso")
+        true
+    } catch (e: ClassNotFoundException) {
+        false
     }
 }
