@@ -36,11 +36,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
-    }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -58,7 +54,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-    implementation 'com.deque.android:axe-devtools-android:2.0.0'
+    implementation 'com.deque.android:axe-devtools-android:2.0.1'
 
     testImplementation 'junit:junit:4.13.2'
 
