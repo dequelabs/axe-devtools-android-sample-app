@@ -25,7 +25,8 @@
     <string name="favorite">Favorite</string>
     <string name="explorinc_life">Explorinc Life</string>
     <string name="price">$ %s</string>
-    <string name="add_to_bag">Add to bag</string>
+    <string name="add_to_bag">Add to cart</string>
+    <string name="item_in_bag">Item added to cart</string>
     <string name="collection_image">Collection image</string>
     <string name="winter">Winter 2022</string>
     <string name="spring">Spring 2022</string>

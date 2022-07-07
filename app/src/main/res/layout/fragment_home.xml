@@ -71,11 +71,11 @@
             android:layout_height="350dp"
             android:layout_marginStart="@dimen/xlg"
             android:layout_marginEnd="@dimen/xlg"
-            android:contentDescription="@string/hero_description"
             android:src="@drawable/hero"
             app:layout_constraintTop_toBottomOf="@id/search_black_background"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@null" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/sm"
             android:text="@string/_56_items"
-            android:textColor="@color/text_grey"
+            android:textColor="#444444"
             android:textSize="@dimen/text_md"
             app:layout_constraintEnd_toStartOf="@id/most_popular_arrow"
             app:layout_constraintTop_toTopOf="@id/most_popular_heading"

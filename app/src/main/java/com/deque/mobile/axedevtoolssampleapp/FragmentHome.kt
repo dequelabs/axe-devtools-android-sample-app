@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -66,42 +67,21 @@ private fun setPortraitInventoryListeners(holder: PortraitInventoryViewHolder, @
     holder.favButton.setOnClickListener { toggleFav(holder.favButton) }
     holder.favButton.tag = NOT_FAV
 
-    holder.bagButton.setOnClickListener { toggleBag(holder.bagButton, holder.bagButtonFull) }
-    holder.bagButtonFull.setOnClickListener { toggleBag(holder.bagButton, holder.bagButtonFull) }
+    holder.bagButton.setOnClickListener {
+        it.contentDescription = it.context.getString(
+            if (holder.bagButton.isChecked) R.string.item_in_bag else R.string.add_to_bag
+        )
+    }
 }
 
 private fun getPriceString(res: Resources): String {
     return String.format(res.getString(R.string.price), "${Random.nextInt(10, 125)}.00")
 }
 
-private fun toggleBag(bagButton: ImageButton, bagButtonFull: ImageButton) {
-    if (bagButton.visibility == VISIBLE) {
-        bagButton.visibility = GONE
-        bagButtonFull.visibility = VISIBLE
-    } else {
-        bagButton.visibility = VISIBLE
-        bagButtonFull.visibility = GONE
-    }
-}
-
-private fun toggleFav(favButton: ImageButton) {
+private fun toggleFav(favButton: ToggleButton) {
     if (favButton.tag == NOT_FAV) {
-        favButton.setImageDrawable(
-            ResourcesCompat.getDrawable(
-                favButton.resources,
-                R.drawable.heart_bold,
-                null
-            )
-        )
         favButton.tag = IS_FAV
     } else {
-        favButton.setImageDrawable(
-            ResourcesCompat.getDrawable(
-                favButton.resources,
-                R.drawable.heart,
-                null
-            )
-        )
         favButton.tag = NOT_FAV
     }
 }
@@ -173,9 +153,8 @@ class RecommendedAdapter : RecyclerView.Adapter<PortraitInventoryViewHolder>() {
 class PortraitInventoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val image: ImageView = itemView.findViewById(R.id.inventory_image)
     val price: TextView = itemView.findViewById(R.id.inventory_price)
-    val favButton: ImageButton = itemView.findViewById(R.id.inventory_fav_btn)
-    val bagButton: ImageButton = itemView.findViewById(R.id.inventory_bag_btn)
-    val bagButtonFull: ImageButton = itemView.findViewById(R.id.inventory_bag_btn_full)
+    val favButton: ToggleButton = itemView.findViewById(R.id.inventory_fav_btn)
+    val bagButton: ToggleButton = itemView.findViewById(R.id.inventory_bag_btn)
 }
 
 class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

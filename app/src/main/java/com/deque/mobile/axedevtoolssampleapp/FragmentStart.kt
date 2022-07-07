@@ -16,7 +16,7 @@ class FragmentStart : Fragment() {
         val view = inflater.inflate(R.layout.fragment_start, null)
 
         view.findViewById<Button>(R.id.start_button).setOnClickListener {
-            (activity as MainActivity).nextFragment.value = FragmentCarousel()
+            MainActivity.nextFragment.value = FragmentCarousel()
         }
 
         return view

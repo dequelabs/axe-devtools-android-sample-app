@@ -13,9 +13,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity() {
-    val nextFragment = MutableStateFlow<Fragment>(FragmentStart())
 
     companion object {
+        val nextFragment = MutableStateFlow<Fragment>(FragmentStart())
+
         var axe: AxeDevTools? = null
         init {
             if (!isRunningTest) axe = AxeDevTools()

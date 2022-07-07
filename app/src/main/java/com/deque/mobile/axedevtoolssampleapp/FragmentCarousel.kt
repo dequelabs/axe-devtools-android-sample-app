@@ -34,7 +34,7 @@ class FragmentCarousel : Fragment() {
         val view = inflater.inflate(R.layout.fragment_carousel, null)
 
         view.findViewById<Button>(R.id.next_button)
-            .setOnClickListener { (activity as MainActivity).nextFragment.value = FragmentHome() }
+            .setOnClickListener { MainActivity.nextFragment.value = FragmentHome() }
 
         carouselRV = view.findViewById(R.id.carousel_rv)
         carouselRV.adapter = CarouselAdapter()
