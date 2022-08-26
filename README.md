@@ -8,7 +8,7 @@ If you don't have an account, sign up for a [free axe DevTools Mobile 14-day tri
 
 &nbsp;
 
-Once you have a working API Key installed, you can run the _`ExampleEndToEndAccessibilityTest`_ Espresso test manually, or through automated services such as Sauce Labs.
+Once you have a working API Key installed, you can run the [_`ExampleEndToEndAccessibilityTest`_][31] Espresso test manually, or through automated services such as Sauce Labs.
 
 Just install [saucectl][20] and set your _`SAUCE_USERNAME`_ and _`SAUCE_ACCESS_KEY`_ as environment variables. The default configuration is already defined in [.sauce/config.yaml][30], so everything is now set to run _`saucectl run`_.
 
