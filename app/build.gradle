@@ -23,7 +23,7 @@ android {
         }
         
         debug {
-            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"YOUR_API_KEY\""
+            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"${System.getenv('AXE_DEVTOOLS_APIKEY')}\""
             buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
         }
     }
