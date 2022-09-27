@@ -54,7 +54,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-    implementation 'com.deque.android:axe-devtools-android:2.1.1'
+    implementation 'com.deque.android:axe-devtools-android:2.2.0'
 
     testImplementation 'junit:junit:4.13.2'
 
