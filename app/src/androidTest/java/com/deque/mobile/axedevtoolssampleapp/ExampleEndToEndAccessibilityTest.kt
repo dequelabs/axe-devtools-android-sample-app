@@ -97,13 +97,13 @@ class ExampleEndToEndAccessibilityTest {
 
     private fun a11yScan() {
         rule.scenario.onActivity {
-            //Scan and receive the ScanResultHandler locally
+            // Scan and receive the ScanResultHandler locally
             val scanResultHandler = axe.scan(it)
 
-            //Upload it to our backend
+            // Upload it to the axeDevTools Mobile Dashboard
             scanResultHandler?.uploadToDashboard()
 
-            // Peruse the results in your test suite
+            // Use the results in your test suite
             // val result: AxeResult? = scanResultHandler?.getSerializedResult()
             // result?.axeRuleResults?.forEach { result ->
             //     if(result.status == AxeStatus.FAIL) {
@@ -111,7 +111,7 @@ class ExampleEndToEndAccessibilityTest {
             //     }
             // }
 
-            //Save the result JSON to a local file for later use
+            // Save the result JSON to a local file for later or local use
             // scanResultHandler?.saveResultToLocalStorage("your_file_prefix")
         }
     }

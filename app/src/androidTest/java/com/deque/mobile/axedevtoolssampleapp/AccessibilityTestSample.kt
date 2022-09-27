@@ -68,13 +68,13 @@ class AccessibilityTestSample {
     @After
     fun runA11yScan() {
         rule.scenario.onActivity { mainActivity ->
-            //Scan and receive the ScanResultHandler locally
+            // Scan and receive the ScanResultHandler locally
             val scanResultHandler = axe.scan(mainActivity)
 
-            //Upload it to our backend
+            // Upload it to the axeDevTools Mobile Dashboard
             scanResultHandler?.uploadToDashboard()
 
-            // Peruse the results in your test suite
+            // Use the results in your test suite
             // val result: AxeResult? = scanResultHandler?.getSerializedResult()
             // result?.axeRuleResults?.forEach { result ->
             //     if(result.status == AxeStatus.FAIL) {
@@ -82,7 +82,7 @@ class AccessibilityTestSample {
             //     }
             // }
 
-            //Save the result JSON to a local file for later use
+            // Save the result JSON to a local file for later or local use
             // scanResultHandler?.saveResultToLocalStorage("your_file_prefix")
             axe.tearDown()
         }
