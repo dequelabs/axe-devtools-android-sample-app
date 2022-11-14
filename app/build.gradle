@@ -4,6 +4,8 @@ plugins {
 }
 
 android {
+    def AXE_DEVTOOLS_APIKEY = "YOUR_API_KEY_HERE"
+
     compileSdk 31
 
     defaultConfig {
@@ -23,7 +25,7 @@ android {
         }
         
         debug {
-            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"YOUR_API_KEY\""
+            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"$AXE_DEVTOOLS_APIKEY\""
             buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
         }
     }

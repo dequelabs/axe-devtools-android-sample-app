@@ -2,15 +2,12 @@
 
 This repo contains an inaccessible sample application to try out axeDevTools for Android.
 
-To use this repository, clone it and replace the build.gradle (:app) BuildConfig property `AXE_DEVTOOLS_APIKEY` with your Axe Devtools API Key. If you do not have an API key, generate one on your [settings page.](https://axe.deque.com/settings)
+To use this repository, clone it and in the build.gradle (:app), fill in your API Key in the `AXE_DEVTOOLS_APIKEY` variable. If you do not have an API key, generate one on your [settings page.](https://axe.deque.com/settings)
 
 ```groovy
-buildTypes {
+android {
+    def AXE_DEVTOOLS_APIKEY = "YOUR_API_KEY_HERE"
     ...
-
-    debug {
-        buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"YOUR_API_KEY\""
-    }
 }
 ```
 
