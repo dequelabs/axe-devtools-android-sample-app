@@ -23,7 +23,7 @@ android {
         }
         
         debug {
-            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"YOUR_API_KEY\""
+            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"${System.getenv('AXE_DEVTOOLS_APIKEY')}\""
             buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
         }
     }
@@ -40,12 +40,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
+        resources {
+            excludes += ['META-INF/DEPENDENCIES', 'META-INF/AL2.0', 'META-INF/LGPL2.1']
+        }
     }
+
+    namespace 'com.deque.mobile.axedevtoolssampleapp'
 }
 
 dependencies {
@@ -54,6 +55,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+
     implementation 'com.deque.android:axe-devtools-android:2.2.0'
 
     testImplementation 'junit:junit:4.13.2'
