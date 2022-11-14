@@ -37,7 +37,7 @@ There is an issue running the app on JDK higher than 11.
 The gradle plugin is updated with Android Studio Dolphin but if you are using older Android Studio, you can update the gradle plugin to make it work.
 
 
-## Note:
+## Note
 ```
 - The application has limited functionality
 - The application is intentionally inaccessible
