@@ -33,7 +33,7 @@ If you have an account with Sauce Labs, you can run the automated tests of this 
 
 There is an issue running the app on JDK higher than 11.
 
-The gradle plugin is updated with Android Studio Dolphin. If you are using an older version of Android Studio, update the gradle plugin to make it work.
+The gradle plugin is updated with Android Studio Dolphin. If you are using an older version of Android Studio, update the gradle plugin to make it work. [See Updating Plugin](https://developer.android.com/studio/releases/gradle-plugin#updating-plugin)
 
 
 ## Note
