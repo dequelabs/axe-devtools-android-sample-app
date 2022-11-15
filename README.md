@@ -11,12 +11,14 @@ android {
 }
 ```
 
-Once you have a working API Key installed, you can run the app with manual testing FAB or run the `ExampleEndToEndAccessibilityTest` Espresso test manually, or through automated services such as SauceLabs.
+Once you add the API Key, you can run the app. The app is ready to go for accessibility testing by tapping on the floating action button to kick off a scan at any point you'd like. <!-- Insert documentation link once new docs are updated -->.
+
+You can also see accessibility testing in action through the  `ExampleEndToEndAccessibilityTest` Espresso. You can kick it off manually, or through an automated service such as Sauce Labs.
 
 
 ## SauceLabs
 
-If you have account with Saucelabs, you can run automated test with this app by using our prewritten SauceLabs configuration file `.sauce/config.yml` on this repository and follow the steps below:
+If you have an account with Sauce Labs, you can run the automated tests of this application by using our prewritten Sauce Labs configuration file `.sauce/config.yml`. Follow the steps below to get started:
 
 1. Install saucectl command-line interface. [See Using the saucectl CLI](https://docs.saucelabs.com/dev/cli/saucectl/)
 
@@ -24,14 +26,14 @@ If you have account with Saucelabs, you can run automated test with this app by 
 
 1. Update the prewritten `.sauce/config.yml` [See Configuring Your Espresso Tests](https://docs.saucelabs.com/mobile-apps/automated-testing/espresso-xcuitest/espresso/)
 
-1. Run test on Saucelabs from terminal: `./gradlew app:assembleDebug && ./gradlew app:assembleAndroidTest && ./saucectl run`
+1. Run test on Sauce Labs from terminal: `./gradlew app:assembleDebug && ./gradlew app:assembleAndroidTest && ./saucectl run`
 
 
 ## Known Issue
 
 There is an issue running the app on JDK higher than 11.
 
-The gradle plugin is updated with Android Studio Dolphin but if you are using older Android Studio, you can update the gradle plugin to make it work.
+The gradle plugin is updated with Android Studio Dolphin. If you are using an older version of Android Studio, update the gradle plugin to make it work.
 
 
 ## Note
