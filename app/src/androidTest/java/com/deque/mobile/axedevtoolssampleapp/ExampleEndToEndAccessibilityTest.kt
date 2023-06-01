@@ -12,11 +12,8 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.deque.mobile.auth.AccessToken
 import com.deque.mobile.devtools.AxeDevTools
-import com.deque.mobile.devtools.AxeDevToolsClient
 import com.deque.mobile.devtools.testingconfigs.AxeDevToolsEspressoConfig
-import com.deque.mobile.devtools.utils.ConnectionConfig
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.After
