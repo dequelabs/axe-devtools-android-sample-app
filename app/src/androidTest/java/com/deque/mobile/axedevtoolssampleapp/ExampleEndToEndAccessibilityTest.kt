@@ -32,9 +32,19 @@ import org.junit.Rule
 class ExampleEndToEndAccessibilityTest {
 
     private val axe = AxeDevTools()
-
+    /***
+     * Hello! Thank you for checking out the axe DevTools for Android sample app.
+     * Please provide your API key in the build.gradle file in the beginning of the android block.
+     * Without the API key, tests will time out and fail.
+     ***/
+    private val API_KEY: String = BuildConfig.AXE_DEVTOOLS_APIKEY
+    /***
+     * If you prefer to use user/password credentials feel free to pass those values
+     * into axe.connect(username, password) as provided as a comment in the init block of this class.
+     */
     init {
-        axe.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
+        axe.connect(API_KEY)
+//        axe.connect(username = "", password = "")
 
         axe.setTestingConfig(AxeDevToolsEspressoConfig(IdlingRegistry.getInstance()))
 
@@ -45,6 +55,10 @@ class ExampleEndToEndAccessibilityTest {
     @JvmField
     val rule: ActivityScenarioRule<MainActivity> = ActivityScenarioRule(MainActivity::class.java)
 
+    /***
+     * Here we have an example of a test that will scan a variety of screens and upload each scan
+     * result separately.
+     */
     @Test
     fun endToEndTestWithScans() {
         //Launch screen
@@ -94,6 +108,7 @@ class ExampleEndToEndAccessibilityTest {
 
     private fun a11yScan() {
         rule.scenario.onActivity {
+            val isConnected =  axe.isUserAuthenticated()
             // Scan and receive the ScanResultHandler locally
             val scanResultHandler = axe.scan(it)
 
