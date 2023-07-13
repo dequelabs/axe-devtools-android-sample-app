@@ -1,4 +1,4 @@
-# axe-devtools-android-sample-app
+# Android Sample App for axe DevTools Mobile by Deque
 
 A sample application built solely to showcase axe DevTools Mobile implementation. It is non-functional and made inaccessibly by design.
 
@@ -9,6 +9,7 @@ Learn more about [Deque and axe DevTools Mobile here](https://www.deque.com/).
 <hr>
 
 ## Getting Started:
+
 1. Clone the repository
 2. Grab an API key from the [settings page](https://axe.deque.com/settings)
 3. In `app/build.gradle`, add your API Key in the `AXE_DEVTOOLS_APIKEY` variable
@@ -27,7 +28,7 @@ You can also see accessibility testing in action through the `ExampleEndToEndAcc
 _Note:_ 
 - This project is set to use the Android Gradle plugin version 7.3.1. Running the project with newer, or older, JDK versions may require you to update the Gradle plugin version accordingly. Please refer to [Android's Updating the Gradle Plugin]((https://developer.android.com/studio/releases/gradle-plugin#updating-plugin)) documentation for more.
 
-## Sauce Labs
+### Sauce Labs
 
 If you have an account with Sauce Labs, you can run the automated tests of this application by using our prewritten Sauce Labs configuration file `.sauce/config.yml`. Follow the steps below to get started:
 
@@ -39,3 +40,6 @@ If you have an account with Sauce Labs, you can run the automated tests of this 
 
 1. Run a test on Sauce Labs from the terminal: `./gradlew app:assembleDebug && ./gradlew app:assembleAndroidTest && ./saucectl run`
    
+## Have a Question? Found a bug?
+
+[Reach out to us](https://docs.deque.com/devtools-mobile/2023.4.19/en/help), we'd love to help!
