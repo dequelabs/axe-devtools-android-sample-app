@@ -6,7 +6,7 @@ Library documentation can be found at [docs.deque.com](https://docs.deque.com/).
 
 Learn more about [Deque and axe DevTools Mobile here](https://www.deque.com/).
 
-<hr>
+------
 
 ## Getting Started:
 
