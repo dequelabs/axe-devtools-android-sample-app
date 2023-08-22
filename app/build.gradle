@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    def AXE_DEVTOOLS_APIKEY = ""
+    def AXE_DEVTOOLS_APIKEY = "YOUR_API_KEY_HERE"
 
     compileSdk 31
 
