@@ -2,7 +2,7 @@
 
 A sample application built solely to showcase axe DevTools Mobile implementation. It is non-functional and made inaccessibly by design.
 
-Get started with a [free trail today](https://axe.dequelabs.com/signup?product=axe-devtools-mobile&redirect_uri=https://axe.dequelabs.com/axe-devtools-mobile/get-started).
+Get started with a [free trial today](https://axe.dequelabs.com/signup?product=axe-devtools-mobile&redirect_uri=https://axe.dequelabs.com/axe-devtools-mobile/get-started).
 
 ## Helpful Links
 - Library documentation can be found at [docs.deque.com](https://docs.deque.com/devtools-mobile/).
