@@ -2,9 +2,11 @@
 
 A sample application built solely to showcase axe DevTools Mobile implementation. It is non-functional and made inaccessibly by design.
 
-Library documentation can be found at [docs.deque.com](https://docs.deque.com/).
+Get started with a [free trial today](https://axe.dequelabs.com/signup?product=axe-devtools-mobile&redirect_uri=https://axe.dequelabs.com/axe-devtools-mobile/get-started).
 
-Learn more about [Deque and axe DevTools Mobile here](https://www.deque.com/).
+## Helpful Links
+- Library documentation can be found at [docs.deque.com](https://docs.deque.com/devtools-mobile/).
+- Learn more about [Deque and axe DevTools Mobile here](https://www.deque.com/).
 
 ------
 
@@ -42,4 +44,4 @@ If you have an account with Sauce Labs, you can run the automated tests of this 
    
 ## Have a Question? Found a bug?
 
-[Reach out to us](https://docs.deque.com/devtools-mobile/2023.4.19/en/help), we'd love to help!
+[Reach out to us](https://docs.deque.com/devtools-mobile/2023.8.16/en/help), we'd love to help!
