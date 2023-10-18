@@ -1,5 +1,6 @@
 package com.deque.mobile.axedevtoolssampleapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,10 @@ class FragmentStart : Fragment() {
 
         view.findViewById<Button>(R.id.start_button).setOnClickListener {
             (activity as MainActivity).nextFragment.value = FragmentCarousel()
+        }
+
+        view.findViewById<Button>(R.id.start_button_compose).setOnClickListener {
+            activity?.startActivity(Intent(context, SampleComposeActivity::class.java))
         }
 
         return view

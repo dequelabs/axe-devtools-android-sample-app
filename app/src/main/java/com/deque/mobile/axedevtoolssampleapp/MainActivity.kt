@@ -15,25 +15,6 @@ import kotlinx.coroutines.flow.collectLatest
 class MainActivity : AppCompatActivity() {
     val nextFragment = MutableStateFlow<Fragment>(FragmentStart())
 
-    companion object {
-        var axe: AxeDevTools? = null
-        init {
-            /***
-             * Hello! Thank you for checking out the axe DevTools for Android sample app.
-             * Please provide your API key in the build.gradle file in the beginning of the android block.
-             * Without the API key, tests will time out and fail.
-             ***/
-            if (!isRunningTest) axe = AxeDevTools()
-            axe?.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
-
-            /***
-             * If you prefer to use user/password credentials feel free to pass those values
-             * into axe.connect(username, password) as provided as a comment below.
-             */
-//          axe?.connect(username = "", password = "")
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -76,8 +57,6 @@ class MainActivity : AppCompatActivity() {
                 launchNextFragment(it)
             }
         }
-
-        axe?.showA11yFAB(this)
     }
 
     private fun launchNextFragment(fragment: Fragment) {
