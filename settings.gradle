@@ -3,13 +3,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "${artifactory_url}/axe-devtools-mobile"
-            credentials {
-                username = "${artifactory_username}"
-                password = "${artifactory_apikey}"
-            }
-        }
     }
 }
 rootProject.name = "AxeDevTools Sample App"
