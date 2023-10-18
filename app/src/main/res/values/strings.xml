@@ -2,7 +2,10 @@
     <string name="app_name">AxeDevTools Sample App</string>
     <string name="cb">CB</string>
     <string name="app_title">CHIC BOUTIQUE</string>
-    <string name="start">Start</string>
+    <string name="start_xml">Start XML</string>
+    <string name="start_compose">Start Compose</string>
+    <string name="txt_profile">Profile</string>
+    <string name="txt_more_options">More options</string>
     <string name="ipsum_sentence">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</string>
     <string name="next">Next</string>
     <string name="home">Home</string>
@@ -66,4 +69,5 @@
     <string name="address_book">Address book</string>
     <string name="payment_methods">Payment methods</string>
     <string name="my_orders">My orders</string>
+    <string name="title_activity_sample_compose">SampleComposeActivity</string>
 </resources>
