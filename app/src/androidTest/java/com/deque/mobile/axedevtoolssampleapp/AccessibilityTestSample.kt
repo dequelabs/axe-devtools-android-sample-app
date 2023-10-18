@@ -40,27 +40,27 @@ class AccessibilityTestSample {
 
     @Test
     fun homeScreen() {
-        onView(withText("Start")).perform(click())
+        onView(withText("Start XML")).perform(click())
         onView(withText("Next")).perform(click())
     }
 
     @Test
     fun catalogScreen() {
-        onView(withText("Start")).perform(click())
+        onView(withText("Start XML")).perform(click())
         onView(withText("Next")).perform(click())
         onView(withId(R.id.catalog)).perform(click())
     }
 
     @Test
     fun cartScreen() {
-        onView(withText("Start")).perform(click())
+        onView(withText("Start XML")).perform(click())
         onView(withText("Next")).perform(click())
         onView(withId(R.id.cart)).perform(click())
     }
 
     @Test
     fun menuScreen() {
-        onView(withText("Start")).perform(click())
+        onView(withText("Start XML")).perform(click())
         onView(withText("Next")).perform(click())
         onView(withId(R.id.menu)).perform(click())
     }

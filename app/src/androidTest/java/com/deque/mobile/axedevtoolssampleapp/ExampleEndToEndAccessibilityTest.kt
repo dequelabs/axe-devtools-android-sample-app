@@ -63,7 +63,7 @@ class ExampleEndToEndAccessibilityTest {
     fun endToEndTestWithScans() {
         //Launch screen
         a11yScan()
-        onView(withText("Start")).perform(click())
+        onView(withText("Start XML")).perform(click())
 
         //Intro screen
         a11yScan()
