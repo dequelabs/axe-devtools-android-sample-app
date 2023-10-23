@@ -72,6 +72,8 @@ class UiAutomatorApiExampleTest {
 
         device.findObject(By.text("Start Compose")).click()
 
+        device.wait(Until.hasObject(By.text("Profile")), 1000)
+
         axe.scan()?.uploadToDashboard()
     }
 
@@ -81,6 +83,8 @@ class UiAutomatorApiExampleTest {
         axe.ignoreRules(mutableListOf( FocusableText::class.java.simpleName))
 
         device.findObject(By.text("Start Compose")).click()
+
+        device.wait(Until.hasObject(By.text("Profile")), 1000)
 
         axe.scan()?.uploadToDashboard()
     }

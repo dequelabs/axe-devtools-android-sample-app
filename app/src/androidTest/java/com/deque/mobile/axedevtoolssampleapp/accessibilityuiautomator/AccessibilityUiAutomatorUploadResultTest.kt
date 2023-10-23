@@ -27,6 +27,8 @@ class AccessibilityUiAutomatorUploadResultTest: BaseInstrumentationTest() {
     fun compose_scan() {
         navigateToScreen("Start Compose")
 
+        device.wait(Until.hasObject(By.text("Profile")), 1000)
+
         axe.scan()?.uploadToDashboard()
     }
 }
