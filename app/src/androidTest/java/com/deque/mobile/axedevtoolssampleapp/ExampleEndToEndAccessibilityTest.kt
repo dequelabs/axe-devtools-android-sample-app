@@ -47,8 +47,6 @@ class ExampleEndToEndAccessibilityTest {
 //        axe.connect(username = "", password = "")
 
         axe.setTestingConfig(AxeDevToolsEspressoConfig(IdlingRegistry.getInstance()))
-
-        BuildConfig.IS_TESTING.set(true)
     }
 
     @Rule

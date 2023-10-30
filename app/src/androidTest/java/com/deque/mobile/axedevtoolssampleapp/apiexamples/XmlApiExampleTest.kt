@@ -20,7 +20,6 @@ class XmlApiExampleTest {
 
     init {
         axe.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
-        BuildConfig.IS_TESTING.set(true)
     }
 
     @Rule
