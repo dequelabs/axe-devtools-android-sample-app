@@ -46,7 +46,11 @@ class FragmentCart : Fragment() {
         cartRv = view.findViewById(R.id.cart_rv)
         cartRv.layoutManager = LinearLayoutManager(activity)
         cartRv.adapter = cartAdapter
-        cartRv.viewTreeObserver.addOnGlobalLayoutListener {
+        if(!BuildConfig.IS_TESTING.get()) {
+            cartRv.viewTreeObserver.addOnGlobalLayoutListener {
+                updateTotals(true)
+            }
+        } else {
             updateTotals(true)
         }
 
