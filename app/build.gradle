@@ -60,7 +60,7 @@ android {
     }
 }
 
-def reportsDirectory = "$buildDir/reports/androidTests/connected"
+def reportsDirectory = "$buildDir/reports/androidTests/connected/axe"
 def packageName = "com.deque.mobile.axedevtoolssampleapp"
 
 def fetchAxeReportsTask = task('fetchAxeReports', type: Exec, group: 'reporting') {

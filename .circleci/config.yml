@@ -1,30 +1,21 @@
-name: Accessibility Test & Report
-
-on:
-  pull_request:
-    branches: [ "main" ]
-
+# .circleci/config.yml
+version: 2.1
 orbs:
   android: circleci/android@2.3.0
   # https://circleci.com/developer/orbs/orb/circleci/android for latest version
-
 jobs:
   test:
     executor:
       name: android/android-machine
       resource-class: large
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install the Reporter CLI
-        env:
-          apiKey: ${{ secrets.AGORA_API_KEY_KA }}
-        run: |
-          curl --compressed -H "X-JFrog-Art-Api: ${apiKey}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-macos" --output "/Users/runner/reporter"
-          chmod +x /Users/runner/reporter
+      - checkout
+      - install_reporter_cli:
+          run: |
+            curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-macos" --output "/Users/runner/reporter"
+            chmod +x /Users/runner/reporter
       # Create an AVD named "myavd"
-      - name: Create AVD
-        android/create-avd:
+      - android/create-avd:
           avd-name: myavd
           system-image: system-images;android-29;default;x86
           install: true
@@ -34,28 +25,22 @@ jobs:
       # Specify the "post-emulator-launch-assemble-command" command to override
       # the gradle command run, or set "wait-for-emulator" to false to disable
       # waiting for the emulator altogether.
-      - name: Start Emulator
-        android/start-emulator:
+      - android/start-emulator:
           avd-name: myavd
           no-window: true
           restore-gradle-cache-prefix: v1a
       # Runs "./gradlew connectedDebugAndroidTest" by default.
       # Specify the "test-command" parameter to customize the command run.
-      - name: Run Android Tests
-        android/run-tests:
+      - android/run-tests:
           test-command: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.deque.mobile.axedevtoolssampleapp.apiexamples.SaveLocallyXml connectedAndroidTest
-      - name: Save Gradle Caches
-        android/save-gradle-cache:
+      - build_reports:
+          env:
+            scanFolderPath: ${{ '/Users/axe-devtools-android-sample-app/app/build/reports/androidTests/connected/axe' }}
+          run: |
+            /Users/runner/reporter ${scanFolderPath} "AxeReport" --format=html
+      - android/save-gradle-cache:
           cache-prefix: v1a
-      - name: Build Report
-        if: always()
-        env:
-          scanFolderPath: ${{ '/Users/runner/RegressionScans' }}
-        run: |
-          /Users/runner/reporter ${scanFolderPath} "AxeReport" --format=html
-      - name: Upload a Build Artifact
-        if: always()
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: axeDevTools Report
-          path: AxeReport # or path/to/artifact
+workflows:
+  test:
+    jobs:
+      - test
