@@ -1,0 +1,52 @@
+name: Semantic PR Title
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        uses: actions/github-script@v6
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        with:
+          script: |
+            const { TITLE } = process.env        
+            const types = [
+              'feat',
+              'breaking',
+              'rule',
+              'fix',
+              'feature',
+              'build',
+              'chore',
+              'ci', 
+              'docs',
+              'perf',
+              'refactor',
+              'style',
+              'test',
+            ].join("|")
+
+            // commit types listed above is required.
+            // '(scope)' is optional.
+            // ':' is required.
+            // space after ':' is required. 
+            // 5 or more characters after ': ' is required.
+            const regexTypes = new RegExp(`^(${types})(\\(.*\\))?:\\s.{5,}`) 
+
+            const match = TITLE.match(regexTypes)
+
+            core.info(`Validating PR title: ${TITLE}`)
+
+            if (match !== null) {
+              core.notice(`Title matches conventional commits (type: ${match[1]})`)
+              return
+            }
+
+            core.setFailed("PR title does not follow conventional commits. Please refer to https://www.conventionalcommits.org/en/v1.0.0")   
