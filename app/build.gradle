@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    def AXE_DEVTOOLS_APIKEY = "YOUR_API_KEY_HERE"
+    def AXE_DEVTOOLS_APIKEY = axe_apikey
 
     compileSdk 34
 
@@ -57,6 +57,28 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.5.1'
+    }
+}
+
+def reportsDirectory = "$buildDir/reports/androidTests/connected"
+def packageName = "com.deque.mobile.axedevtoolssampleapp"
+
+def fetchAxeReportsTask = task('fetchAxeReports', type: Exec, group: 'reporting') {
+    executable "${android.getAdbExe().toString()}"
+    println("timeeeee")
+    println(Instant.now().toEpochMilli())
+    args 'pull', '/storage/emulated/0/Android/data/' + packageName + '/files/AxeTestCases/.', reportsDirectory
+
+    doFirst {
+        new File(reportsDirectory).mkdirs()
+    }
+}
+
+tasks.configureEach { task ->
+    if (task.name == 'connectedDebugAndroidTest') {
+        task.finalizedBy {
+            fetchAxeReportsTask
+        }
     }
 }
 
