@@ -43,8 +43,7 @@ jobs:
       - run:
           name: Generate HTML Test Reports
           command: |
-            echo 'export PATH=/home/circleci/project/app/build/reports/androidTests/connected/axe' >> "$BASH_ENV"
-            /home/circleci/project/runner ${PATH} "AxeReport" --format=html
+            /home/circleci/project/runner /home/circleci/project/app/build/reports/androidTests/connected/axe "AxeReport" --format=html
       - android/save-gradle-cache:
           cache-prefix: v1a
 workflows:
