@@ -1,4 +1,4 @@
-version: 2.1
+name: Accessibility Test & Report
 
 on:
   pull_request:
@@ -22,7 +22,8 @@ jobs:
           curl --compressed -H "X-JFrog-Art-Api: ${apiKey}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-macos" --output "/Users/runner/reporter"
           chmod +x /Users/runner/reporter
       # Create an AVD named "myavd"
-      - android/create-avd:
+      - name: Create AVD
+        android/create-avd:
           avd-name: myavd
           system-image: system-images;android-29;default;x86
           install: true
@@ -32,15 +33,18 @@ jobs:
       # Specify the "post-emulator-launch-assemble-command" command to override
       # the gradle command run, or set "wait-for-emulator" to false to disable
       # waiting for the emulator altogether.
-      - android/start-emulator:
+      - name: Start Emulator
+        android/start-emulator:
           avd-name: myavd
           no-window: true
           restore-gradle-cache-prefix: v1a
       # Runs "./gradlew connectedDebugAndroidTest" by default.
       # Specify the "test-command" parameter to customize the command run.
-      - android/run-tests:
+      - name: Run Android Tests
+        android/run-tests:
           test-command: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.deque.mobile.axedevtoolssampleapp.apiexamples.SaveLocallyXml connectedAndroidTest
-      - android/save-gradle-cache:
+      - name: Save Gradle Caches
+        android/save-gradle-cache:
           cache-prefix: v1a
       - name: Build Report
         if: always()
