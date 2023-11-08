@@ -3,6 +3,19 @@ version: 2.1
 orbs:
   android: circleci/android@2.3.0
   # https://circleci.com/developer/orbs/orb/circleci/android for latest version
+
+commands:
+  install_reporter_cli:
+    description: Install Reporter CLI
+    run: |
+      curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-macos" --output "/Users/runner/reporter"
+      chmod +x /Users/runner/reporter
+  build_reports:
+    description: Generate HTML Test Reports
+    env:
+      scanFolderPath: ${{ '/Users/axe-devtools-android-sample-app/app/build/reports/androidTests/connected/axe' }}
+    run: |
+      /Users/runner/reporter ${scanFolderPath} "AxeReport" --format=html
 jobs:
   test:
     executor:
@@ -10,10 +23,7 @@ jobs:
       resource-class: large
     steps:
       - checkout
-      - install_reporter_cli:
-          run: |
-            curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-macos" --output "/Users/runner/reporter"
-            chmod +x /Users/runner/reporter
+      - install_reporter_cli
       # Create an AVD named "myavd"
       - android/create-avd:
           avd-name: myavd
@@ -33,11 +43,7 @@ jobs:
       # Specify the "test-command" parameter to customize the command run.
       - android/run-tests:
           test-command: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.deque.mobile.axedevtoolssampleapp.apiexamples.SaveLocallyXml connectedAndroidTest
-      - build_reports:
-          env:
-            scanFolderPath: ${{ '/Users/axe-devtools-android-sample-app/app/build/reports/androidTests/connected/axe' }}
-          run: |
-            /Users/runner/reporter ${scanFolderPath} "AxeReport" --format=html
+      - build_reports
       - android/save-gradle-cache:
           cache-prefix: v1a
 workflows:
