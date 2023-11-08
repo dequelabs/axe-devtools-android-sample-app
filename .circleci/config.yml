@@ -9,8 +9,8 @@ commands:
     description: Install Reporter CLI
     steps:
     - run: |
-        curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-linux" --output "/home/circleci/project/runner/reporter"
-        chmod +x /home/circleci/project/runner/reporter
+        curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-linux" --output "/home/circleci/project/runner"
+        chmod +x /home/circleci/project/runner
 
 jobs:
   test:
@@ -44,7 +44,7 @@ jobs:
           name: Generate HTML Test Reports
           command: |
             echo 'export PATH=/home/circleci/project/axe-devtools-android-sample-app/app/build/reports/androidTests/connected/axe' >> "$BASH_ENV"
-            /home/circleci/project/runner/reporter ${PATH} "AxeReport" --format=html
+            /home/circleci/project/runner ${PATH} "AxeReport" --format=html
       - android/save-gradle-cache:
           cache-prefix: v1a
 workflows:
