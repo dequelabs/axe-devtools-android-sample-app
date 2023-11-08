@@ -7,9 +7,10 @@ orbs:
 commands:
   install_reporter_cli:
     description: Install Reporter CLI
-    run: |
-      curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-macos" --output "/Users/runner/reporter"
-      chmod +x /Users/runner/reporter
+    steps:
+    - run: |
+        curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-macos" --output "/Users/runner/reporter"
+        chmod +x /Users/runner/reporter
 
 jobs:
   test:
