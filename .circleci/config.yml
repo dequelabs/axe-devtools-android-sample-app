@@ -12,8 +12,8 @@ commands:
       chmod +x /Users/runner/reporter
   build_reports:
     description: Generate HTML Test Reports
-    env:
-      scanFolderPath: ${{ '/Users/axe-devtools-android-sample-app/app/build/reports/androidTests/connected/axe' }}
+    environment:
+      scanFolderPath: /Users/axe-devtools-android-sample-app/app/build/reports/androidTests/connected/axe
     run: |
       /Users/runner/reporter ${scanFolderPath} "AxeReport" --format=html
 jobs:
