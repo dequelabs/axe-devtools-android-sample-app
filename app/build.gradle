@@ -65,8 +65,6 @@ def packageName = "com.deque.mobile.axedevtoolssampleapp"
 
 def fetchAxeReportsTask = task('fetchAxeReports', type: Exec, group: 'reporting') {
     executable "${android.getAdbExe().toString()}"
-    println("timeeeee")
-    println(Instant.now().toEpochMilli())
     args 'pull', '/storage/emulated/0/Android/data/' + packageName + '/files/AxeTestCases/.', reportsDirectory
 
     doFirst {

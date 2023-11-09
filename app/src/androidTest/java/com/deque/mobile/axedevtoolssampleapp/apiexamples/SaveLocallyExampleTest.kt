@@ -88,7 +88,6 @@ class SaveLocallyExampleTest {
             val file = File(dir, "$prefix-${System.currentTimeMillis()}-axe-result.json")
             file.appendText(MoshiConfig.prettyPrint(axeResult, AxeResult::class.java))
             AxeLogger.axeResultSavedAt(file.absolutePath)
-            println("!!!!!!!!: " + file.absolutePath)
         } catch (exception: IOException) {
             AxeLogger.errorWhileSaving(exception)
 
