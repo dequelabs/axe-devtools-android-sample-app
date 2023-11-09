@@ -1,0 +1,52 @@
+# .circleci/config.yml
+version: 2.1
+orbs:
+  android: circleci/android@2.3.0
+  # https://circleci.com/developer/orbs/orb/circleci/android for latest version
+
+commands:
+  install_reporter_cli:
+    description: Install Reporter CLI
+    steps:
+    - run: |
+        curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-linux" --output "/home/circleci/project/runner"
+        chmod +x /home/circleci/project/runner
+
+jobs:
+  test:
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: 2021.10.1
+    steps:
+      - checkout
+      - install_reporter_cli
+      # Create an AVD named "myavd"
+      - android/create-avd:
+          avd-name: myavd
+          system-image: system-images;android-29;default;x86
+          install: true
+      # By default, after starting up the emulator, a cache will be restored,
+      # "./gradlew assembleDebugAndroidTest" will be run and then a script
+      # will be run to wait for the emulator to start up.
+      # Specify the "post-emulator-launch-assemble-command" command to override
+      # the gradle command run, or set "wait-for-emulator" to false to disable
+      # waiting for the emulator altogether.
+      - android/start-emulator:
+          avd-name: myavd
+          no-window: true
+          restore-gradle-cache-prefix: v1a
+      # Runs "./gradlew connectedDebugAndroidTest" by default.
+      # Specify the "test-command" parameter to customize the command run.
+      - android/run-tests:
+          test-command: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.deque.mobile.axedevtoolssampleapp.apiexamples.SaveLocallyXml connectedAndroidTest
+      - run:
+          name: Generate HTML Test Reports
+          command: |
+            /home/circleci/project/runner /home/circleci/project/app/build/reports/androidTests/connected/axe "AxeReport" --format=html
+      - android/save-gradle-cache:
+          cache-prefix: v1a
+workflows:
+  test:
+    jobs:
+      - test
