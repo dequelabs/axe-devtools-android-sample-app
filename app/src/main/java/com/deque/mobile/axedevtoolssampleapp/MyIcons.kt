@@ -31,7 +31,7 @@ object MyIcons {
     val KeyboardArrowRight = Icons.Default.KeyboardArrowRight
 
     val AppIcon = R.drawable.ic_launcher_background
-    val Policy = R.drawable.axe_logo_heroblue
+    val Policy = R.drawable.ic_chevron_right
 }
 
 /**
