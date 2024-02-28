@@ -10,7 +10,7 @@ class ExampleComposeAccessibilityTest {
     val axeCompose = AxeDevToolsCompose()
 
     init {
-        axeCompose.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
+        axeCompose.loginWithApiKey(BuildConfig.AXE_DEVTOOLS_APIKEY)
         BuildConfig.IS_TESTING.set(true)
     }
 

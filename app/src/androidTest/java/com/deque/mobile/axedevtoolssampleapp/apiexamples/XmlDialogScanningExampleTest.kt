@@ -20,7 +20,7 @@ class XmlDialogScanningExampleTest {
     private lateinit var countingResource: CountingIdlingResource
 
     init {
-        axe.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
+        axe.loginWithApiKey(BuildConfig.AXE_DEVTOOLS_APIKEY)
     }
 
     @Rule

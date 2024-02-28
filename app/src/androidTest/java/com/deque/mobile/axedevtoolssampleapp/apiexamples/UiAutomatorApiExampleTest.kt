@@ -28,7 +28,7 @@ class UiAutomatorApiExampleTest {
         val axe = AxeDevTools()
 
         init {
-            axe.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
+            axe.loginWithApiKey(BuildConfig.AXE_DEVTOOLS_APIKEY)
             axe.resetIgnoredRules()
         }
     }

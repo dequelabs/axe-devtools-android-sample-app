@@ -40,11 +40,11 @@ class ExampleEndToEndAccessibilityTest {
     private val API_KEY: String = BuildConfig.AXE_DEVTOOLS_APIKEY
     /***
      * If you prefer to use user/password credentials feel free to pass those values
-     * into axe.connect(username, password) as provided as a comment in the init block of this class.
+     * into axe.loginWithUsername(username, password) as provided as a comment in the init block of this class.
      */
     init {
-        axe.connect(API_KEY)
-//        axe.connect(username = "", password = "")
+        axe.loginWithApiKey(API_KEY)
+//        axe.loginWithUsername(username = "", password = "")
 
         axe.setTestingConfig(AxeDevToolsEspressoConfig(IdlingRegistry.getInstance()))
 
