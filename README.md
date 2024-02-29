@@ -1,6 +1,6 @@
 # Android Sample App for axe DevTools Mobile by Deque
 
-A sample application built solely to showcase axe DevTools Mobile implementation. It is non-functional and made inaccessibly by design.
+A sample application built solely to showcase axe DevTools Android automated espresso test implementation. It is non-functional and made inaccessibly by design.
 
 Get started with a [free trial today](https://axe.dequelabs.com/signup?product=axe-devtools-mobile&redirect_uri=https://axe.dequelabs.com/axe-devtools-mobile/get-started).
 
@@ -23,9 +23,11 @@ android {
 }
 ```
 
-Once you add the API Key, you can run the app. The app is ready to go for accessibility testing by tapping on the floating action button to kick off a scan at any point you'd like.
+Once you add the API Key you are ready to start scanning the application using the espresso tests.
 
-You can also see accessibility testing in action through the `ExampleEndToEndAccessibilityTest` Espresso. You can kick it off manually, or through an automated service such as Sauce Labs.
+You can see accessibility testing in action through the `ExampleEndToEndAccessibilityTest` Espresso test or any other test in the `androidTest` folder.
+The `androidTest` folder contains examples of `Jeptpack Compose`, `XML` and `UiAutomator`.
+You can kick it off from Android Studio, or through an automated service such as Sauce Labs.
 
 _Note:_ 
 - This project is set to use the Android Gradle plugin version 7.3.1. Running the project with newer, or older, JDK versions may require you to update the Gradle plugin version accordingly. Please refer to [Android's Updating the Gradle Plugin]((https://developer.android.com/studio/releases/gradle-plugin#updating-plugin)) documentation for more.

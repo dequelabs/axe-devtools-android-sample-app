@@ -19,7 +19,7 @@ class SaveLocallyXml {
     private val axe = AxeDevTools()
 
     init {
-        axe.connect(BuildConfig.AXE_DEVTOOLS_APIKEY)
+        axe.loginWithApiKey(BuildConfig.AXE_DEVTOOLS_APIKEY)
         BuildConfig.IS_TESTING.set(true)
     }
 
