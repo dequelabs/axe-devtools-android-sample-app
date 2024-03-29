@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity() {
-    val nextFragment = MutableStateFlow<Fragment>(FragmentStart())
+    val nextFragment = MutableStateFlow<Fragment>(FragmentCatalog())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,22 +24,21 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.home -> {
-                    nextFragment.value = FragmentHome()
-                    true
-                }
                 R.id.catalog -> {
                     nextFragment.value = FragmentCatalog()
                     true
                 }
+
                 R.id.cart -> {
                     nextFragment.value = FragmentCart()
                     true
                 }
+
                 R.id.menu -> {
                     nextFragment.value = FragmentMenu()
                     true
                 }
+
                 else -> {
                     throw IllegalArgumentException("That nav option does not exist.")
                 }
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setOnItemReselectedListener { item ->
             when (item.itemId) {
-                R.id.home, R.id.catalog, R.id.cart, R.id.menu -> {}
+                R.id.catalog, R.id.cart, R.id.menu -> {}
             }
         }
 
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         carouselStop()
 
-        if (fragment is FragmentStart || fragment is FragmentCarousel) {
+        if (fragment is FragmentCarousel) {
             bottomNavBar.visibility = GONE
             startFrame.visibility = VISIBLE
             mainFrame.visibility = GONE
@@ -85,27 +84,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount <= 1) {
-            supportFragmentManager.popBackStack()
-            launchNextFragment(FragmentStart())
-        } else {
-            val bottomNav: NavigationBarView = findViewById(R.id.bottom_nav_bar)
-            val nextPop = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2)
+        val bottomNav: NavigationBarView = findViewById(R.id.bottom_nav_bar)
+        val nextPop =
+            supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2)
 
-            when(nextPop.name) {
-                FragmentHome::class.simpleName -> bottomNav.selectedItemId = R.id.home
-                FragmentCatalog::class.simpleName -> bottomNav.selectedItemId = R.id.catalog
-                FragmentCart::class.simpleName -> bottomNav.selectedItemId = R.id.cart
-                FragmentMenu::class.simpleName -> bottomNav.selectedItemId = R.id.menu
-            }
-
-            supportFragmentManager.popBackStack()
-            super.onBackPressed()
+        when (nextPop.name) {
+            FragmentHome::class.simpleName -> bottomNav.selectedItemId = R.id.home
+            FragmentCatalog::class.simpleName -> bottomNav.selectedItemId = R.id.catalog
+            FragmentCart::class.simpleName -> bottomNav.selectedItemId = R.id.cart
+            FragmentMenu::class.simpleName -> bottomNav.selectedItemId = R.id.menu
         }
+
+        supportFragmentManager.popBackStack()
+        super.onBackPressed()
     }
 }
 
-val isRunningTest : Boolean by lazy {
+val isRunningTest: Boolean by lazy {
     try {
         Class.forName("androidx.test.espresso.Espresso")
         true
