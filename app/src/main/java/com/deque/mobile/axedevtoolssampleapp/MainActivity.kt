@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2)
 
         when (nextPop.name) {
-            FragmentHome::class.simpleName -> bottomNav.selectedItemId = R.id.home
             FragmentCatalog::class.simpleName -> bottomNav.selectedItemId = R.id.catalog
             FragmentCart::class.simpleName -> bottomNav.selectedItemId = R.id.cart
             FragmentMenu::class.simpleName -> bottomNav.selectedItemId = R.id.menu
