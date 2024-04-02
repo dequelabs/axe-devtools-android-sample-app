@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity() {
-    val nextFragment = MutableStateFlow<Fragment>(FragmentCatalog())
+    private val nextFragment = MutableStateFlow<Fragment>(FragmentCatalog())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

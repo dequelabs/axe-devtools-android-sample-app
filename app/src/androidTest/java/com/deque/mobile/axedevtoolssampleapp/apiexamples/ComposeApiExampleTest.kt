@@ -3,7 +3,6 @@ package com.deque.mobile.axedevtoolssampleapp.apiexamples
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.deque.axe.android.rules.TouchSizeWcag
 import com.deque.mobile.axedevtoolssampleapp.BuildConfig
-import com.deque.mobile.axedevtoolssampleapp.SampleComposeActivity
 import com.deque.mobile.devtools.AxeDevToolsCompose
 import org.junit.Before
 import org.junit.Rule
