@@ -70,13 +70,13 @@ private fun SaleInfoBox() {
                 .padding(end = 24.dp),
             text = stringResource(id = R.string._45_sale),
             textAlign = TextAlign.End,
-            style = TextStyle(color = Color.White, fontWeight = FontWeight.Bold)
+            style = TextStyle(color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
         )
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(16.dp)
-                .padding(start = 24.dp)
+                .padding(start = 16.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.promo_for_you),
@@ -126,7 +126,7 @@ private fun CustomerName() {
 
 @Composable
 private fun MenuItem(@DrawableRes icon: Int, @StringRes text: Int) {
-    val edgeMargin = 16.dp
+    val edgeMargin = 24.dp
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -157,7 +157,7 @@ private fun MenuItem(@DrawableRes icon: Int, @StringRes text: Int) {
 
 @Composable
 private fun LogOutButton() {
-    val edgeMargin = 16.dp
+    val edgeMargin = 24.dp
     Row(
         modifier = Modifier
             .fillMaxWidth()
