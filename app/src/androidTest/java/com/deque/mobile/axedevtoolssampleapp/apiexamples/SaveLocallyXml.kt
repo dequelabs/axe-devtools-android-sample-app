@@ -32,17 +32,16 @@ class SaveLocallyXml {
         axe.setTestingConfig(AxeDevToolsEspressoConfig(IdlingRegistry.getInstance()))
     }
 
-    @Test
-    fun homeScreen() {
-        Espresso.onView(ViewMatchers.withText("Start XML")).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText("Next")).perform(ViewActions.click())
-    }
-
     @After
     fun runA11yScan() {
         rule.scenario.onActivity { mainActivity ->
             // Scan and receive the ScanResultHandler locally
             axe.scan(mainActivity)?.saveResultToLocalStorage("axe")
         }
+    }
+
+    @Test
+    fun homeScreen() {
+        // Scanning the Main Screen. No Navigation Needed.
     }
 }

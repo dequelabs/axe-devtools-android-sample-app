@@ -11,24 +11,7 @@ import org.junit.Test
 class AccessibilityUiAutomatorUploadResultTest: BaseInstrumentationTest() {
 
     @Test
-    fun xml_scan() {
-        navigateToScreen("Start XML")
-
-        device.wait(Until.hasObject(By.text("Next")), 1000)
-
-        axe.scan()?.uploadToDashboard()
-
-        navigateToScreen("Next")
-
-        axe.scan()?.uploadToDashboard()
-    }
-
-    @Test
-    fun compose_scan() {
-        navigateToScreen("Start Compose")
-
-        device.wait(Until.hasObject(By.text("Profile")), 1000)
-
+    fun ui_automator_scan() {
         axe.scan()?.uploadToDashboard()
     }
 }

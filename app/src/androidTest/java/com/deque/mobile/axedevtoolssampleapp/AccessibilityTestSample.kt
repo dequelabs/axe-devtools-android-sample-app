@@ -38,33 +38,6 @@ class AccessibilityTestSample {
         axe.setTestingConfig(AxeDevToolsEspressoConfig(IdlingRegistry.getInstance()))
     }
 
-    @Test
-    fun homeScreen() {
-        onView(withText("Start XML")).perform(click())
-        onView(withText("Next")).perform(click())
-    }
-
-    @Test
-    fun catalogScreen() {
-        onView(withText("Start XML")).perform(click())
-        onView(withText("Next")).perform(click())
-        onView(withId(R.id.catalog)).perform(click())
-    }
-
-    @Test
-    fun cartScreen() {
-        onView(withText("Start XML")).perform(click())
-        onView(withText("Next")).perform(click())
-        onView(withId(R.id.cart)).perform(click())
-    }
-
-    @Test
-    fun menuScreen() {
-        onView(withText("Start XML")).perform(click())
-        onView(withText("Next")).perform(click())
-        onView(withId(R.id.menu)).perform(click())
-    }
-
     @After
     fun runA11yScan() {
         rule.scenario.onActivity { mainActivity ->
@@ -86,5 +59,25 @@ class AccessibilityTestSample {
             // scanResultHandler?.saveResultToLocalStorage("your_file_prefix")
             axe.tearDown()
         }
+    }
+
+    @Test
+    fun homeScreen() {
+        // Scanning Main Screen. No Navigation Needed
+    }
+
+    @Test
+    fun catalogScreen() {
+        onView(withId(R.id.catalog)).perform(click())
+    }
+
+    @Test
+    fun cartScreen() {
+        onView(withId(R.id.cart)).perform(click())
+    }
+
+    @Test
+    fun menuScreen() {
+        onView(withId(R.id.menu)).perform(click())
     }
 }

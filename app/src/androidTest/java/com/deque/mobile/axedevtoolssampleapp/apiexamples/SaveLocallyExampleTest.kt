@@ -74,11 +74,9 @@ class SaveLocallyExampleTest {
 
     @Test
     fun scan_saveResultLocally() {
-        device.findObject(By.text("Start Compose")).click()
-
         device.wait(Until.hasObject(By.text("Profile")), 1000)
 
-        val axeResult = axe.scan()?.serializedResult!!
+        val axeResult = axe.scan()!!.serializedResult
 
         val path = registry.targetContext.getExternalFilesDir(null) ?: File("")
         val prefix = "axe"

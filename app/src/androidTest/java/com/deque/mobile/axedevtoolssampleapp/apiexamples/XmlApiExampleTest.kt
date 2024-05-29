@@ -35,9 +35,6 @@ class XmlApiExampleTest {
 
     @Test
     fun xml_tagAndSetScanName() {
-        Espresso.onView(ViewMatchers.withText("Start XML")).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText("Next")).perform(ViewActions.click())
-
         //Tag API
         axe.tagScanAs(mutableSetOf("axe-sample-tag-xml"))
         //Set Scan Name API
@@ -55,9 +52,6 @@ class XmlApiExampleTest {
 
     @Test
     fun xml_ignoreRule() {
-        Espresso.onView(ViewMatchers.withText("Start XML")).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText("Next")).perform(ViewActions.click())
-
         //Ignore Rule API
         axe.ignoreRules(listOf(FocusableText::class.java.simpleName))
 

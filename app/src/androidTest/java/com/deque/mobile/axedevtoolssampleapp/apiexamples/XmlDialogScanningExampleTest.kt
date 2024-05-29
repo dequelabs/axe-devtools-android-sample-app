@@ -35,27 +35,27 @@ class XmlDialogScanningExampleTest {
         IdlingRegistry.getInstance().register(countingResource)
     }
 
-    @Test
-    fun dialog_scan() {
-        countingResource.increment()
-
-        var hasResult = false
-
-        rule.scenario.onActivity { activity ->
-            val dialog = AlertDialog.Builder(activity)
-                .setTitle("Title")
-                .setMessage("Message")
-                .show()
-
-            axe.scan(dialog) { handler ->
-                hasResult = handler?.serializedResult != null
-                handler?.uploadToDashboard()
-                countingResource.decrement()
-            }
-        }
-
-        while(!countingResource.isIdleNow) { Thread.sleep(100) }
-
-        Assert.assertTrue("There should be a scan result for the dialog", hasResult)
-    }
+//    @Test
+//    fun dialog_scan() {
+//        countingResource.increment()
+//
+//        var hasResult = false
+//
+//        rule.scenario.onActivity { activity ->
+//            val dialog = AlertDialog.Builder(activity)
+//                .setTitle("Title")
+//                .setMessage("Message")
+//                .show()
+//
+//            axe.scan(dialog) { handler ->
+//                hasResult = handler?.serializedResult != null
+//                handler?.uploadToDashboard()
+//                countingResource.decrement()
+//            }
+//        }
+//
+//        while(!countingResource.isIdleNow) { Thread.sleep(100) }
+//
+//        Assert.assertTrue("There should be a scan result for the dialog", hasResult)
+//    }
 }

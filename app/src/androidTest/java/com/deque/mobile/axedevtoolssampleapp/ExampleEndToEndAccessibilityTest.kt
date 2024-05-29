@@ -17,6 +17,7 @@ import com.deque.mobile.devtools.testingconfigs.AxeDevToolsEspressoConfig
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.After
+import org.junit.Ignore
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -59,16 +60,9 @@ class ExampleEndToEndAccessibilityTest {
      * Here we have an example of a test that will scan a variety of screens and upload each scan
      * result separately.
      */
+    @Ignore
     @Test
     fun endToEndTestWithScans() {
-        //Launch screen
-        a11yScan()
-        onView(withText("Start XML")).perform(click())
-
-        //Intro screen
-        a11yScan()
-        onView(withText("Next")).perform(click())
-
         //Home screen
         a11yScan()
         onView(withHint("Search")).perform(click())

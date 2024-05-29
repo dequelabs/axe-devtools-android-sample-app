@@ -70,8 +70,6 @@ class UiAutomatorApiExampleTest {
         //Tags API
         axe.tagScanAs(mutableSetOf("tag_ui_aut"))
 
-        device.findObject(By.text("Start Compose")).click()
-
         device.wait(Until.hasObject(By.text("Profile")), 1000)
 
         axe.scan()?.uploadToDashboard()
@@ -81,8 +79,6 @@ class UiAutomatorApiExampleTest {
     fun scan_ignoreRule() {
         //Ignore Rules API
         axe.ignoreRules(mutableListOf( FocusableText::class.java.simpleName))
-
-        device.findObject(By.text("Start Compose")).click()
 
         device.wait(Until.hasObject(By.text("Profile")), 1000)
 

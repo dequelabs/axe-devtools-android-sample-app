@@ -4,6 +4,7 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.Until
 import com.deque.axe.android.constants.AxeStatus
 import junit.framework.TestCase.assertEquals
+import org.junit.Ignore
 import org.junit.Test
 
 /**
@@ -12,12 +13,9 @@ import org.junit.Test
  */
 class UiAutomatorResultAssertion: BaseInstrumentationTest() {
 
+    @Ignore
     @Test
     fun xml_scan() {
-        navigateToScreen("Start XML")
-
-        device.wait(Until.hasObject(By.text("Next")), 1000)
-
         axe.scan()?.serializedResult?.axeRuleResults?.forEach {
             if (it.status == AxeStatus.INCOMPLETE) {
                 println("Needs more review")

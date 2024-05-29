@@ -39,9 +39,6 @@ class CustomRuleApiExampleTest {
         //Custom Rule API
         axe.addCustomRule(CustomVisibleTextRule::class.java)
 
-        Espresso.onView(ViewMatchers.withText("Start XML")).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText("Next")).perform(ViewActions.click())
-
         rule.scenario.onActivity { mainActivity ->
             // Scan and receive the ScanResultHandler locally
             val scanResultHandler = axe.scan(mainActivity)

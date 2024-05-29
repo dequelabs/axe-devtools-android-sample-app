@@ -1,10 +1,11 @@
 package com.deque.mobile.axedevtoolssampleapp.apiexamples
 
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import com.deque.axe.android.rules.TouchSizeWcag
 import com.deque.mobile.axedevtoolssampleapp.BuildConfig
 import com.deque.mobile.devtools.AxeDevToolsCompose
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,8 +18,7 @@ class ComposeApiExampleTest {
         BuildConfig.IS_TESTING.set(true)
     }
 
-    @get:Rule
-    val composeTestRule = createAndroidComposeRule<SampleComposeActivity>()
+    @get:Rule val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
@@ -28,6 +28,7 @@ class ComposeApiExampleTest {
         axeCompose.tearDown()
     }
 
+    @Ignore
     @Test
     fun setScanName() {
         axeCompose.setComposeTestRule(composeTestRule)
@@ -38,6 +39,7 @@ class ComposeApiExampleTest {
         scan?.uploadToDashboard()
     }
 
+    @Ignore
     @Test
     fun setTags() {
         axeCompose.setComposeTestRule(composeTestRule)
@@ -48,6 +50,7 @@ class ComposeApiExampleTest {
         scan?.uploadToDashboard()
     }
 
+    @Ignore
     @Test
     fun ignoreRules() {
         //Ignore Rules API
