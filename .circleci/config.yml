@@ -39,7 +39,7 @@ jobs:
       # Runs "./gradlew connectedDebugAndroidTest" by default.
       # Specify the "test-command" parameter to customize the command run.
       - android/run-tests:
-          test-command: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.deque.mobile.axedevtoolssampleapp.apiexamples.SaveLocallyXml connectedAndroidTest
+          test-command: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.deque.mobile.axedevtoolssampleapp.XmlExampleTest connectedAndroidTest
       - run:
           name: Generate HTML Test Reports
           command: |
