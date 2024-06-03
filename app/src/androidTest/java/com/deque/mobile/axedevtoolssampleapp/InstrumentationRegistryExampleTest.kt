@@ -57,7 +57,7 @@ class InstrumentationRegistryExampleTest {
 //        assertEquals(6, fails)
 
 //        3. Save the result JSON to a local file for later use
-//        scanResultHandler?.saveResultToLocalStorage("your_file_prefix")
+        scanResultHandler?.saveResultToLocalStorage("axe")
     }
 
     @After
