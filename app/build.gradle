@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    def AXE_DEVTOOLS_APIKEY = axe_apikey
+    def AXE_DEVTOOLS_APIKEY = System.getenv("AXE_MOBILE_API_KEY")
 
     compileSdk 34
 
     defaultConfig {
         applicationId "com.deque.mobile.axedevtoolssampleapp"
-        minSdk 28
+        minSdk 33
         targetSdk 34
         versionCode 1
         versionName "1.0"
