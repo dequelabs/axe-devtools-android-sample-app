@@ -15,37 +15,37 @@ commands:
 jobs:
   test:
     executor:
-      name: android/android_  machine
+      name: android/android_machine
       resource-class: large
       tag: default
     steps:
       - checkout
       - install_reporter_cli
       # Create an AVD named "myavd"
-      - android/create-avd:
-          avd-name: myavd
+      - android/create_avd:
+          avd_name: myavd
           install: true
-          system-image: system-images;android-31;default;x86_64
+          system_image: system-images;android-31;default;x86_64
       # By default, after starting up the emulator, a cache will be restored,
       # "./gradlew assembleDebugAndroidTest" will be run and then a script
       # will be run to wait for the emulator to start up.
       # Specify the "post-emulator-launch-assemble-command" command to override
       # the gradle command run, or set "wait-for-emulator" to false to disable
       # waiting for the emulator altogether.
-      - android/start-emulator:
-          avd-name: myavd
-          no-window: true
-          restore-gradle-cache-prefix: v1a
+      - android/start_emulator:
+          avd_name: myavd
+          no_window: true
+          restore_gradle_cache_prefix: v1a
       # Runs "./gradlew connectedDebugAndroidTest" by default.
       # Specify the "test-command" parameter to customize the command run.
-      - android/run-tests:
-          test-command: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.deque.mobile.axedevtoolssampleapp.InstrumentationRegistryExampleTest connectedAndroidTest
+      - android/run_tests:
+          test_command: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.deque.mobile.axedevtoolssampleapp.InstrumentationRegistryExampleTest connectedAndroidTest
       - run:
           name: Generate HTML Test Reports
           command: |
             /home/circleci/project/runner /home/circleci/project/app/build/reports/androidTests/connected/axe/AxeTestCases "AxeReport" --format=html
-      - android/save-gradle-cache:
-          cache-prefix: v1a
+      - android/save_gradle_cache:
+          cache_prefix: v1a
 workflows:
   test:
     jobs:
