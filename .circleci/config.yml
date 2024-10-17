@@ -1,7 +1,7 @@
 # .circleci/config.yml
 version: 2.1
 orbs:
-  android: circleci/android@2.3.0
+  android: circleci/android@2.4.0
   # https://circleci.com/developer/orbs/orb/circleci/android for latest version
 
 commands:
