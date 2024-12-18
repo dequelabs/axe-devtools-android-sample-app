@@ -2,6 +2,9 @@ package com.deque.mobile.axedevtoolssampleapp
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
 import com.deque.mobile.axedevtoolssampleapp.test.BuildConfig
 import com.deque.mobile.devtools.AxeDevTools
 import org.junit.After
@@ -24,12 +27,19 @@ class InstrumentationRegistryExampleTest {
 
     @Before
     fun setupAxeDevTools() {
-        axe.setInstrumentation(InstrumentationRegistry.getInstrumentation())
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val device = UiDevice.getInstance(instrumentation)
+        val appContext = instrumentation.targetContext
+        val appPackageName = appContext.packageName
+
+        // wait for your app to load on screen
+        device.wait(Until.hasObject(By.pkg(appPackageName).depth(0)), 5000)
+
+        axe.setInstrumentation(instrumentation)
     }
 
     @Test
     fun test_using_registry() {
-        axe.setInstrumentation(InstrumentationRegistry.getInstrumentation())
         val scanResultHandler = axe.scan()
 //      1. Upload it to the dashboard
         scanResultHandler?.uploadToDashboard()
