@@ -137,7 +137,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
 
     //Deque AxeDevtoolsAndroid library
-    implementation 'com.deque.android:axe-devtools-android:6.3.0'
+    androidTestImplementation 'com.deque.android:axe-devtools-android:6.3.0'
+
+    // MLKit implementation for use with ADT Library
+    implementation 'com.google.mlkit:text-recognition:16.0.1'
 
     implementation 'androidx.activity:activity-compose:1.8.0'
     implementation platform('androidx.compose:compose-bom:2023.03.00')
