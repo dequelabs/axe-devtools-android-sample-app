@@ -18,12 +18,9 @@ suites:
       clearPackageData: true
       useTestOrchestrator: true
     emulators:
-      - name: "Google Pixel 3 GoogleAPI Emulator"
+      - name: "Google Pixel 8 GoogleAPI Emulator"
         platformVersions:
-          - "11.0"
-      - name: "Google Pixel 3a GoogleAPI Emulator"
+          - "14.0"
+      - name: "Google Pixel 6 GoogleAPI Emulator"
         platformVersions:
-          - "10.0"
-      - name: "Google Pixel 3 XL GoogleAPI Emulator"
-        platformVersions:
-          - "9.0"
+          - "12.0"
