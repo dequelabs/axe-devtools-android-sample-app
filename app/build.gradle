@@ -7,24 +7,24 @@ plugins {
 android {
     def AXE_DEVTOOLS_APIKEY = axe_apikey
 
-    compileSdk 34
+    compileSdk = 36
 
     defaultConfig {
-        applicationId "com.deque.mobile.axedevtoolssampleapp"
-        minSdk 28
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.deque.mobile.axedevtoolssampleapp"
+        minSdk = 28
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
-            useSupportLibrary true
+            useSupportLibrary = true
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
@@ -39,8 +39,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
@@ -54,10 +54,10 @@ android {
 
     namespace 'com.deque.mobile.axedevtoolssampleapp'
     buildFeatures {
-        compose true
+        compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.1'
+        kotlinCompilerExtensionVersion = '1.5.1'
     }
 }
 def reportsDirectory = "$buildDir/reports/androidTests/connected/axe"
