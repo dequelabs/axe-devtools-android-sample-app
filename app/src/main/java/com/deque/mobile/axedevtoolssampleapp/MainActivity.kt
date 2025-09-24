@@ -3,8 +3,8 @@ package com.deque.mobile.axedevtoolssampleapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.navigation.NavigationBarView
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
-        val bottomNav: NavigationBarView = findViewById(R.id.bottom_nav_bar)
-        bottomNav.setupWithNavController(navController)
+        val bottomNav: BottomNavigationView = findViewById(R.id.bottom_nav_bar)
+        setupWithNavController(bottomNav, navController)
     }
 }
