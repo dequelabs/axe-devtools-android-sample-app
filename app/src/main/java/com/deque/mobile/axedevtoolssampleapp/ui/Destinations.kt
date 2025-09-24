@@ -2,6 +2,12 @@ package com.deque.mobile.axedevtoolssampleapp.ui
 
 import kotlinx.serialization.Serializable
 
-@Serializable data object Catalog
-@Serializable data object Cart
-@Serializable data object Menu
+@Serializable
+sealed class Destinations {
+    @Serializable
+    object Catalog : Destinations()
+    @Serializable
+    object Cart : Destinations()
+    @Serializable
+    object Menu : Destinations()
+}

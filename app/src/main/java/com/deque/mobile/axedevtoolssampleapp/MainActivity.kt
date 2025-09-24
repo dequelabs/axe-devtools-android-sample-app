@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
-import com.deque.mobile.axedevtoolssampleapp.ui.Cart
-import com.deque.mobile.axedevtoolssampleapp.ui.Catalog
-import com.deque.mobile.axedevtoolssampleapp.ui.Menu
+import com.deque.mobile.axedevtoolssampleapp.ui.Destinations
 import com.google.android.material.navigation.NavigationBarView
 
 class MainActivity : AppCompatActivity() {
@@ -19,17 +17,17 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
         navController.graph = navController.createGraph(
-            startDestination = Catalog
+            startDestination = Destinations.Catalog
         ) {
-            fragment<FragmentCatalog, Catalog> {
+            fragment<FragmentCatalog, Destinations.Catalog> {
                 label = "Catalog"
             }
 
-            fragment<FragmentCart, Cart> {
+            fragment<FragmentCart, Destinations.Cart> {
                 label = "Cart"
             }
 
-            fragment<FragmentMenu, Menu> {
+            fragment<FragmentMenu, Destinations.Menu> {
                 label = "Menu"
             }
         }
@@ -40,17 +38,17 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.catalog -> {
-                    navController.navigate(Catalog)
+                    navController.navigate(Destinations.Catalog)
                     true
                 }
 
                 R.id.cart -> {
-                    navController.navigate(Cart)
+                    navController.navigate(Destinations.Cart)
                     true
                 }
 
                 R.id.menu -> {
-                    navController.navigate(Menu)
+                    navController.navigate(Destinations.Menu)
                     true
                 }
 
@@ -65,5 +63,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.catalog, R.id.cart, R.id.menu -> {}
             }
         }
+
     }
+
 }
