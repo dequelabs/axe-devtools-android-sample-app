@@ -8,16 +8,7 @@
         android:id="@+id/catalog"
         android:name="com.deque.mobile.axedevtoolssampleapp.FragmentCatalog"
         android:label="Catalog"
-        tools:layout="@layout/fragment_catalog" >
-        <action
-            android:id="@+id/action_catalog_to_cart"
-            app:destination="@id/cart"
-            app:popUpTo="@id/nav_res" />
-        <action
-            android:id="@+id/action_catalog_to_menu"
-            app:destination="@id/menu"
-            app:popUpTo="@id/catalog"/>
-    </fragment>
+        tools:layout="@layout/fragment_catalog" />
 
     <fragment
         android:id="@+id/cart"
