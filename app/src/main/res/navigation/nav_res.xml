@@ -1,0 +1,25 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_res"
+    app:startDestination="@id/catalog">
+
+    <fragment
+        android:id="@+id/catalog"
+        android:name="com.deque.mobile.axedevtoolssampleapp.FragmentCatalog"
+        android:label="Catalog"
+        tools:layout="@layout/fragment_catalog" />
+
+    <fragment
+        android:id="@+id/cart"
+        android:name="com.deque.mobile.axedevtoolssampleapp.FragmentCart"
+        android:label="Cart"
+        tools:layout="@layout/fragment_cart" />
+
+    <fragment
+        android:id="@+id/menu"
+        android:name="com.deque.mobile.axedevtoolssampleapp.FragmentMenu"
+        android:label="Menu"
+        tools:layout="@layout/fragment_menu" />
+
+</navigation>
