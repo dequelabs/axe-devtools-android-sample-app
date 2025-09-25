@@ -1,11 +1,11 @@
 # Android Sample App for axe DevTools Mobile by Deque
 
 A sample application built solely to showcase axe DevTools Android automated espresso test implementation. It is non-functional and made inaccessibly by design.
-
-Get started with a [free trial today](https://axe.dequelabs.com/signup?product=axe-devtools-mobile&redirect_uri=https://axe.dequelabs.com/axe-devtools-mobile/get-started).
+<!--
+Get started with a [free trial today](https://axe.dequelabs.com/signup?product=axe-devtools-mobile&redirect_uri=https://axe.dequelabs.com/axe-devtools-mobile/get-started).-->
 
 ## Helpful Links
-- Library documentation can be found at [docs.deque.com](https://docs.deque.com/devtools-mobile/).
+- Library documentation and more information on automated or manual testing can be found at [docs.deque.com](https://docs.deque.com/devtools-mobile/).
 - Learn more about [Deque and axe DevTools Mobile here](https://www.deque.com/).
 
 ------
@@ -30,14 +30,14 @@ The `androidTest` folder contains examples of `Jeptpack Compose`, `XML` and `UiA
 You can kick it off from Android Studio, or through an automated service such as Perfecto, Sauce Labs, etc.
 
 _Note:_ 
-- This project is set to use the Android Gradle plugin version 7.3.1. Running the project with newer, or older, JDK versions may require you to update the Gradle plugin version accordingly. Please refer to [Android's Updating the Gradle Plugin]((https://developer.android.com/studio/releases/gradle-plugin#updating-plugin)) documentation for more.
+- This project is set to use the Android Gradle plugin version 8.11.2. Running the project with newer, or older, JDK versions may require you to update the Gradle plugin version accordingly. Please refer to [Android's Updating the Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#updating-plugin) documentation for more.
 
 
 ### Perfecto
 
 If you have an account with Perfecto, you can run the automated tests of this application by using our prewritten Perfecto configuration file `configFile.json` that shards the tests across any two available devices. Follow the steps below to get started:
 
-1. **Project's build.gradle**: Add `maven { url "https://repo1.perfectomobile.com/public/repositories/maven" }` to **repositories** section. Add `classpath 'com.perfectomobile.instrumentedtest.gradleplugin:plugin:+'` to **dependencies** section. [See Configure the project for Perfecto section](https://help.perfecto.io/perfecto-help/content/perfecto/automation-testing/espresso.htm)
+1. **Project's build.gradle**: Add  to **repositories** section. Add `classpath 'com.perfectomobile.instrumentedtest.gradleplugin:plugin:+'` to **dependencies** section. [See Configure the project for Perfecto section](https://help.perfecto.io/perfecto-help/content/perfecto/automation-testing/espresso.htm)
 
 2. **app/build.gradle**: Add `id 'com.perfectomobile.instrumentedtest.gradleplugin'` to **plugins** section.
 
