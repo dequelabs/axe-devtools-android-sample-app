@@ -30,7 +30,7 @@ The `androidTest` folder contains examples of `Jeptpack Compose`, `XML` and `UiA
 You can kick it off from Android Studio, or through an automated service such as Perfecto, Sauce Labs, etc.
 
 _Note:_ 
-- This project is set to use the Android Gradle plugin version 7.3.1. Running the project with newer, or older, JDK versions may require you to update the Gradle plugin version accordingly. Please refer to [Android's Updating the Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#updating-plugin) documentation for more.
+- This project is set to use the Android Gradle plugin version 8.11.2. Running the project with newer, or older, JDK versions may require you to update the Gradle plugin version accordingly. Please refer to [Android's Updating the Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#updating-plugin) documentation for more.
 
 
 ### Perfecto
