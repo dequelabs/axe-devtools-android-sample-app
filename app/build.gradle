@@ -8,6 +8,7 @@ plugins {
 
 android {
     def AXE_DEVTOOLS_APIKEY = axe_apikey
+    def AXE_DEVTOOLS_PROJECT_ID = axe_project_id
 
     compileSdk = 36
 
@@ -32,6 +33,7 @@ android {
 
         debug {
             buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"$AXE_DEVTOOLS_APIKEY\""
+            buildConfigField "String", "AXE_DEVTOOLS_PROJECT_ID", "\"$AXE_DEVTOOLS_PROJECT_ID\""
             buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
         }
     }
@@ -155,8 +157,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
 
-    //Deque AxeDevtoolsAndroid library
-    androidTestImplementation 'com.deque.android:axe-devtools-android:8.0.1'
+    androidTestImplementation 'com.deque.android:axe-devtools-android:8.0.2'
 
     // MLKit implementation for use with ADT Library
     implementation 'com.google.mlkit:text-recognition:16.0.1'
