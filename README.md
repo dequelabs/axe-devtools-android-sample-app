@@ -11,7 +11,7 @@ A sample application built solely to showcase axe DevTools Android automated esp
 ## Getting Started:
 
 1. Clone the repository
-2. Set up a new project on [DevHub](https://axe.deque.com/axe-watcher) to set up a Project ID and API Key.
+2. Set up a new project on [axe Developer Hub](https://axe.deque.com/axe-watcher) to set up a Project ID and API Key.
       - Or Grab an API key from the [settings page](https://axe.deque.com/settings)
 3. In `app/build.gradle`, add your API Key in the `AXE_DEVTOOLS_APIKEY` variable
 4. If you set up a project add your Project ID in the `app/build.gradle` under the `AXE_DEVTOOLS_PROJECT_ID` variable

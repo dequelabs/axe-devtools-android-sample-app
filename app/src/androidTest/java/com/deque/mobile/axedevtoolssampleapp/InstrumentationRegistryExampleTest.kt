@@ -23,7 +23,7 @@ class InstrumentationRegistryExampleTest {
 
     init {
         /**
-         * Start a session on DevHub with a valid API key and your project ID.
+         * Start a session on axe Developer Hub with a valid API key and your project ID.
          *
          * You can find and create a projects here : https://axe.deque.com/axe-watcher
          */
