@@ -23,7 +23,7 @@ android {
 }
 ```
 
-Once you add your variables you are ready to start scanning the application using the espresso tests. If you need addditio
+Once you add your variables you are ready to start scanning the application using the espresso tests.
 
 You can see accessibility testing in action through the `ExampleEndToEndAccessibilityTest` Espresso test or any other test in the `androidTest` folder.
 The `androidTest` folder contains examples of `Jeptpack Compose`, `XML` and `UiAutomator`.
