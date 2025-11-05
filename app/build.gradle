@@ -10,7 +10,7 @@ android {
     def AXE_DEVTOOLS_APIKEY = axe_apikey
     def AXE_DEVTOOLS_PROJECT_ID = axe_project_id
 
-    compileSdk = 36
+    compileSdk 36
 
     defaultConfig {
         applicationId = "com.deque.mobile.axedevtoolssampleapp"
