@@ -22,7 +22,16 @@ class InstrumentationRegistryExampleTest {
     private val axe = AxeDevTools()
 
     init {
-        axe.loginWithApiKey(BuildConfig.AXE_DEVTOOLS_APIKEY)
+        /**
+         * Start a session on axe Developer Hub with a valid API key and your project ID.
+         *
+         * You can find and create a projects here : https://axe.deque.com/axe-watcher
+         */
+
+        axe.startSession(
+            apiKey = BuildConfig.AXE_DEVTOOLS_APIKEY,
+            projectId = BuildConfig.AXE_DEVTOOLS_PROJECT_ID
+        )
     }
 
     @Before

@@ -1,8 +1,6 @@
 # Android Sample App for axe DevTools Mobile by Deque
 
 A sample application built solely to showcase axe DevTools Android automated espresso test implementation. It is non-functional and made inaccessibly by design.
-<!--
-Get started with a [free trial today](https://axe.dequelabs.com/signup?product=axe-devtools-mobile&redirect_uri=https://axe.dequelabs.com/axe-devtools-mobile/get-started).-->
 
 ## Helpful Links
 - Library documentation and more information on automated or manual testing can be found at [docs.deque.com](https://docs.deque.com/devtools-mobile/).
@@ -13,17 +11,19 @@ Get started with a [free trial today](https://axe.dequelabs.com/signup?product=a
 ## Getting Started:
 
 1. Clone the repository
-2. Grab an API key from the [settings page](https://axe.deque.com/settings)
+2. Set up a new project on [axe Developer Hub](https://axe.deque.com/axe-watcher) to set up a Project ID and API Key.
+      - Or Grab an API key from the [settings page](https://axe.deque.com/settings)
 3. In `app/build.gradle`, add your API Key in the `AXE_DEVTOOLS_APIKEY` variable
+4. If you set up a project add your Project ID in the `app/build.gradle` under the `AXE_DEVTOOLS_PROJECT_ID` variable
 
 ```groovy
 android {
     def AXE_DEVTOOLS_APIKEY = "YOUR_API_KEY_HERE"
-    
+    def AXE_DEVTOOLS_PROJECT_ID = "AXE_PROJECT_ID_HERE"
 }
 ```
 
-Once you add the API Key you are ready to start scanning the application using the espresso tests.
+Once you add your variables you are ready to start scanning the application using the espresso tests.
 
 You can see accessibility testing in action through the `ExampleEndToEndAccessibilityTest` Espresso test or any other test in the `androidTest` folder.
 The `androidTest` folder contains examples of `Jeptpack Compose`, `XML` and `UiAutomator`.
