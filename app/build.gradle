@@ -157,7 +157,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
 
-    androidTestImplementation 'com.deque.android:axe-devtools-android:8.0.2'
+    androidTestImplementation 'com.deque.android:axe-devtools-android:8.1.0'
 
     // MLKit implementation for use with ADT Library
     implementation 'com.google.mlkit:text-recognition:16.0.1'
