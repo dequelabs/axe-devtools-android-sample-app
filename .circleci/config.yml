@@ -9,7 +9,7 @@ commands:
     description: Install Reporter CLI
     steps:
     - run: |
-        curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.7.0/reporter-cli-linux" --output "/home/circleci/project/runner"
+        curl --compressed -H "X-JFrog-Art-Api: ${AGORA_API_KEY}" "https://agora.dequecloud.com:443/artifactory/axe-devtools-reporter-cli/prod/4.12.0/reporter-cli-linux" --output "/home/circleci/project/runner"
         chmod +x /home/circleci/project/runner
 
 jobs:
