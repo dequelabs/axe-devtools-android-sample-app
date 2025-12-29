@@ -19,6 +19,9 @@ on:
         default: '1.0.0-beta.9d31fc6'
 
 env:
+  AGORA_NPM_EMAIL: ${{ secrets.AGORA_NPM_EMAIL }}
+  AGORA_NPM_AUTH: ${{ secrets.AGORA_NPM_AUTH }}
+  AGORA_REGISTRY_URL: //agora.dequecloud.com/artifactory/api/npm/axe-devtools-mobile-appium-qa/
   APPIUM_SKIP_CHROMEDRIVER_INSTALL: 1
   APPIUM_TEST_SERVER_PORT: 4723
   APPIUM_TEST_SERVER_HOST: 127.0.0.1
@@ -85,8 +88,16 @@ jobs:
           echo "Appium version:"
           appium --version
 
+          # Configure npm registry for @axe-devtools packages
+          git config user.name "deque-mobileteam"
+          git config user.email "mobileteam@deque.com"
+          npm config set "@deque:registry" "https:$AGORA_REGISTRY_URL"
+          npm config set "@axe-devtools:registry" "https:$AGORA_REGISTRY_URL"
+          npm config set "$AGORA_REGISTRY_URL:email" "$AGORA_NPM_EMAIL"
+          npm config set "$AGORA_REGISTRY_URL:_authToken" "$AGORA_NPM_AUTH"
+
           # Install Axe UiAutomator2 driver for Appium 2
-          appium driver install --source=npm appium-uiautomator2-driver
+          appium driver install --source=npm @axe-devtools/axe-appium-uiautomator2-driver@${APPIUM2_BETA_VERSION}
 
           # Verify driver installation
           echo "Installed drivers:"
@@ -255,8 +266,16 @@ jobs:
           echo "Appium version:"
           appium --version
 
+          # Configure npm registry for @axe-devtools packages
+          git config user.name "deque-mobileteam"
+          git config user.email "mobileteam@deque.com"
+          npm config set "@deque:registry" "https:$AGORA_REGISTRY_URL"
+          npm config set "@axe-devtools:registry" "https:$AGORA_REGISTRY_URL"
+          npm config set "$AGORA_REGISTRY_URL:email" "$AGORA_NPM_EMAIL"
+          npm config set "$AGORA_REGISTRY_URL:_authToken" "$AGORA_NPM_AUTH"
+
           # Install Axe UiAutomator2 driver for Appium 3
-          appium driver install --source=npm appium-uiautomator2-driver
+          appium driver install --source=npm @axe-devtools/axe-appium3-uiautomator2-driver@${APPIUM3_BETA_VERSION}
 
           # Verify driver installation
           echo "Installed drivers:"
