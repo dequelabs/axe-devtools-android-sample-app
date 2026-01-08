@@ -134,7 +134,6 @@ jobs:
 
       - name: Start Appium Server and Run Tests with Emulator
         uses: reactivecircus/android-emulator-runner@v2
-        continue-on-error: true
         with:
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
@@ -145,38 +144,44 @@ jobs:
           disable-spellchecker: true
           emulator-boot-timeout: 600
           script: |
-            (
             set +e
             echo "Starting Appium 2 test execution..."
-            npm install -g wait-on || true
+            npm install -g wait-on
+            echo "Restarting ADB server for clean state..."
+            adb kill-server
+            sleep 2
+            adb start-server
+            sleep 2
+            echo "Waiting for device to be fully ready..."
+            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82' || true
+            sleep 5
+            adb devices -l
+            echo "Starting Appium server..."
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium2.log 2>&1 &
             APPIUM_PID=$!
             echo "Appium server started with PID: $APPIUM_PID"
-            wait-on tcp:4723 --timeout 60000 && echo "Appium 2 server is running on port 4723!" || echo "Appium may not be fully ready"
-            adb devices || true
-            curl -f http://127.0.0.1:4723/status || echo "Appium status check failed"
-            adb wait-for-device || true
-            adb shell input keyevent 82 || true
-            sleep 10
-            cd appium-tests || { echo "Failed to cd to appium-tests"; exit 0; }
+            wait-on tcp:4723 --timeout 60000
+            echo "Appium 2 server is running on port 4723!"
+            curl -f http://127.0.0.1:4723/status
+            cd appium-tests
             export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
             echo "=== Running Navigation Tests ==="
-            npm run test:navigation || echo "Navigation tests completed"
+            npm run test:navigation || true
             echo "=== Running Menu Tests ==="
-            npm run test:menu || echo "Menu tests completed"
+            npm run test:menu || true
             echo "=== Running Catalog Tests ==="
-            npm run test:catalog || echo "Catalog tests completed"
+            npm run test:catalog || true
             echo "=== Running Cart Tests ==="
-            npm run test:cart || echo "Cart tests completed"
+            npm run test:cart || true
             echo "=== Test execution finished ==="
-            if [ -n "$APPIUM_PID" ]; then
-              echo "Stopping Appium server (PID: $APPIUM_PID)"
-              kill $APPIUM_PID 2>/dev/null || true
-              sleep 2
-            fi
+            echo "Stopping Appium server (PID: $APPIUM_PID)..."
+            kill -TERM $APPIUM_PID 2>/dev/null || true
+            sleep 3
+            kill -KILL $APPIUM_PID 2>/dev/null || true
+            echo "Cleaning up ADB connections..."
+            adb kill-server || true
+            sleep 2
             echo "Script completed successfully"
-            exit 0
-            ) || exit 0
 
       - name: Print Appium Logs
         if: always()
@@ -341,7 +346,6 @@ jobs:
 
       - name: Start Appium Server and Run Tests with Emulator
         uses: reactivecircus/android-emulator-runner@v2
-        continue-on-error: true
         with:
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
@@ -352,38 +356,44 @@ jobs:
           disable-spellchecker: true
           emulator-boot-timeout: 600
           script: |
-            (
             set +e
             echo "Starting Appium 3 test execution..."
-            npm install -g wait-on || true
+            npm install -g wait-on
+            echo "Restarting ADB server for clean state..."
+            adb kill-server
+            sleep 2
+            adb start-server
+            sleep 2
+            echo "Waiting for device to be fully ready..."
+            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82' || true
+            sleep 5
+            adb devices -l
+            echo "Starting Appium server..."
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium3.log 2>&1 &
             APPIUM_PID=$!
             echo "Appium server started with PID: $APPIUM_PID"
-            wait-on tcp:4723 --timeout 60000 && echo "Appium 3 server is running on port 4723!" || echo "Appium may not be fully ready"
-            adb devices || true
-            curl -f http://127.0.0.1:4723/status || echo "Appium status check failed"
-            adb wait-for-device || true
-            adb shell input keyevent 82 || true
-            sleep 10
-            cd appium-tests || { echo "Failed to cd to appium-tests"; exit 0; }
+            wait-on tcp:4723 --timeout 60000
+            echo "Appium 3 server is running on port 4723!"
+            curl -f http://127.0.0.1:4723/status
+            cd appium-tests
             export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
             echo "=== Running Navigation Tests ==="
-            npm run test:navigation || echo "Navigation tests completed"
+            npm run test:navigation || true
             echo "=== Running Menu Tests ==="
-            npm run test:menu || echo "Menu tests completed"
+            npm run test:menu || true
             echo "=== Running Catalog Tests ==="
-            npm run test:catalog || echo "Catalog tests completed"
+            npm run test:catalog || true
             echo "=== Running Cart Tests ==="
-            npm run test:cart || echo "Cart tests completed"
+            npm run test:cart || true
             echo "=== Test execution finished ==="
-            if [ -n "$APPIUM_PID" ]; then
-              echo "Stopping Appium server (PID: $APPIUM_PID)"
-              kill $APPIUM_PID 2>/dev/null || true
-              sleep 2
-            fi
+            echo "Stopping Appium server (PID: $APPIUM_PID)..."
+            kill -TERM $APPIUM_PID 2>/dev/null || true
+            sleep 3
+            kill -KILL $APPIUM_PID 2>/dev/null || true
+            echo "Cleaning up ADB connections..."
+            adb kill-server || true
+            sleep 2
             echo "Script completed successfully"
-            exit 0
-            ) || exit 0
 
       - name: Print Appium Logs
         if: always()
