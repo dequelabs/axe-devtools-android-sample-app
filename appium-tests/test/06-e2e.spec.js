@@ -6,7 +6,8 @@ const {
     takeScreenshot,
     swipe,
     clickElement,
-    rotateScreen
+    rotateScreen,
+    axeScan
 } = require('../helpers/utils');
 
 describe('End-to-End Tests', () => {
@@ -24,6 +25,7 @@ describe('End-to-End Tests', () => {
         await driver.pause(1000);
         const customerName = await $(selectors.menu.customerName);
         expect(await customerName.isDisplayed()).to.be.true;
+        await axeScan('E2E - Menu Screen');
         await takeScreenshot('e2e_01_menu');
         console.log('✓ Step 1: Viewed menu screen');
 
@@ -36,6 +38,7 @@ describe('End-to-End Tests', () => {
         // 3. Navigate to Catalog
         await navigateToTab('catalog');
         await driver.pause(1500);
+        await axeScan('E2E - Catalog Screen');
         await takeScreenshot('e2e_03_catalog');
         console.log('✓ Step 3: Navigated to catalog');
 
@@ -48,12 +51,14 @@ describe('End-to-End Tests', () => {
         // 5. Navigate to Cart
         await navigateToTab('cart');
         await driver.pause(1500);
+        await axeScan('E2E - Cart Screen');
         await takeScreenshot('e2e_05_cart');
         console.log('✓ Step 5: Checked cart');
 
         // 6. Navigate to Carousel
         await navigateToTab('carousel');
         await driver.pause(1500);
+        await axeScan('E2E - Carousel Screen');
         await takeScreenshot('e2e_06_carousel');
         console.log('✓ Step 6: Viewed carousel');
 
@@ -272,6 +277,9 @@ describe('End-to-End Tests', () => {
         for (const tab of tabs) {
             await navigateToTab(tab);
             await driver.pause(1000);
+
+            // Run accessibility scan
+            await axeScan(`E2E Accessibility - ${tab} screen`);
 
             // Get all elements on screen
             const allElements = await $$('android.view.View');

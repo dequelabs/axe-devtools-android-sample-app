@@ -4,7 +4,8 @@ const {
     waitForAppReady,
     navigateToTab,
     isElementDisplayed,
-    takeScreenshot
+    takeScreenshot,
+    axeScan
 } = require('../helpers/utils');
 
 describe('Navigation Tests', () => {
@@ -40,6 +41,9 @@ describe('Navigation Tests', () => {
         const catalogTab = await $(selectors.bottomNavigation.catalog);
         expect(await catalogTab.isDisplayed()).to.be.true;
 
+        // Run accessibility scan
+        await axeScan('Catalog Screen');
+
         await takeScreenshot('catalog_screen');
         console.log('✓ Successfully navigated to Catalog tab');
     });
@@ -50,6 +54,9 @@ describe('Navigation Tests', () => {
 
         const cartTab = await $(selectors.bottomNavigation.cart);
         expect(await cartTab.isDisplayed()).to.be.true;
+
+        // Run accessibility scan
+        await axeScan('Cart Screen');
 
         await takeScreenshot('cart_screen');
         console.log('✓ Successfully navigated to Cart tab');
@@ -66,6 +73,9 @@ describe('Navigation Tests', () => {
 
         const menuTab = await $(selectors.bottomNavigation.menu);
         expect(await menuTab.isDisplayed()).to.be.true;
+
+        // Run accessibility scan
+        await axeScan('Menu Screen');
 
         await takeScreenshot('menu_screen');
         console.log('✓ Successfully navigated back to Menu tab');

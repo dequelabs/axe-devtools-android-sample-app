@@ -3,7 +3,8 @@ const selectors = require('../helpers/selectors');
 const {
     waitForAppReady,
     navigateToTab,
-    takeScreenshot
+    takeScreenshot,
+    axeScan
 } = require('../helpers/utils');
 
 describe('Menu Screen Tests', () => {
@@ -26,6 +27,9 @@ describe('Menu Screen Tests', () => {
         const nameText = await customerName.getText();
         expect(nameText).to.equal('James Anderson');
 
+        // Run accessibility scan
+        await axeScan('Menu Screen - Customer Profile');
+
         await takeScreenshot('customer_profile');
         console.log('✓ Customer profile displayed correctly');
     });
@@ -34,6 +38,9 @@ describe('Menu Screen Tests', () => {
         const saleText = await $(selectors.menu.saleText);
         const isSaleDisplayed = await saleText.isDisplayed();
         expect(isSaleDisplayed).to.be.true;
+
+        // Run accessibility scan
+        await axeScan('Menu Screen - Sale Banner');
 
         await takeScreenshot('sale_banner');
         console.log('✓ Sale banner displayed correctly');

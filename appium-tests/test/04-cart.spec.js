@@ -5,7 +5,8 @@ const {
     navigateToTab,
     isElementDisplayed,
     takeScreenshot,
-    getElements
+    getElements,
+    axeScan
 } = require('../helpers/utils');
 
 describe('Cart Screen Tests', () => {
@@ -23,6 +24,9 @@ describe('Cart Screen Tests', () => {
     it('should display cart screen', async () => {
         const cartTab = await $(selectors.bottomNavigation.cart);
         expect(await cartTab.isDisplayed()).to.be.true;
+
+        // Run accessibility scan
+        await axeScan('Cart Screen - Main View');
 
         await takeScreenshot('cart_main');
         console.log('✓ Cart screen displayed');

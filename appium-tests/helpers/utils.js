@@ -194,6 +194,50 @@ async function rotateScreen(orientation) {
     }
 }
 
+/**
+ * Perform Axe accessibility scan on the current screen and upload to QA Dashboard
+ * @param {string} screenName - Name of the screen being scanned (for logging)
+ * @returns {Promise<Object>} Axe scan results
+ */
+async function axeScan(screenName = 'current screen') {
+    try {
+        console.log(`Running Axe accessibility scan on ${screenName}...`);
+
+        // Execute axe scan using the Axe DevTools driver
+        const results = await driver.execute('axe:scan');
+
+        const violationCount = results.violations ? results.violations.length : 0;
+        const passCount = results.passes ? results.passes.length : 0;
+
+        console.log(`Axe scan completed for ${screenName}:`);
+        console.log(`  - Violations: ${violationCount}`);
+        console.log(`  - Passes: ${passCount}`);
+
+        if (violationCount > 0) {
+            console.log(`  ⚠️  Found ${violationCount} accessibility violations`);
+            results.violations.forEach((violation, index) => {
+                console.log(`    ${index + 1}. ${violation.id}: ${violation.description}`);
+            });
+        } else {
+            console.log(`  ✓ No accessibility violations found`);
+        }
+
+        // Upload results to Axe DevTools QA Dashboard
+        try {
+            console.log(`Uploading scan results to Axe DevTools Dashboard...`);
+            await driver.execute('axe:uploadResults', results, screenName);
+            console.log(`  ✓ Results uploaded successfully`);
+        } catch (uploadError) {
+            console.log(`  ⚠️  Failed to upload results: ${uploadError.message}`);
+        }
+
+        return results;
+    } catch (error) {
+        console.log(`Warning: Could not perform axe scan on ${screenName}: ${error.message}`);
+        return null;
+    }
+}
+
 module.exports = {
     waitForElement,
     clickElement,
@@ -206,5 +250,6 @@ module.exports = {
     waitForAppReady,
     getElements,
     longPress,
-    rotateScreen
+    rotateScreen,
+    axeScan
 };

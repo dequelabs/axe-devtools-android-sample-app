@@ -6,7 +6,8 @@ const {
     isElementDisplayed,
     takeScreenshot,
     getElements,
-    swipe
+    swipe,
+    axeScan
 } = require('../helpers/utils');
 
 describe('Catalog Screen Tests', () => {
@@ -30,6 +31,9 @@ describe('Catalog Screen Tests', () => {
 
         const headingText = await heading.getText();
         expect(headingText).to.equal('Catalog');
+
+        // Run accessibility scan
+        await axeScan('Catalog Screen - Main View');
 
         await takeScreenshot('catalog_main');
         console.log('✓ Catalog screen displayed with heading');

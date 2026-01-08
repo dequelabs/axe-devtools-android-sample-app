@@ -8,25 +8,26 @@ on:
   workflow_dispatch:
     inputs:
       appium2BetaVersionNumber:
-        description: 'Appium2 Axe UIAutomator2 beta version (i.e. 2.1.0-beta.9d31fc6)'
+        description: 'Appium2 Axe UIAutomator2 beta version (i.e. 2.2.0-beta.e207d54)'
         required: false
         type: 'string'
-        default: '2.1.0-beta.9d31fc6'
+        default: '2.2.0-beta.e207d54'
       appium3BetaVersionNumber:
-        description: 'Appium3 Axe UIAutomator2 beta version (i.e. 1.0.0-beta.9d31fc6)'
+        description: 'Appium3 Axe UIAutomator2 beta version (i.e. 1.1.0-beta.e207d54)'
         required: false
         type: 'string'
-        default: '1.0.0-beta.9d31fc6'
+        default: '1.1.0-beta.e207d54'
 
 env:
   AGORA_NPM_EMAIL: ${{ secrets.AGORA_NPM_EMAIL }}
-  AGORA_NPM_AUTH: ${{ secrets.AGORA_NPM_AUTH }}
+  AXE_APIKEY: ${{ secrets.AXE_APIKEY }}
+  DQ_AGORA_IDENTITY_TOKEN: ${{ secrets.DQ_AGORA_IDENTITY_TOKEN }}
   AGORA_REGISTRY_URL: //agora.dequecloud.com/artifactory/api/npm/axe-devtools-mobile-appium-qa/
   APPIUM_SKIP_CHROMEDRIVER_INSTALL: 1
   APPIUM_TEST_SERVER_PORT: 4723
   APPIUM_TEST_SERVER_HOST: 127.0.0.1
-  APPIUM2_BETA_VERSION: ${{ inputs.appium2BetaVersionNumber || '2.1.0-beta.9d31fc6' }}
-  APPIUM3_BETA_VERSION: ${{ inputs.appium3BetaVersionNumber || '1.0.0-beta.9d31fc6' }}
+  APPIUM2_BETA_VERSION: ${{ inputs.appium2BetaVersionNumber || '2.2.0-beta.e207d54' }}
+  APPIUM3_BETA_VERSION: ${{ inputs.appium3BetaVersionNumber || '1.1.0-beta.e207d54' }}
 
 jobs:
   appium2-tests:
@@ -94,7 +95,7 @@ jobs:
           npm config set "@deque:registry" "https:$AGORA_REGISTRY_URL"
           npm config set "@axe-devtools:registry" "https:$AGORA_REGISTRY_URL"
           npm config set "$AGORA_REGISTRY_URL:email" "$AGORA_NPM_EMAIL"
-          npm config set "$AGORA_REGISTRY_URL:_authToken" "$AGORA_NPM_AUTH"
+          npm config set "$AGORA_REGISTRY_URL:_authToken" "$DQ_AGORA_IDENTITY_TOKEN"
 
           # Install Axe UiAutomator2 driver for Appium 2
           appium driver install --source=npm @axe-devtools/axe-appium-uiautomator2-driver@${APPIUM2_BETA_VERSION}
@@ -161,6 +162,9 @@ jobs:
 
             # Navigate to test directory and run tests
             cd appium-tests
+
+            # Export AXE_APIKEY for dashboard uploads
+            export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
 
             echo "=== Running Navigation Tests ==="
             npm run test:navigation || echo "Navigation tests completed with errors"
@@ -272,7 +276,7 @@ jobs:
           npm config set "@deque:registry" "https:$AGORA_REGISTRY_URL"
           npm config set "@axe-devtools:registry" "https:$AGORA_REGISTRY_URL"
           npm config set "$AGORA_REGISTRY_URL:email" "$AGORA_NPM_EMAIL"
-          npm config set "$AGORA_REGISTRY_URL:_authToken" "$AGORA_NPM_AUTH"
+          npm config set "$AGORA_REGISTRY_URL:_authToken" "$DQ_AGORA_IDENTITY_TOKEN"
 
           # Install Axe UiAutomator2 driver for Appium 3
           appium driver install --source=npm @axe-devtools/axe-appium3-uiautomator2-driver@${APPIUM3_BETA_VERSION}
@@ -339,6 +343,9 @@ jobs:
 
             # Navigate to test directory and run tests
             cd appium-tests
+
+            # Export AXE_APIKEY for dashboard uploads
+            export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
 
             echo "=== Running Navigation Tests ==="
             npm run test:navigation || echo "Navigation tests completed with errors"

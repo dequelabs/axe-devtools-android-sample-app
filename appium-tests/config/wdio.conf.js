@@ -2,6 +2,7 @@ const path = require('path');
 
 exports.config = {
     runner: 'local',
+    hostname: '127.0.0.1',
     port: 4723,
 
     specs: [
@@ -23,7 +24,10 @@ exports.config = {
         'appium:noReset': false,
         'appium:fullReset': false,
         'appium:newCommandTimeout': 240,
-        'appium:uiautomator2ServerInstallTimeout': 60000
+        'appium:uiautomator2ServerInstallTimeout': 60000,
+        // Axe DevTools Dashboard configuration
+        'appium:axeApiKey': process.env.AXE_APIKEY || '',
+        'appium:axeDashboardUpload': true
     }],
 
     logLevel: 'info',
@@ -38,7 +42,7 @@ exports.config = {
 
     connectionRetryCount: 3,
 
-    services: ['appium'],
+    services: [],
 
     framework: 'mocha',
 
