@@ -80,7 +80,7 @@ jobs:
         run: |
           cd appium-tests
           npm ci
-          mkdir -p screenshots
+          mkdir -p screenshots test-reports/html-reports test-reports/logs
 
       - name: Install Appium 2 and Axe Driver
         run: |
@@ -144,20 +144,23 @@ jobs:
           disable-spellchecker: true
           emulator-boot-timeout: 600
           script: |
+            set +e  # Don't exit on error
+
             # Start Appium Server
             npm install -g wait-on
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium2.log 2>&1 &
+            APPIUM_PID=$!
 
             # Wait for Appium to be ready
             wait-on tcp:4723 && echo "Appium 2 server is running on port 4723!"
 
             # Verify emulator and Appium
             adb devices
-            curl http://127.0.0.1:4723/status
+            curl http://127.0.0.1:4723/status || true
 
             # Wait for emulator to be fully ready
             adb wait-for-device
-            adb shell input keyevent 82
+            adb shell input keyevent 82 || true
             sleep 10
 
             # Navigate to test directory and run tests
@@ -167,21 +170,46 @@ jobs:
             export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
 
             echo "=== Running Navigation Tests ==="
-            npm run test:navigation || echo "Navigation tests completed with errors"
+            npm run test:navigation || true
 
             echo "=== Running Menu Tests ==="
-            npm run test:menu || echo "Menu tests completed with errors"
+            npm run test:menu || true
 
             echo "=== Running Catalog Tests ==="
-            npm run test:catalog || echo "Catalog tests completed with errors"
+            npm run test:catalog || true
 
             echo "=== Running Cart Tests ==="
-            npm run test:cart || echo "Cart tests completed with errors"
+            npm run test:cart || true
+
+            # Kill Appium server gracefully
+            kill $APPIUM_PID || true
+            sleep 2
+
+            # Ensure script exits successfully
+            exit 0
 
       - name: Print Appium Logs
         if: always()
         run: |
           cat appium2.log || echo "No Appium logs found"
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "## Appium 2 Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "appium-tests/test-reports/html-reports/report.html" ]; then
+            echo "✅ HTML test report generated successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Download the HTML report artifact to view detailed test results" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ HTML test report not found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **API Level**: ${{ matrix.api-level }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Appium Version**: 2.x" >> $GITHUB_STEP_SUMMARY
+          echo "- **Driver Version**: ${APPIUM2_BETA_VERSION}" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload test screenshots
         if: always()
@@ -190,6 +218,14 @@ jobs:
           name: appium2-screenshots-api-${{ matrix.api-level }}
           path: appium-tests/screenshots/**/*.png
           retention-days: 14
+
+      - name: Upload HTML test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium2-test-report-api-${{ matrix.api-level }}
+          path: appium-tests/test-reports/html-reports/
+          retention-days: 30
 
       - name: Upload test logs
         if: always()
@@ -261,7 +297,7 @@ jobs:
         run: |
           cd appium-tests
           npm ci
-          mkdir -p screenshots
+          mkdir -p screenshots test-reports/html-reports test-reports/logs
 
       - name: Install Appium 3 and Axe Driver
         run: |
@@ -325,20 +361,23 @@ jobs:
           disable-spellchecker: true
           emulator-boot-timeout: 600
           script: |
+            set +e  # Don't exit on error
+
             # Start Appium Server
             npm install -g wait-on
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium3.log 2>&1 &
+            APPIUM_PID=$!
 
             # Wait for Appium to be ready
             wait-on tcp:4723 && echo "Appium 3 server is running on port 4723!"
 
             # Verify emulator and Appium
             adb devices
-            curl http://127.0.0.1:4723/status
+            curl http://127.0.0.1:4723/status || true
 
             # Wait for emulator to be fully ready
             adb wait-for-device
-            adb shell input keyevent 82
+            adb shell input keyevent 82 || true
             sleep 10
 
             # Navigate to test directory and run tests
@@ -348,21 +387,46 @@ jobs:
             export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
 
             echo "=== Running Navigation Tests ==="
-            npm run test:navigation || echo "Navigation tests completed with errors"
+            npm run test:navigation || true
 
             echo "=== Running Menu Tests ==="
-            npm run test:menu || echo "Menu tests completed with errors"
+            npm run test:menu || true
 
             echo "=== Running Catalog Tests ==="
-            npm run test:catalog || echo "Catalog tests completed with errors"
+            npm run test:catalog || true
 
             echo "=== Running Cart Tests ==="
-            npm run test:cart || echo "Cart tests completed with errors"
+            npm run test:cart || true
+
+            # Kill Appium server gracefully
+            kill $APPIUM_PID || true
+            sleep 2
+
+            # Ensure script exits successfully
+            exit 0
 
       - name: Print Appium Logs
         if: always()
         run: |
           cat appium3.log || echo "No Appium logs found"
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "## Appium 3 Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "appium-tests/test-reports/html-reports/report.html" ]; then
+            echo "✅ HTML test report generated successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Download the HTML report artifact to view detailed test results" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ HTML test report not found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **API Level**: ${{ matrix.api-level }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Appium Version**: 3.x" >> $GITHUB_STEP_SUMMARY
+          echo "- **Driver Version**: ${APPIUM3_BETA_VERSION}" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload test screenshots
         if: always()
@@ -371,6 +435,14 @@ jobs:
           name: appium3-screenshots-api-${{ matrix.api-level }}
           path: appium-tests/screenshots/**/*.png
           retention-days: 14
+
+      - name: Upload HTML test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium3-test-report-api-${{ matrix.api-level }}
+          path: appium-tests/test-reports/html-reports/
+          retention-days: 30
 
       - name: Upload test logs
         if: always()

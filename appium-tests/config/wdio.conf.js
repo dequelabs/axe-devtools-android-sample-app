@@ -46,7 +46,20 @@ exports.config = {
 
     framework: 'mocha',
 
-    reporters: ['spec'],
+    reporters: [
+        'spec',
+        ['html', {
+            outputDir: './test-reports/html-reports/',
+            filename: 'report.html',
+            reportTitle: 'Axe DevTools Android Test Report',
+            showInBrowser: false,
+            useOnAfterCommandForScreenshot: false,
+            LOG: {
+                outputDir: './test-reports/logs/',
+                name: 'wdio.log'
+            }
+        }]
+    ],
 
     mochaOpts: {
         ui: 'bdd',
