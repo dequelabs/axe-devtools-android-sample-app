@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
     inputs:
       appium2BetaVersionNumber:
-        description: 'Appium2 Axe UIAutomator2 beta version (i.e. 2.2.0-beta.e207d54)'
+        description: 'Appium2 Axe UIAutomator2 beta version'
         required: false
         type: 'string'
         default: '2.2.0-beta.e207d54'
       appium3BetaVersionNumber:
-        description: 'Appium3 Axe UIAutomator2 beta version (i.e. 1.1.0-beta.e207d54)'
+        description: 'Appium3 Axe UIAutomator2 beta version'
         required: false
         type: 'string'
         default: '1.1.0-beta.e207d54'
