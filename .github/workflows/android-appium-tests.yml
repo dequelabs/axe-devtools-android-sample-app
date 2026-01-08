@@ -144,58 +144,38 @@ jobs:
           disable-spellchecker: true
           emulator-boot-timeout: 600
           script: |
-            #!/bin/bash
-            set +e  # Don't exit on error
-            trap 'exit 0' EXIT  # Always exit with 0
-
+            bash <<'SCRIPT_END'
+            set +e
+            trap 'exit 0' EXIT
             echo "Starting Appium 2 test execution..."
-
-            # Start Appium Server
             npm install -g wait-on || true
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium2.log 2>&1 &
             APPIUM_PID=$!
             echo "Appium server started with PID: $APPIUM_PID"
-
-            # Wait for Appium to be ready
             wait-on tcp:4723 --timeout 60000 && echo "Appium 2 server is running on port 4723!" || echo "Appium may not be fully ready"
-
-            # Verify emulator and Appium
             adb devices || true
-            curl -f http://127.0.0.1:4723/status || echo "Appium status check failed, continuing anyway"
-
-            # Wait for emulator to be fully ready
+            curl -f http://127.0.0.1:4723/status || echo "Appium status check failed"
             adb wait-for-device || true
             adb shell input keyevent 82 || true
             sleep 10
-
-            # Navigate to test directory and run tests
-            cd appium-tests || exit 0
-
-            # Export AXE_APIKEY for dashboard uploads
+            cd appium-tests || { echo "Failed to cd to appium-tests"; exit 0; }
             export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
-
             echo "=== Running Navigation Tests ==="
             npm run test:navigation || echo "Navigation tests completed"
-
             echo "=== Running Menu Tests ==="
             npm run test:menu || echo "Menu tests completed"
-
             echo "=== Running Catalog Tests ==="
             npm run test:catalog || echo "Catalog tests completed"
-
             echo "=== Running Cart Tests ==="
             npm run test:cart || echo "Cart tests completed"
-
             echo "=== Test execution finished ==="
-
-            # Kill Appium server gracefully
             if [ -n "$APPIUM_PID" ]; then
               echo "Stopping Appium server (PID: $APPIUM_PID)"
               kill $APPIUM_PID 2>/dev/null || true
               sleep 2
             fi
-
             echo "Script completed successfully"
+            SCRIPT_END
 
       - name: Print Appium Logs
         if: always()
@@ -370,58 +350,38 @@ jobs:
           disable-spellchecker: true
           emulator-boot-timeout: 600
           script: |
-            #!/bin/bash
-            set +e  # Don't exit on error
-            trap 'exit 0' EXIT  # Always exit with 0
-
+            bash <<'SCRIPT_END'
+            set +e
+            trap 'exit 0' EXIT
             echo "Starting Appium 3 test execution..."
-
-            # Start Appium Server
             npm install -g wait-on || true
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium3.log 2>&1 &
             APPIUM_PID=$!
             echo "Appium server started with PID: $APPIUM_PID"
-
-            # Wait for Appium to be ready
             wait-on tcp:4723 --timeout 60000 && echo "Appium 3 server is running on port 4723!" || echo "Appium may not be fully ready"
-
-            # Verify emulator and Appium
             adb devices || true
-            curl -f http://127.0.0.1:4723/status || echo "Appium status check failed, continuing anyway"
-
-            # Wait for emulator to be fully ready
+            curl -f http://127.0.0.1:4723/status || echo "Appium status check failed"
             adb wait-for-device || true
             adb shell input keyevent 82 || true
             sleep 10
-
-            # Navigate to test directory and run tests
-            cd appium-tests || exit 0
-
-            # Export AXE_APIKEY for dashboard uploads
+            cd appium-tests || { echo "Failed to cd to appium-tests"; exit 0; }
             export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
-
             echo "=== Running Navigation Tests ==="
             npm run test:navigation || echo "Navigation tests completed"
-
             echo "=== Running Menu Tests ==="
             npm run test:menu || echo "Menu tests completed"
-
             echo "=== Running Catalog Tests ==="
             npm run test:catalog || echo "Catalog tests completed"
-
             echo "=== Running Cart Tests ==="
             npm run test:cart || echo "Cart tests completed"
-
             echo "=== Test execution finished ==="
-
-            # Kill Appium server gracefully
             if [ -n "$APPIUM_PID" ]; then
               echo "Stopping Appium server (PID: $APPIUM_PID)"
               kill $APPIUM_PID 2>/dev/null || true
               sleep 2
             fi
-
             echo "Script completed successfully"
+            SCRIPT_END
 
       - name: Print Appium Logs
         if: always()
