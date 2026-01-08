@@ -144,9 +144,8 @@ jobs:
           disable-spellchecker: true
           emulator-boot-timeout: 600
           script: |
-            bash <<'SCRIPT_END'
+            (
             set +e
-            trap 'exit 0' EXIT
             echo "Starting Appium 2 test execution..."
             npm install -g wait-on || true
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium2.log 2>&1 &
@@ -175,7 +174,8 @@ jobs:
               sleep 2
             fi
             echo "Script completed successfully"
-            SCRIPT_END
+            exit 0
+            ) || exit 0
 
       - name: Print Appium Logs
         if: always()
@@ -350,9 +350,8 @@ jobs:
           disable-spellchecker: true
           emulator-boot-timeout: 600
           script: |
-            bash <<'SCRIPT_END'
+            (
             set +e
-            trap 'exit 0' EXIT
             echo "Starting Appium 3 test execution..."
             npm install -g wait-on || true
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium3.log 2>&1 &
@@ -381,7 +380,8 @@ jobs:
               sleep 2
             fi
             echo "Script completed successfully"
-            SCRIPT_END
+            exit 0
+            ) || exit 0
 
       - name: Print Appium Logs
         if: always()
