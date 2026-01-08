@@ -143,7 +143,10 @@ jobs:
           disable-animations: true
           disable-spellchecker: true
           emulator-boot-timeout: 600
-          script: bash {0} <<'EOF'
+          script: |
+            set +e
+            cat > /tmp/run_appium2_tests.sh << 'SCRIPT_END'
+            #!/bin/bash
             set +e
             echo "Starting Appium 2 test execution..."
             npm install -g wait-on
@@ -174,7 +177,9 @@ jobs:
             sleep 2
             kill -KILL $APPIUM_PID 2>/dev/null || true
             echo "Script completed successfully"
-            EOF
+            SCRIPT_END
+            chmod +x /tmp/run_appium2_tests.sh
+            /tmp/run_appium2_tests.sh
 
       - name: Print Appium Logs
         if: always()
@@ -348,7 +353,10 @@ jobs:
           disable-animations: true
           disable-spellchecker: true
           emulator-boot-timeout: 600
-          script: bash {0} <<'EOF'
+          script: |
+            set +e
+            cat > /tmp/run_appium3_tests.sh << 'SCRIPT_END'
+            #!/bin/bash
             set +e
             echo "Starting Appium 3 test execution..."
             npm install -g wait-on
@@ -379,7 +387,9 @@ jobs:
             sleep 2
             kill -KILL $APPIUM_PID 2>/dev/null || true
             echo "Script completed successfully"
-            EOF
+            SCRIPT_END
+            chmod +x /tmp/run_appium3_tests.sh
+            /tmp/run_appium3_tests.sh
 
       - name: Print Appium Logs
         if: always()
