@@ -143,18 +143,13 @@ jobs:
           disable-animations: true
           disable-spellchecker: true
           emulator-boot-timeout: 600
-          script: |
+          script: bash {0} <<'EOF'
             set +e
             echo "Starting Appium 2 test execution..."
             npm install -g wait-on
-            echo "Restarting ADB server for clean state..."
-            adb kill-server
-            sleep 2
-            adb start-server
-            sleep 2
             echo "Waiting for device to be fully ready..."
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82' || true
-            sleep 5
+            sleep 3
             adb devices -l
             echo "Starting Appium server..."
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium2.log 2>&1 &
@@ -176,12 +171,10 @@ jobs:
             echo "=== Test execution finished ==="
             echo "Stopping Appium server (PID: $APPIUM_PID)..."
             kill -TERM $APPIUM_PID 2>/dev/null || true
-            sleep 3
-            kill -KILL $APPIUM_PID 2>/dev/null || true
-            echo "Cleaning up ADB connections..."
-            adb kill-server || true
             sleep 2
+            kill -KILL $APPIUM_PID 2>/dev/null || true
             echo "Script completed successfully"
+            EOF
 
       - name: Print Appium Logs
         if: always()
@@ -355,18 +348,13 @@ jobs:
           disable-animations: true
           disable-spellchecker: true
           emulator-boot-timeout: 600
-          script: |
+          script: bash {0} <<'EOF'
             set +e
             echo "Starting Appium 3 test execution..."
             npm install -g wait-on
-            echo "Restarting ADB server for clean state..."
-            adb kill-server
-            sleep 2
-            adb start-server
-            sleep 2
             echo "Waiting for device to be fully ready..."
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82' || true
-            sleep 5
+            sleep 3
             adb devices -l
             echo "Starting Appium server..."
             nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium3.log 2>&1 &
@@ -388,12 +376,10 @@ jobs:
             echo "=== Test execution finished ==="
             echo "Stopping Appium server (PID: $APPIUM_PID)..."
             kill -TERM $APPIUM_PID 2>/dev/null || true
-            sleep 3
-            kill -KILL $APPIUM_PID 2>/dev/null || true
-            echo "Cleaning up ADB connections..."
-            adb kill-server || true
             sleep 2
+            kill -KILL $APPIUM_PID 2>/dev/null || true
             echo "Script completed successfully"
+            EOF
 
       - name: Print Appium Logs
         if: always()
