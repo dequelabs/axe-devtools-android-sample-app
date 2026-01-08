@@ -26,13 +26,13 @@
   "dependencies": {
     "@wdio/appium-service": "^8.40.3",
     "@wdio/cli": "^8.40.6",
-    "@wdio/html-reporter": "^8.40.3",
     "@wdio/local-runner": "^8.40.6",
     "@wdio/mocha-framework": "^8.40.3",
     "@wdio/spec-reporter": "^8.40.3",
     "appium": "^2.11.5",
     "appium-uiautomator2-driver": "^3.7.10",
-    "chai": "^4.5.0"
+    "chai": "^4.5.0",
+    "wdio-html-nice-reporter": "^8.0.8"
   },
   "devDependencies": {
     "eslint": "^8.57.1",

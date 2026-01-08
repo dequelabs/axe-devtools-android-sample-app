@@ -48,16 +48,14 @@ exports.config = {
 
     reporters: [
         'spec',
-        ['html', {
+        ['html-nice', {
             outputDir: './test-reports/html-reports/',
             filename: 'report.html',
             reportTitle: 'Axe DevTools Android Test Report',
+            linkScreenshots: true,
             showInBrowser: false,
-            useOnAfterCommandForScreenshot: false,
-            LOG: {
-                outputDir: './test-reports/logs/',
-                name: 'wdio.log'
-            }
+            collapseTests: false,
+            useOnAfterCommandForScreenshot: false
         }]
     ],
 
