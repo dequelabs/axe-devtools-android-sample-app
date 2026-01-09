@@ -15,7 +15,7 @@ exports.config = {
 
     capabilities: [{
         platformName: 'Android',
-        'appium:platformVersion': '16', // Android API 36 = Android 16
+        'appium:platformVersion': '11', // Android API 30 = Android 11
         'appium:deviceName': 'Android Emulator',
         'appium:automationName': 'AxeUiAutomator2',
         'appium:app': path.join(__dirname, '../../app/build/outputs/apk/debug/app-debug.apk'),
