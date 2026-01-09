@@ -30,6 +30,7 @@ env:
   APPIUM3_BETA_VERSION: ${{ inputs.appium3BetaVersionNumber || '1.1.0-beta.e207d54' }}
   ANDROID_API_LEVEL: 30
   ANDROID_ARCH: x86_64
+  ANDROID_AVD_HOME: /home/runner/.android/avd
 
 jobs:
   appium2-tests:
@@ -125,12 +126,16 @@ jobs:
         id: avd-cache
         with:
           path: |
-            ~/.android/avd/*
+            /home/runner/.android/avd/*
             ~/.android/adb*
-          key: avd-appium2-${{ matrix.api-level }}-v2
+          key: avd-appium2-${{ matrix.api-level }}-v3
 
       - name: Create AVD
         run: |
+          echo "Setting up AVD environment..."
+          mkdir -p $ANDROID_AVD_HOME
+          echo "ANDROID_AVD_HOME: $ANDROID_AVD_HOME"
+
           echo "Creating AVD 'test_emulator_appium2'..."
           echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
             --name test_emulator_appium2 \
@@ -139,12 +144,17 @@ jobs:
             --force
 
           # Configure AVD with reduced resources
-          if [ -f ~/.android/avd/test_emulator_appium2.avd/config.ini ]; then
-            echo "disk.dataPartition.size=4096MB" >> ~/.android/avd/test_emulator_appium2.avd/config.ini
-            echo "hw.ramSize=2048" >> ~/.android/avd/test_emulator_appium2.avd/config.ini
+          if [ -f $ANDROID_AVD_HOME/test_emulator_appium2.avd/config.ini ]; then
+            echo "disk.dataPartition.size=4096MB" >> $ANDROID_AVD_HOME/test_emulator_appium2.avd/config.ini
+            echo "hw.ramSize=2048" >> $ANDROID_AVD_HOME/test_emulator_appium2.avd/config.ini
+            echo "✅ AVD configured with reduced resources"
           fi
 
-          echo "✅ AVD created successfully"
+          echo "Verifying AVD creation..."
+          echo "AVD files in $ANDROID_AVD_HOME:"
+          ls -la $ANDROID_AVD_HOME/ || echo "Directory is empty"
+
+          echo "Available AVDs:"
           $ANDROID_SDK_ROOT/emulator/emulator -list-avds
 
       - name: Start Android Emulator
@@ -392,12 +402,16 @@ jobs:
         id: avd-cache
         with:
           path: |
-            ~/.android/avd/*
+            /home/runner/.android/avd/*
             ~/.android/adb*
-          key: avd-appium3-${{ matrix.api-level }}-v2
+          key: avd-appium3-${{ matrix.api-level }}-v3
 
       - name: Create AVD
         run: |
+          echo "Setting up AVD environment..."
+          mkdir -p $ANDROID_AVD_HOME
+          echo "ANDROID_AVD_HOME: $ANDROID_AVD_HOME"
+
           echo "Creating AVD 'test_emulator_appium3'..."
           echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
             --name test_emulator_appium3 \
@@ -406,12 +420,17 @@ jobs:
             --force
 
           # Configure AVD with reduced resources
-          if [ -f ~/.android/avd/test_emulator_appium3.avd/config.ini ]; then
-            echo "disk.dataPartition.size=4096MB" >> ~/.android/avd/test_emulator_appium3.avd/config.ini
-            echo "hw.ramSize=2048" >> ~/.android/avd/test_emulator_appium3.avd/config.ini
+          if [ -f $ANDROID_AVD_HOME/test_emulator_appium3.avd/config.ini ]; then
+            echo "disk.dataPartition.size=4096MB" >> $ANDROID_AVD_HOME/test_emulator_appium3.avd/config.ini
+            echo "hw.ramSize=2048" >> $ANDROID_AVD_HOME/test_emulator_appium3.avd/config.ini
+            echo "✅ AVD configured with reduced resources"
           fi
 
-          echo "✅ AVD created successfully"
+          echo "Verifying AVD creation..."
+          echo "AVD files in $ANDROID_AVD_HOME:"
+          ls -la $ANDROID_AVD_HOME/ || echo "Directory is empty"
+
+          echo "Available AVDs:"
           $ANDROID_SDK_ROOT/emulator/emulator -list-avds
 
       - name: Start Android Emulator
