@@ -28,6 +28,8 @@ env:
   APPIUM_TEST_SERVER_HOST: 127.0.0.1
   APPIUM2_BETA_VERSION: ${{ inputs.appium2BetaVersionNumber || '2.2.0-beta.e207d54' }}
   APPIUM3_BETA_VERSION: ${{ inputs.appium3BetaVersionNumber || '1.1.0-beta.e207d54' }}
+  ANDROID_API_LEVEL: 30
+  ANDROID_ARCH: x86_64
 
 jobs:
   appium2-tests:
@@ -84,8 +86,8 @@ jobs:
 
       - name: Install Appium 2 and Axe Driver
         run: |
-          # Install Appium 2.x
-          npm install -g appium@2
+          # Install Appium 2.x and wait-on
+          npm install -g appium@2 wait-on
           echo "Appium version:"
           appium --version
 
@@ -110,6 +112,14 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android System Image
+        run: |
+          echo "Installing Android system image..."
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-${{ matrix.api-level }};${{ matrix.target }};${{ matrix.arch }}"
+
       - name: AVD cache
         uses: actions/cache@v4
         id: avd-cache
@@ -117,74 +127,95 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-appium2-${{ matrix.api-level }}
+          key: avd-appium2-${{ matrix.api-level }}-v2
 
-      - name: Create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
-          arch: ${{ matrix.arch }}
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 4096
-          disable-animations: true
-          disable-spellchecker: true
-          script: echo "Generated AVD snapshot for caching."
+      - name: Create AVD
+        run: |
+          echo "Creating AVD 'test_emulator_appium2'..."
+          echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
+            --name test_emulator_appium2 \
+            --package "system-images;android-${{ matrix.api-level }};${{ matrix.target }};${{ matrix.arch }}" \
+            --device "pixel_5" \
+            --force
 
-      - name: Start Appium Server and Run Tests with Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
-          arch: ${{ matrix.arch }}
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 4096
-          disable-animations: true
-          disable-spellchecker: true
-          emulator-boot-timeout: 600
-          script: |
-            set +e
-            cat > /tmp/run_appium2_tests.sh << 'SCRIPT_END'
-            #!/bin/bash
-            set +e
-            echo "Starting Appium 2 test execution..."
-            npm install -g wait-on
-            echo "Waiting for device to be fully ready..."
-            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82' || true
-            sleep 3
-            adb devices -l
-            echo "Starting Appium server..."
-            nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium2.log 2>&1 &
-            APPIUM_PID=$!
-            echo "Appium server started with PID: $APPIUM_PID"
-            wait-on tcp:4723 --timeout 60000
-            echo "Appium 2 server is running on port 4723!"
-            curl -f http://127.0.0.1:4723/status
-            cd appium-tests
-            export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
-            echo "=== Running Navigation Tests ==="
-            npm run test:navigation || true
-            echo "=== Running Menu Tests ==="
-            npm run test:menu || true
-            echo "=== Running Catalog Tests ==="
-            npm run test:catalog || true
-            echo "=== Running Cart Tests ==="
-            npm run test:cart || true
-            echo "=== Test execution finished ==="
-            echo "Stopping Appium server (PID: $APPIUM_PID)..."
-            kill -TERM $APPIUM_PID 2>/dev/null || true
-            sleep 2
-            kill -KILL $APPIUM_PID 2>/dev/null || true
-            echo "Script completed successfully"
-            SCRIPT_END
-            chmod +x /tmp/run_appium2_tests.sh
-            /tmp/run_appium2_tests.sh
+          # Configure AVD with reduced resources
+          if [ -f ~/.android/avd/test_emulator_appium2.avd/config.ini ]; then
+            echo "disk.dataPartition.size=4096MB" >> ~/.android/avd/test_emulator_appium2.avd/config.ini
+            echo "hw.ramSize=2048" >> ~/.android/avd/test_emulator_appium2.avd/config.ini
+          fi
+
+          echo "✅ AVD created successfully"
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+
+      - name: Start Android Emulator
+        timeout-minutes: 10
+        run: |
+          echo "Starting emulator..."
+          nohup $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator_appium2 \
+            -no-snapshot-save \
+            -no-window \
+            -gpu swiftshader_indirect \
+            -noaudio \
+            -no-boot-anim \
+            -camera-back none \
+            -memory 2048 \
+            -partition-size 4096 \
+            > /tmp/emulator_appium2.log 2>&1 &
+
+          echo "Waiting for device..."
+          $ANDROID_SDK_ROOT/platform-tools/adb wait-for-device
+
+          echo "Waiting for boot to complete..."
+          timeout 300 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed | tr -d "\r") ]]; do sleep 2; done'
+
+          echo "Unlocking screen..."
+          $ANDROID_SDK_ROOT/platform-tools/adb shell input keyevent 82
+
+          echo "✅ Emulator is ready"
+          $ANDROID_SDK_ROOT/platform-tools/adb devices
+
+      - name: Start Appium Server
+        run: |
+          echo "Starting Appium 2 server..."
+          nohup appium server \
+            --port=4723 \
+            --address=127.0.0.1 \
+            --relaxed-security \
+            --log-no-colors \
+            --log-timestamp \
+            > appium2.log 2>&1 &
+
+          wait-on tcp:4723 && echo "✅ Appium 2 server is running!"
+
+      - name: Run Appium Tests
+        timeout-minutes: 20
+        run: |
+          cd appium-tests
+          export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
+
+          echo "=== Running Navigation Tests ==="
+          npm run test:navigation || true
+
+          echo "=== Running Menu Tests ==="
+          npm run test:menu || true
+
+          echo "=== Running Catalog Tests ==="
+          npm run test:catalog || true
+
+          echo "=== Running Cart Tests ==="
+          npm run test:cart || true
+
+          echo "=== Test execution finished ==="
 
       - name: Print Appium Logs
         if: always()
         run: |
           cat appium2.log || echo "No Appium logs found"
+
+      - name: Print Emulator Logs
+        if: always()
+        run: |
+          cat /tmp/emulator_appium2.log || echo "No emulator logs found"
 
       - name: Generate test summary
         if: always()
@@ -211,6 +242,7 @@ jobs:
           name: appium2-screenshots-api-${{ matrix.api-level }}
           path: appium-tests/screenshots/**/*.png
           retention-days: 14
+          if-no-files-found: ignore
 
       - name: Upload HTML test report
         if: always()
@@ -219,6 +251,7 @@ jobs:
           name: appium2-test-report-api-${{ matrix.api-level }}
           path: appium-tests/test-reports/html-reports/
           retention-days: 30
+          if-no-files-found: ignore
 
       - name: Upload test logs
         if: always()
@@ -227,6 +260,7 @@ jobs:
           name: appium2-logs-api-${{ matrix.api-level }}
           path: |
             appium2.log
+            /tmp/emulator_appium2.log
             appium-tests/*.log
             ~/.npm/_logs/*.log
           retention-days: 7
@@ -294,8 +328,8 @@ jobs:
 
       - name: Install Appium 3 and Axe Driver
         run: |
-          # Install Appium 3.x (latest)
-          npm install -g appium
+          # Install Appium 3.x and wait-on
+          npm install -g appium wait-on
           echo "Appium version:"
           appium --version
 
@@ -320,6 +354,14 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android System Image
+        run: |
+          echo "Installing Android system image..."
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-${{ matrix.api-level }};${{ matrix.target }};${{ matrix.arch }}"
+
       - name: AVD cache
         uses: actions/cache@v4
         id: avd-cache
@@ -327,74 +369,95 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-appium3-${{ matrix.api-level }}
+          key: avd-appium3-${{ matrix.api-level }}-v2
 
-      - name: Create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
-          arch: ${{ matrix.arch }}
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 4096
-          disable-animations: true
-          disable-spellchecker: true
-          script: echo "Generated AVD snapshot for caching."
+      - name: Create AVD
+        run: |
+          echo "Creating AVD 'test_emulator_appium3'..."
+          echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
+            --name test_emulator_appium3 \
+            --package "system-images;android-${{ matrix.api-level }};${{ matrix.target }};${{ matrix.arch }}" \
+            --device "pixel_5" \
+            --force
 
-      - name: Start Appium Server and Run Tests with Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
-          arch: ${{ matrix.arch }}
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 4096
-          disable-animations: true
-          disable-spellchecker: true
-          emulator-boot-timeout: 600
-          script: |
-            set +e
-            cat > /tmp/run_appium3_tests.sh << 'SCRIPT_END'
-            #!/bin/bash
-            set +e
-            echo "Starting Appium 3 test execution..."
-            npm install -g wait-on
-            echo "Waiting for device to be fully ready..."
-            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82' || true
-            sleep 3
-            adb devices -l
-            echo "Starting Appium server..."
-            nohup appium server --port=4723 --address=127.0.0.1 --relaxed-security --log-no-colors --log-timestamp > appium3.log 2>&1 &
-            APPIUM_PID=$!
-            echo "Appium server started with PID: $APPIUM_PID"
-            wait-on tcp:4723 --timeout 60000
-            echo "Appium 3 server is running on port 4723!"
-            curl -f http://127.0.0.1:4723/status
-            cd appium-tests
-            export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
-            echo "=== Running Navigation Tests ==="
-            npm run test:navigation || true
-            echo "=== Running Menu Tests ==="
-            npm run test:menu || true
-            echo "=== Running Catalog Tests ==="
-            npm run test:catalog || true
-            echo "=== Running Cart Tests ==="
-            npm run test:cart || true
-            echo "=== Test execution finished ==="
-            echo "Stopping Appium server (PID: $APPIUM_PID)..."
-            kill -TERM $APPIUM_PID 2>/dev/null || true
-            sleep 2
-            kill -KILL $APPIUM_PID 2>/dev/null || true
-            echo "Script completed successfully"
-            SCRIPT_END
-            chmod +x /tmp/run_appium3_tests.sh
-            /tmp/run_appium3_tests.sh
+          # Configure AVD with reduced resources
+          if [ -f ~/.android/avd/test_emulator_appium3.avd/config.ini ]; then
+            echo "disk.dataPartition.size=4096MB" >> ~/.android/avd/test_emulator_appium3.avd/config.ini
+            echo "hw.ramSize=2048" >> ~/.android/avd/test_emulator_appium3.avd/config.ini
+          fi
+
+          echo "✅ AVD created successfully"
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+
+      - name: Start Android Emulator
+        timeout-minutes: 10
+        run: |
+          echo "Starting emulator..."
+          nohup $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator_appium3 \
+            -no-snapshot-save \
+            -no-window \
+            -gpu swiftshader_indirect \
+            -noaudio \
+            -no-boot-anim \
+            -camera-back none \
+            -memory 2048 \
+            -partition-size 4096 \
+            > /tmp/emulator_appium3.log 2>&1 &
+
+          echo "Waiting for device..."
+          $ANDROID_SDK_ROOT/platform-tools/adb wait-for-device
+
+          echo "Waiting for boot to complete..."
+          timeout 300 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed | tr -d "\r") ]]; do sleep 2; done'
+
+          echo "Unlocking screen..."
+          $ANDROID_SDK_ROOT/platform-tools/adb shell input keyevent 82
+
+          echo "✅ Emulator is ready"
+          $ANDROID_SDK_ROOT/platform-tools/adb devices
+
+      - name: Start Appium Server
+        run: |
+          echo "Starting Appium 3 server..."
+          nohup appium server \
+            --port=4723 \
+            --address=127.0.0.1 \
+            --relaxed-security \
+            --log-no-colors \
+            --log-timestamp \
+            > appium3.log 2>&1 &
+
+          wait-on tcp:4723 && echo "✅ Appium 3 server is running!"
+
+      - name: Run Appium Tests
+        timeout-minutes: 20
+        run: |
+          cd appium-tests
+          export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
+
+          echo "=== Running Navigation Tests ==="
+          npm run test:navigation || true
+
+          echo "=== Running Menu Tests ==="
+          npm run test:menu || true
+
+          echo "=== Running Catalog Tests ==="
+          npm run test:catalog || true
+
+          echo "=== Running Cart Tests ==="
+          npm run test:cart || true
+
+          echo "=== Test execution finished ==="
 
       - name: Print Appium Logs
         if: always()
         run: |
           cat appium3.log || echo "No Appium logs found"
+
+      - name: Print Emulator Logs
+        if: always()
+        run: |
+          cat /tmp/emulator_appium3.log || echo "No emulator logs found"
 
       - name: Generate test summary
         if: always()
@@ -421,6 +484,7 @@ jobs:
           name: appium3-screenshots-api-${{ matrix.api-level }}
           path: appium-tests/screenshots/**/*.png
           retention-days: 14
+          if-no-files-found: ignore
 
       - name: Upload HTML test report
         if: always()
@@ -429,6 +493,7 @@ jobs:
           name: appium3-test-report-api-${{ matrix.api-level }}
           path: appium-tests/test-reports/html-reports/
           retention-days: 30
+          if-no-files-found: ignore
 
       - name: Upload test logs
         if: always()
@@ -437,6 +502,7 @@ jobs:
           name: appium3-logs-api-${{ matrix.api-level }}
           path: |
             appium3.log
+            /tmp/emulator_appium3.log
             appium-tests/*.log
             ~/.npm/_logs/*.log
           retention-days: 7
