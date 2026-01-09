@@ -151,6 +151,10 @@ jobs:
         timeout-minutes: 10
         run: |
           echo "Starting emulator..."
+          echo "Available AVDs:"
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+
+          echo "Starting emulator in background..."
           nohup $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator_appium2 \
             -no-snapshot-save \
             -no-window \
@@ -162,11 +166,32 @@ jobs:
             -partition-size 4096 \
             > /tmp/emulator_appium2.log 2>&1 &
 
-          echo "Waiting for device..."
-          $ANDROID_SDK_ROOT/platform-tools/adb wait-for-device
+          EMULATOR_PID=$!
+          echo "Emulator started with PID: $EMULATOR_PID"
 
-          echo "Waiting for boot to complete..."
-          timeout 300 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed | tr -d "\r") ]]; do sleep 2; done'
+          # Give emulator a few seconds to start
+          sleep 10
+
+          # Check if emulator process is still running
+          if ! ps -p $EMULATOR_PID > /dev/null; then
+            echo "❌ Emulator process died! Checking logs..."
+            cat /tmp/emulator_appium2.log
+            exit 1
+          fi
+
+          echo "Emulator process is running, waiting for device..."
+          timeout 300 $ANDROID_SDK_ROOT/platform-tools/adb wait-for-device || {
+            echo "❌ Timeout waiting for device"
+            cat /tmp/emulator_appium2.log
+            exit 1
+          }
+
+          echo "Device detected, waiting for boot to complete..."
+          timeout 300 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed | tr -d "\r") ]]; do sleep 2; done' || {
+            echo "❌ Timeout waiting for boot complete"
+            cat /tmp/emulator_appium2.log
+            exit 1
+          }
 
           echo "Unlocking screen..."
           $ANDROID_SDK_ROOT/platform-tools/adb shell input keyevent 82
@@ -393,6 +418,10 @@ jobs:
         timeout-minutes: 10
         run: |
           echo "Starting emulator..."
+          echo "Available AVDs:"
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+
+          echo "Starting emulator in background..."
           nohup $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator_appium3 \
             -no-snapshot-save \
             -no-window \
@@ -404,11 +433,32 @@ jobs:
             -partition-size 4096 \
             > /tmp/emulator_appium3.log 2>&1 &
 
-          echo "Waiting for device..."
-          $ANDROID_SDK_ROOT/platform-tools/adb wait-for-device
+          EMULATOR_PID=$!
+          echo "Emulator started with PID: $EMULATOR_PID"
 
-          echo "Waiting for boot to complete..."
-          timeout 300 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed | tr -d "\r") ]]; do sleep 2; done'
+          # Give emulator a few seconds to start
+          sleep 10
+
+          # Check if emulator process is still running
+          if ! ps -p $EMULATOR_PID > /dev/null; then
+            echo "❌ Emulator process died! Checking logs..."
+            cat /tmp/emulator_appium3.log
+            exit 1
+          fi
+
+          echo "Emulator process is running, waiting for device..."
+          timeout 300 $ANDROID_SDK_ROOT/platform-tools/adb wait-for-device || {
+            echo "❌ Timeout waiting for device"
+            cat /tmp/emulator_appium3.log
+            exit 1
+          }
+
+          echo "Device detected, waiting for boot to complete..."
+          timeout 300 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed | tr -d "\r") ]]; do sleep 2; done' || {
+            echo "❌ Timeout waiting for boot complete"
+            cat /tmp/emulator_appium3.log
+            exit 1
+          }
 
           echo "Unlocking screen..."
           $ANDROID_SDK_ROOT/platform-tools/adb shell input keyevent 82
