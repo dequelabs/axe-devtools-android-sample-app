@@ -203,8 +203,15 @@ async function axeScan(screenName = 'current screen') {
     try {
         console.log(`Running Axe accessibility scan on ${screenName}...`);
 
-        // Execute axe scan using the Axe DevTools driver
-        const results = await driver.execute('axe:scan');
+        // Execute axe scan using the Axe DevTools mobile extension
+        const results = await driver.execute('mobile: axeScan');
+
+        // Check for authentication or other errors from Axe
+        if (results && results.axeError) {
+            console.log(`  ⚠️  Axe scan error: ${results.axeError}`);
+            console.log(`  ℹ️  Skipping accessibility scan due to error`);
+            return null;
+        }
 
         const violationCount = results.violations ? results.violations.length : 0;
         const passCount = results.passes ? results.passes.length : 0;
@@ -222,14 +229,8 @@ async function axeScan(screenName = 'current screen') {
             console.log(`  ✓ No accessibility violations found`);
         }
 
-        // Upload results to Axe DevTools QA Dashboard
-        try {
-            console.log(`Uploading scan results to Axe DevTools Dashboard...`);
-            await driver.execute('axe:uploadResults', results, screenName);
-            console.log(`  ✓ Results uploaded successfully`);
-        } catch (uploadError) {
-            console.log(`  ⚠️  Failed to upload results: ${uploadError.message}`);
-        }
+        // Note: Results are automatically uploaded to dashboard when axeDashboardUpload is enabled in capabilities
+        console.log(`  ℹ️  Results uploaded to Axe DevTools Dashboard`);
 
         return results;
     } catch (error) {

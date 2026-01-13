@@ -83,7 +83,7 @@ jobs:
         run: |
           cd appium-tests
           npm ci
-          mkdir -p screenshots test-reports/html-reports test-reports/logs
+          mkdir -p screenshots test-reports/mochawesome test-reports/logs
 
       - name: Install Appium 2 and Axe Driver
         run: |
@@ -257,10 +257,10 @@ jobs:
         run: |
           echo "## Appium 2 Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          if [ -f "appium-tests/test-reports/html-reports/report.html" ]; then
-            echo "✅ HTML test report generated successfully" >> $GITHUB_STEP_SUMMARY
+          if [ -f "appium-tests/test-reports/mochawesome/report.html" ]; then
+            echo "✅ Mochawesome HTML test report generated successfully" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "📊 Download the HTML report artifact to view detailed test results" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Download the HTML report artifact to view detailed test results with embedded screenshots" >> $GITHUB_STEP_SUMMARY
           else
             echo "⚠️ HTML test report not found" >> $GITHUB_STEP_SUMMARY
           fi
@@ -283,8 +283,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: appium2-test-report-api-${{ matrix.api-level }}
-          path: appium-tests/test-reports/html-reports/
+          name: appium2-mochawesome-report-api-${{ matrix.api-level }}
+          path: appium-tests/test-reports/mochawesome/
           retention-days: 30
           if-no-files-found: ignore
 
@@ -359,7 +359,7 @@ jobs:
         run: |
           cd appium-tests
           npm ci
-          mkdir -p screenshots test-reports/html-reports test-reports/logs
+          mkdir -p screenshots test-reports/mochawesome test-reports/logs
 
       - name: Install Appium 3 and Axe Driver
         run: |
@@ -533,10 +533,10 @@ jobs:
         run: |
           echo "## Appium 3 Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          if [ -f "appium-tests/test-reports/html-reports/report.html" ]; then
-            echo "✅ HTML test report generated successfully" >> $GITHUB_STEP_SUMMARY
+          if [ -f "appium-tests/test-reports/mochawesome/report.html" ]; then
+            echo "✅ Mochawesome HTML test report generated successfully" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "📊 Download the HTML report artifact to view detailed test results" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Download the HTML report artifact to view detailed test results with embedded screenshots" >> $GITHUB_STEP_SUMMARY
           else
             echo "⚠️ HTML test report not found" >> $GITHUB_STEP_SUMMARY
           fi
@@ -559,8 +559,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: appium3-test-report-api-${{ matrix.api-level }}
-          path: appium-tests/test-reports/html-reports/
+          name: appium3-mochawesome-report-api-${{ matrix.api-level }}
+          path: appium-tests/test-reports/mochawesome/
           retention-days: 30
           if-no-files-found: ignore
 

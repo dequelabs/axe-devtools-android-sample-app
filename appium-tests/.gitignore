@@ -17,6 +17,8 @@ test-results/
 test-reports/
 allure-results/
 allure-report/
+mochawesome-report/
+.mochawesome/
 
 # IDE
 .idea/

@@ -4,14 +4,15 @@
   "description": "Appium JavaScript test suite for AxeDevTools Android Sample App",
   "main": "index.js",
   "scripts": {
-    "test": "wdio run ./config/wdio.conf.js",
-    "test:navigation": "wdio run ./config/wdio.conf.js --spec ./test/01-navigation.spec.js",
-    "test:menu": "wdio run ./config/wdio.conf.js --spec ./test/02-menu.spec.js",
-    "test:catalog": "wdio run ./config/wdio.conf.js --spec ./test/03-catalog.spec.js",
-    "test:cart": "wdio run ./config/wdio.conf.js --spec ./test/04-cart.spec.js",
-    "test:e2e": "wdio run ./config/wdio.conf.js --spec ./test/06-e2e.spec.js",
+    "test": "wdio run ./config/wdio.conf.js && npm run report:generate",
+    "test:navigation": "wdio run ./config/wdio.conf.js --spec ./test/01-navigation.spec.js && npm run report:generate",
+    "test:menu": "wdio run ./config/wdio.conf.js --spec ./test/02-menu.spec.js && npm run report:generate",
+    "test:catalog": "wdio run ./config/wdio.conf.js --spec ./test/03-catalog.spec.js && npm run report:generate",
+    "test:cart": "wdio run ./config/wdio.conf.js --spec ./test/04-cart.spec.js && npm run report:generate",
+    "test:e2e": "wdio run ./config/wdio.conf.js --spec ./test/06-e2e.spec.js && npm run report:generate",
+    "report:generate": "marge test-reports/mochawesome/*.json --reportDir test-reports/mochawesome --reportFilename report.html --inline",
     "appium": "appium",
-    "setup": "npm install && mkdir -p screenshots"
+    "setup": "npm install && mkdir -p screenshots test-reports/mochawesome"
   },
   "keywords": [
     "appium",
@@ -36,7 +37,11 @@
   },
   "devDependencies": {
     "eslint": "^8.57.1",
-    "ts-node": "^10.9.2"
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.0",
+    "mochawesome-report-generator": "^6.3.2",
+    "ts-node": "^10.9.2",
+    "wdio-mochawesome-reporter": "^7.0.0"
   },
   "engines": {
     "node": ">=18.0.0",

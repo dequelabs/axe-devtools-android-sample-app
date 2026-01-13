@@ -25,8 +25,9 @@ exports.config = {
         'appium:fullReset': false,
         'appium:newCommandTimeout': 240,
         'appium:uiautomator2ServerInstallTimeout': 60000,
-        // Axe DevTools Dashboard configuration
+        // Axe DevTools Dashboard configuration - QA environment
         'appium:axeApiKey': process.env.AXE_APIKEY || '',
+        'appium:axeServerURL': 'https://mobile-qa.dequelabs.com',
         'appium:axeDashboardUpload': true
     }],
 
@@ -48,20 +49,22 @@ exports.config = {
 
     reporters: [
         'spec',
-        ['html-nice', {
-            outputDir: './test-reports/html-reports/',
-            filename: 'report.html',
+        ['mochawesome', {
+            outputDir: './test-reports/mochawesome/',
+            outputFileFormat: function(opts) {
+                return `results-${opts.cid}.json`
+            },
             reportTitle: 'Axe DevTools Android Test Report',
-            linkScreenshots: true,
-            showInBrowser: false,
-            collapseTests: false,
-            useOnAfterCommandForScreenshot: false
+            embeddedScreenshots: true,
+            inlineAssets: true,
+            saveJson: true,
+            saveHtml: true
         }]
     ],
 
     mochaOpts: {
         ui: 'bdd',
-        timeout: 60000
+        timeout: 120000 // Increased to 2 minutes to accommodate axe scans
     },
 
     autoCompileOpts: {
