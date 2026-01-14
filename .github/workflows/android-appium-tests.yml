@@ -6,28 +6,18 @@ on:
   pull_request:
     branches: [ main, develop, Appiumexamples ]
   workflow_dispatch:
-    inputs:
-      appium2BetaVersionNumber:
-        description: 'Appium2 Axe UIAutomator2 beta version'
-        required: false
-        type: 'string'
-        default: '2.2.0-beta.e207d54'
-      appium3BetaVersionNumber:
-        description: 'Appium3 Axe UIAutomator2 beta version'
-        required: false
-        type: 'string'
-        default: '1.1.0-beta.e207d54'
 
 env:
   AGORA_NPM_EMAIL: ${{ secrets.AGORA_NPM_EMAIL }}
   AXE_APIKEY: ${{ secrets.AXE_APIKEY }}
   DQ_AGORA_IDENTITY_TOKEN: ${{ secrets.DQ_AGORA_IDENTITY_TOKEN }}
-  AGORA_REGISTRY_URL: //agora.dequecloud.com/artifactory/api/npm/axe-devtools-mobile-appium-qa/
+  AGORA_REGISTRY_URL: //agora.dequecloud.com/artifactory/api/npm/dequelabs/
   APPIUM_SKIP_CHROMEDRIVER_INSTALL: 1
   APPIUM_TEST_SERVER_PORT: 4723
   APPIUM_TEST_SERVER_HOST: 127.0.0.1
-  APPIUM2_BETA_VERSION: ${{ inputs.appium2BetaVersionNumber || '2.2.0-beta.e207d54' }}
-  APPIUM3_BETA_VERSION: ${{ inputs.appium3BetaVersionNumber || '1.1.0-beta.e207d54' }}
+  # Hardcoded driver versions - update these with each release
+  APPIUM2_DRIVER_VERSION: '2.2.0'
+  APPIUM3_DRIVER_VERSION: '1.1.0'
   ANDROID_API_LEVEL: 30
   ANDROID_ARCH: x86_64
   ANDROID_AVD_HOME: /home/runner/.android/avd
@@ -101,7 +91,7 @@ jobs:
           npm config set "$AGORA_REGISTRY_URL:_authToken" "$DQ_AGORA_IDENTITY_TOKEN"
 
           # Install Axe UiAutomator2 driver for Appium 2
-          appium driver install --source=npm @axe-devtools/axe-appium-uiautomator2-driver@${APPIUM2_BETA_VERSION}
+          appium driver install --source=npm @axe-devtools/axe-appium-uiautomator2-driver@${APPIUM2_DRIVER_VERSION}
 
           # Verify driver installation
           echo "Installed drivers:"
@@ -268,7 +258,7 @@ jobs:
           echo "### Test Execution Summary" >> $GITHUB_STEP_SUMMARY
           echo "- **API Level**: ${{ matrix.api-level }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Appium Version**: 2.x" >> $GITHUB_STEP_SUMMARY
-          echo "- **Driver Version**: ${APPIUM2_BETA_VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Driver Version**: ${APPIUM2_DRIVER_VERSION}" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload test screenshots
         if: always()
@@ -377,7 +367,7 @@ jobs:
           npm config set "$AGORA_REGISTRY_URL:_authToken" "$DQ_AGORA_IDENTITY_TOKEN"
 
           # Install Axe UiAutomator2 driver for Appium 3
-          appium driver install --source=npm @axe-devtools/axe-appium3-uiautomator2-driver@${APPIUM3_BETA_VERSION}
+          appium driver install --source=npm @axe-devtools/axe-appium3-uiautomator2-driver@${APPIUM3_DRIVER_VERSION}
 
           # Verify driver installation
           echo "Installed drivers:"
@@ -544,7 +534,7 @@ jobs:
           echo "### Test Execution Summary" >> $GITHUB_STEP_SUMMARY
           echo "- **API Level**: ${{ matrix.api-level }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Appium Version**: 3.x" >> $GITHUB_STEP_SUMMARY
-          echo "- **Driver Version**: ${APPIUM3_BETA_VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Driver Version**: ${APPIUM3_DRIVER_VERSION}" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload test screenshots
         if: always()
