@@ -7,9 +7,8 @@ plugins {
 }
 
 android {
-    // Use environment variable or gradle property, with empty default for CI builds
-    def AXE_DEVTOOLS_APIKEY = project.hasProperty('axe_apikey') ? axe_apikey : (System.getenv('AXE_DEVTOOLS_APIKEY') ?: '')
-  //  def AXE_DEVTOOLS_PROJECT_ID = axe_project_id
+    def AXE_DEVTOOLS_APIKEY = axe_apikey
+    def AXE_DEVTOOLS_PROJECT_ID = axe_project_id
 
     compileSdk 36
 
@@ -34,7 +33,7 @@ android {
 
         debug {
             buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"$AXE_DEVTOOLS_APIKEY\""
-         //   buildConfigField "String", "AXE_DEVTOOLS_PROJECT_ID", "\"$AXE_DEVTOOLS_PROJECT_ID\""
+            buildConfigField "String", "AXE_DEVTOOLS_PROJECT_ID", "\"$AXE_DEVTOOLS_PROJECT_ID\""
             buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
         }
     }

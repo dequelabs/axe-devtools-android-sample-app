@@ -9,7 +9,7 @@ on:
 
 env:
   AGORA_NPM_EMAIL: ${{ secrets.AGORA_NPM_EMAIL }}
-  AXE_APIKEY: ${{ secrets.AXE_APIKEY }}
+  ORG_GRADLE_PROJECT_axe_apikey: ${{ secrets.AXE_APIKEY }}
   DQ_AGORA_IDENTITY_TOKEN: ${{ secrets.DQ_AGORA_IDENTITY_TOKEN }}
   AGORA_REGISTRY_URL: //agora.dequecloud.com/artifactory/api/npm/dequelabs/
   APPIUM_SKIP_CHROMEDRIVER_INSTALL: 1
