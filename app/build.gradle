@@ -7,8 +7,8 @@ plugins {
 }
 
 android {
-    def AXE_DEVTOOLS_APIKEY = axe_apikey
-    def AXE_DEVTOOLS_PROJECT_ID = axe_project_id
+    def AXE_DEVTOOLS_APIKEY = project.findProperty('axe_apikey') ? axe_apikey : ""
+    def AXE_DEVTOOLS_PROJECT_ID = project.findProperty('axe_project_id') ? axe_project_id : ""
 
     compileSdk = 36
 
