@@ -105,6 +105,9 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          api-level: 36
+          build-tools: 36.0.0
 
       - name: Install Android System Image
         run: |
