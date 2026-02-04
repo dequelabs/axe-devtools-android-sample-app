@@ -54,7 +54,7 @@ fun Menu() {
     Surface(modifier = Modifier.background(color = Color.White)) {
         Column(modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            InaccessibleHeading(
+            AccessibleHeading(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             CustomerName()
@@ -104,7 +104,7 @@ fun Menu() {
                     )
                 },
                 text = {
-                    InaccessibleRadioGroup(
+                    AccessibleRadioGroup(
                         selectedPaymentMethod = selectedPaymentMethod,
                         onPaymentMethodSelected = { selectedPaymentMethod = it }
                     )

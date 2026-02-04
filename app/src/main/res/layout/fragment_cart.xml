@@ -46,7 +46,6 @@
         android:layout_height="100dp"
         android:background="@drawable/rounded_top_black"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:importantForAccessibility="no"
         android:clickable="true">
 
         <TextView
@@ -86,6 +85,7 @@
             android:text="@string/proceed_to_checkout"
             app:icon="@drawable/ic_wallet"
             app:iconGravity="textEnd"
+            android:focusable="false"
             android:clickable="false"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
