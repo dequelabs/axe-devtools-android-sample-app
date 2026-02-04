@@ -40,51 +40,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cart_total_background"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/rounded_top_black"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:importantForAccessibility="no"
+        android:clickable="true">
 
-    <TextView
-        android:id="@+id/cart_total_items"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/xxlg"
-        android:layout_marginTop="@dimen/lg"
-        android:textColor="@color/text_grey"
-        app:layout_constraintTop_toTopOf="@id/cart_total_background"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Total (4 items)" />
+        <TextView
+            android:id="@+id/cart_total_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xxlg"
+            android:layout_marginTop="@dimen/lg"
+            android:textColor="@color/text_grey"
+            app:layout_constraintTop_toTopOf="@id/cart_total_background"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Total (4 items)" />
 
-    <TextView
-        android:id="@+id/cart_total_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/lg"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/cart_total_items"
-        tools:text="$1226.00" />
+        <TextView
+            android:id="@+id/cart_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/lg"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cart_total_items"
+            tools:text="$1226.00" />
 
-    <Button
-        android:id="@+id/cart_checkout_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/xxlg"
-        android:layout_marginEnd="@dimen/xxlg"
-        android:layout_marginBottom="@dimen/md"
-        android:background="@drawable/rounded_white_border"
-        android:backgroundTint="@android:color/transparent"
-        android:text="@string/proceed_to_checkout"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:icon="@drawable/ic_wallet"
-        app:iconTint="@color/white"
-        app:iconGravity="textEnd"
-        app:iconPadding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <Button
+            android:id="@+id/cart_checkout_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xxlg"
+            android:layout_marginEnd="@dimen/xxlg"
+            android:layout_marginBottom="@dimen/md"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/rounded_white_border"
+            android:backgroundTint="@android:color/transparent"
+            android:text="@string/proceed_to_checkout"
+            app:icon="@drawable/ic_wallet"
+            app:iconGravity="textEnd"
+            android:clickable="false"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

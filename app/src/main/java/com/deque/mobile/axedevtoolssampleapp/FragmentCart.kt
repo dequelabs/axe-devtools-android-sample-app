@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,6 +60,11 @@ class FragmentCart : Fragment() {
         deleteAll.setOnClickListener {
             (cartRv.adapter as CartAdapter).clear()
             it.visibility = GONE
+        }
+
+        val checkout = view.findViewById<ConstraintLayout>(R.id.cart_total_background)
+        checkout.setOnClickListener {
+            Toast.makeText(context, "Checkout clicked", Toast.LENGTH_SHORT).show()
         }
 
         return view
