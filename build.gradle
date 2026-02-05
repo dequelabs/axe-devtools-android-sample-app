@@ -6,7 +6,7 @@ buildscript {
         maven { url "https://repo1.perfectomobile.com/public/repositories/maven" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.2'
+        classpath 'com.android.tools.build:gradle:8.10.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.20"
         classpath 'com.perfectomobile.instrumentedtest.gradleplugin:plugin:24.12'
 

@@ -1,0 +1,579 @@
+name: Android Appium Tests
+
+on:
+  push:
+    branches: [ main, develop, Appiumexamples ]
+  pull_request:
+    branches: [ main, develop, Appiumexamples ]
+  workflow_dispatch:
+
+env:
+  AGORA_NPM_EMAIL: ${{ secrets.AGORA_NPM_EMAIL }}
+  ORG_GRADLE_PROJECT_axe_apikey: ${{ secrets.AXE_APIKEY }}
+  DQ_AGORA_IDENTITY_TOKEN: ${{ secrets.DQ_AGORA_IDENTITY_TOKEN }}
+  AGORA_REGISTRY_URL: //agora.dequecloud.com/artifactory/api/npm/dequelabs/
+  APPIUM_SKIP_CHROMEDRIVER_INSTALL: 1
+  APPIUM_TEST_SERVER_PORT: 4723
+  APPIUM_TEST_SERVER_HOST: 127.0.0.1
+  # Hardcoded driver versions - update these with each release
+  APPIUM2_DRIVER_VERSION: '2.2.0'
+  APPIUM3_DRIVER_VERSION: '1.1.0'
+  ANDROID_API_LEVEL: 30
+  ANDROID_ARCH: x86_64
+  ANDROID_AVD_HOME: /home/runner/.android/avd
+
+jobs:
+  appium2-tests:
+    name: Appium 2 - Android API ${{ matrix.api-level }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api-level: 30
+            target: google_apis
+            arch: x86_64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: appium-tests/package-lock.json
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Android app
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Verify APK exists
+        run: |
+          ls -la app/build/outputs/apk/debug/
+          if [ ! -f "app/build/outputs/apk/debug/app-debug.apk" ]; then
+            echo "APK not found!"
+            exit 1
+          fi
+          echo "APK Size: $(du -h app/build/outputs/apk/debug/app-debug.apk | cut -f1)"
+
+      - name: Install Appium test dependencies
+        run: |
+          cd appium-tests
+          npm ci
+          mkdir -p screenshots test-reports/mochawesome test-reports/logs
+
+      - name: Install Appium 2 and Axe Driver
+        run: |
+          # Install Appium 2.x and wait-on
+          npm install -g appium@2 wait-on
+          echo "Appium version:"
+          appium --version
+
+          # Configure npm registry for @axe-devtools packages
+          git config user.name "deque-mobileteam"
+          git config user.email "mobileteam@deque.com"
+          npm config set "@deque:registry" "https:$AGORA_REGISTRY_URL"
+          npm config set "@axe-devtools:registry" "https:$AGORA_REGISTRY_URL"
+          npm config set "$AGORA_REGISTRY_URL:email" "$AGORA_NPM_EMAIL"
+          npm config set "$AGORA_REGISTRY_URL:_authToken" "$DQ_AGORA_IDENTITY_TOKEN"
+
+          # Install Axe UiAutomator2 driver for Appium 2
+          appium driver install --source=npm @axe-devtools/axe-appium-uiautomator2-driver@${APPIUM2_DRIVER_VERSION}
+
+          # Verify driver installation
+          echo "Installed drivers:"
+          appium driver list --installed
+
+      - name: Enable KVM (for Android Emulator)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 36
+          build-tools: 36.0.0
+
+      - name: Install Android System Image
+        run: |
+          echo "Installing Android system image..."
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-${{ matrix.api-level }};${{ matrix.target }};${{ matrix.arch }}"
+
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            /home/runner/.android/avd/*
+            ~/.android/adb*
+          key: avd-appium2-${{ matrix.api-level }}-v3
+
+      - name: Create AVD
+        run: |
+          echo "Setting up AVD environment..."
+          mkdir -p $ANDROID_AVD_HOME
+          echo "ANDROID_AVD_HOME: $ANDROID_AVD_HOME"
+
+          echo "Creating AVD 'test_emulator_appium2'..."
+          echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
+            --name test_emulator_appium2 \
+            --package "system-images;android-${{ matrix.api-level }};${{ matrix.target }};${{ matrix.arch }}" \
+            --device "pixel_5" \
+            --force
+
+          # Configure AVD with reduced resources
+          if [ -f $ANDROID_AVD_HOME/test_emulator_appium2.avd/config.ini ]; then
+            echo "disk.dataPartition.size=4096MB" >> $ANDROID_AVD_HOME/test_emulator_appium2.avd/config.ini
+            echo "hw.ramSize=2048" >> $ANDROID_AVD_HOME/test_emulator_appium2.avd/config.ini
+            echo "✅ AVD configured with reduced resources"
+          fi
+
+          echo "Verifying AVD creation..."
+          echo "AVD files in $ANDROID_AVD_HOME:"
+          ls -la $ANDROID_AVD_HOME/ || echo "Directory is empty"
+
+          echo "Available AVDs:"
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+
+      - name: Start Android Emulator
+        timeout-minutes: 10
+        run: |
+          echo "Starting emulator..."
+          echo "Available AVDs:"
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+
+          echo "Starting emulator in background..."
+          nohup $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator_appium2 \
+            -no-snapshot-save \
+            -no-window \
+            -gpu swiftshader_indirect \
+            -noaudio \
+            -no-boot-anim \
+            -camera-back none \
+            -memory 2048 \
+            -partition-size 4096 \
+            > /tmp/emulator_appium2.log 2>&1 &
+
+          EMULATOR_PID=$!
+          echo "Emulator started with PID: $EMULATOR_PID"
+
+          # Give emulator a few seconds to start
+          sleep 10
+
+          # Check if emulator process is still running
+          if ! ps -p $EMULATOR_PID > /dev/null; then
+            echo "❌ Emulator process died! Checking logs..."
+            cat /tmp/emulator_appium2.log
+            exit 1
+          fi
+
+          echo "Emulator process is running, waiting for device..."
+          timeout 300 $ANDROID_SDK_ROOT/platform-tools/adb wait-for-device || {
+            echo "❌ Timeout waiting for device"
+            cat /tmp/emulator_appium2.log
+            exit 1
+          }
+
+          echo "Device detected, waiting for boot to complete..."
+          timeout 300 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed | tr -d "\r") ]]; do sleep 2; done' || {
+            echo "❌ Timeout waiting for boot complete"
+            cat /tmp/emulator_appium2.log
+            exit 1
+          }
+
+          echo "Unlocking screen..."
+          $ANDROID_SDK_ROOT/platform-tools/adb shell input keyevent 82
+
+          echo "✅ Emulator is ready"
+          $ANDROID_SDK_ROOT/platform-tools/adb devices
+
+      - name: Start Appium Server
+        run: |
+          echo "Starting Appium 2 server..."
+          nohup appium server \
+            --port=4723 \
+            --address=127.0.0.1 \
+            --relaxed-security \
+            --log-no-colors \
+            --log-timestamp \
+            > appium2.log 2>&1 &
+
+          wait-on tcp:4723 && echo "✅ Appium 2 server is running!"
+
+      - name: Run Appium Tests
+        timeout-minutes: 20
+        run: |
+          cd appium-tests
+          export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
+
+          echo "=== Running Navigation Tests ==="
+          npm run test:navigation || true
+
+          echo "=== Running Menu Tests ==="
+          npm run test:menu || true
+
+          echo "=== Running Catalog Tests ==="
+          npm run test:catalog || true
+
+          echo "=== Running Cart Tests ==="
+          npm run test:cart || true
+
+          echo "=== Test execution finished ==="
+
+      - name: Print Appium Logs
+        if: always()
+        run: |
+          cat appium2.log || echo "No Appium logs found"
+
+      - name: Print Emulator Logs
+        if: always()
+        run: |
+          cat /tmp/emulator_appium2.log || echo "No emulator logs found"
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "## Appium 2 Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "appium-tests/test-reports/mochawesome/report.html" ]; then
+            echo "✅ Mochawesome HTML test report generated successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Download the HTML report artifact to view detailed test results with embedded screenshots" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ HTML test report not found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **API Level**: ${{ matrix.api-level }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Appium Version**: 2.x" >> $GITHUB_STEP_SUMMARY
+          echo "- **Driver Version**: ${APPIUM2_DRIVER_VERSION}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload test screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium2-screenshots-api-${{ matrix.api-level }}
+          path: appium-tests/screenshots/**/*.png
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload HTML test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium2-mochawesome-report-api-${{ matrix.api-level }}
+          path: appium-tests/test-reports/mochawesome/
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium2-logs-api-${{ matrix.api-level }}
+          path: |
+            appium2.log
+            /tmp/emulator_appium2.log
+            appium-tests/*.log
+            ~/.npm/_logs/*.log
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload APK
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium2-app-debug-apk-api-${{ matrix.api-level }}
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 7
+
+  appium3-tests:
+    name: Appium 3 - Android API ${{ matrix.api-level }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api-level: 30
+            target: google_apis
+            arch: x86_64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: appium-tests/package-lock.json
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Android app
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Verify APK exists
+        run: |
+          ls -la app/build/outputs/apk/debug/
+          if [ ! -f "app/build/outputs/apk/debug/app-debug.apk" ]; then
+            echo "APK not found!"
+            exit 1
+          fi
+          echo "APK Size: $(du -h app/build/outputs/apk/debug/app-debug.apk | cut -f1)"
+
+      - name: Install Appium test dependencies
+        run: |
+          cd appium-tests
+          npm ci
+          mkdir -p screenshots test-reports/mochawesome test-reports/logs
+
+      - name: Install Appium 3 and Axe Driver
+        run: |
+          # Install Appium 3.x and wait-on
+          npm install -g appium wait-on
+          echo "Appium version:"
+          appium --version
+
+          # Configure npm registry for @axe-devtools packages
+          git config user.name "deque-mobileteam"
+          git config user.email "mobileteam@deque.com"
+          npm config set "@deque:registry" "https:$AGORA_REGISTRY_URL"
+          npm config set "@axe-devtools:registry" "https:$AGORA_REGISTRY_URL"
+          npm config set "$AGORA_REGISTRY_URL:email" "$AGORA_NPM_EMAIL"
+          npm config set "$AGORA_REGISTRY_URL:_authToken" "$DQ_AGORA_IDENTITY_TOKEN"
+
+          # Install Axe UiAutomator2 driver for Appium 3
+          appium driver install --source=npm @axe-devtools/axe-appium3-uiautomator2-driver@${APPIUM3_DRIVER_VERSION}
+
+          # Verify driver installation
+          echo "Installed drivers:"
+          appium driver list --installed
+
+      - name: Enable KVM (for Android Emulator)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android System Image
+        run: |
+          echo "Installing Android system image..."
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-${{ matrix.api-level }};${{ matrix.target }};${{ matrix.arch }}"
+
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            /home/runner/.android/avd/*
+            ~/.android/adb*
+          key: avd-appium3-${{ matrix.api-level }}-v3
+
+      - name: Create AVD
+        run: |
+          echo "Setting up AVD environment..."
+          mkdir -p $ANDROID_AVD_HOME
+          echo "ANDROID_AVD_HOME: $ANDROID_AVD_HOME"
+
+          echo "Creating AVD 'test_emulator_appium3'..."
+          echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
+            --name test_emulator_appium3 \
+            --package "system-images;android-${{ matrix.api-level }};${{ matrix.target }};${{ matrix.arch }}" \
+            --device "pixel_5" \
+            --force
+
+          # Configure AVD with reduced resources
+          if [ -f $ANDROID_AVD_HOME/test_emulator_appium3.avd/config.ini ]; then
+            echo "disk.dataPartition.size=4096MB" >> $ANDROID_AVD_HOME/test_emulator_appium3.avd/config.ini
+            echo "hw.ramSize=2048" >> $ANDROID_AVD_HOME/test_emulator_appium3.avd/config.ini
+            echo "✅ AVD configured with reduced resources"
+          fi
+
+          echo "Verifying AVD creation..."
+          echo "AVD files in $ANDROID_AVD_HOME:"
+          ls -la $ANDROID_AVD_HOME/ || echo "Directory is empty"
+
+          echo "Available AVDs:"
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+
+      - name: Start Android Emulator
+        timeout-minutes: 10
+        run: |
+          echo "Starting emulator..."
+          echo "Available AVDs:"
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+
+          echo "Starting emulator in background..."
+          nohup $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator_appium3 \
+            -no-snapshot-save \
+            -no-window \
+            -gpu swiftshader_indirect \
+            -noaudio \
+            -no-boot-anim \
+            -camera-back none \
+            -memory 2048 \
+            -partition-size 4096 \
+            > /tmp/emulator_appium3.log 2>&1 &
+
+          EMULATOR_PID=$!
+          echo "Emulator started with PID: $EMULATOR_PID"
+
+          # Give emulator a few seconds to start
+          sleep 10
+
+          # Check if emulator process is still running
+          if ! ps -p $EMULATOR_PID > /dev/null; then
+            echo "❌ Emulator process died! Checking logs..."
+            cat /tmp/emulator_appium3.log
+            exit 1
+          fi
+
+          echo "Emulator process is running, waiting for device..."
+          timeout 300 $ANDROID_SDK_ROOT/platform-tools/adb wait-for-device || {
+            echo "❌ Timeout waiting for device"
+            cat /tmp/emulator_appium3.log
+            exit 1
+          }
+
+          echo "Device detected, waiting for boot to complete..."
+          timeout 300 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed | tr -d "\r") ]]; do sleep 2; done' || {
+            echo "❌ Timeout waiting for boot complete"
+            cat /tmp/emulator_appium3.log
+            exit 1
+          }
+
+          echo "Unlocking screen..."
+          $ANDROID_SDK_ROOT/platform-tools/adb shell input keyevent 82
+
+          echo "✅ Emulator is ready"
+          $ANDROID_SDK_ROOT/platform-tools/adb devices
+
+      - name: Start Appium Server
+        run: |
+          echo "Starting Appium 3 server..."
+          nohup appium server \
+            --port=4723 \
+            --address=127.0.0.1 \
+            --relaxed-security \
+            --log-no-colors \
+            --log-timestamp \
+            > appium3.log 2>&1 &
+
+          wait-on tcp:4723 && echo "✅ Appium 3 server is running!"
+
+      - name: Run Appium Tests
+        timeout-minutes: 20
+        run: |
+          cd appium-tests
+          export AXE_APIKEY="${{ secrets.AXE_APIKEY }}"
+
+          echo "=== Running Navigation Tests ==="
+          npm run test:navigation || true
+
+          echo "=== Running Menu Tests ==="
+          npm run test:menu || true
+
+          echo "=== Running Catalog Tests ==="
+          npm run test:catalog || true
+
+          echo "=== Running Cart Tests ==="
+          npm run test:cart || true
+
+          echo "=== Test execution finished ==="
+
+      - name: Print Appium Logs
+        if: always()
+        run: |
+          cat appium3.log || echo "No Appium logs found"
+
+      - name: Print Emulator Logs
+        if: always()
+        run: |
+          cat /tmp/emulator_appium3.log || echo "No emulator logs found"
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "## Appium 3 Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "appium-tests/test-reports/mochawesome/report.html" ]; then
+            echo "✅ Mochawesome HTML test report generated successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Download the HTML report artifact to view detailed test results with embedded screenshots" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ HTML test report not found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **API Level**: ${{ matrix.api-level }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Appium Version**: 3.x" >> $GITHUB_STEP_SUMMARY
+          echo "- **Driver Version**: ${APPIUM3_DRIVER_VERSION}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload test screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium3-screenshots-api-${{ matrix.api-level }}
+          path: appium-tests/screenshots/**/*.png
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload HTML test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium3-mochawesome-report-api-${{ matrix.api-level }}
+          path: appium-tests/test-reports/mochawesome/
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium3-logs-api-${{ matrix.api-level }}
+          path: |
+            appium3.log
+            /tmp/emulator_appium3.log
+            appium-tests/*.log
+            ~/.npm/_logs/*.log
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload APK
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium3-app-debug-apk-api-${{ matrix.api-level }}
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 7
