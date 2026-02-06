@@ -71,22 +71,20 @@
             app:layout_constraintTop_toTopOf="@id/cart_total_items"
             tools:text="$1226.00" />
 
-        <Button
+        <TextView
             android:id="@+id/cart_checkout_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xxlg"
             android:layout_marginEnd="@dimen/xxlg"
-            android:layout_marginBottom="@dimen/md"
+            android:layout_marginBottom="@dimen/xlg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/rounded_white_border"
-            android:backgroundTint="@android:color/transparent"
-            android:text="@string/proceed_to_checkout"
-            app:icon="@drawable/ic_wallet"
-            app:iconGravity="textEnd"
-            android:clickable="false"/>
+            android:text="@string/proceed_to_checkout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
