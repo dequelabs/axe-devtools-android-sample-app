@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    def AXE_DEVTOOLS_APIKEY = axe_apikey
+//    def AXE_DEVTOOLS_APIKEY = axe_apikey
 //    def AXE_DEVTOOLS_PROJECT_ID = axe_project_id
 
     compileSdk 36
@@ -32,7 +32,7 @@ android {
         }
 
         debug {
-            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"$AXE_DEVTOOLS_APIKEY\""
+//            buildConfigField "String", "AXE_DEVTOOLS_APIKEY", "\"$AXE_DEVTOOLS_APIKEY\""
 //            buildConfigField "String", "AXE_DEVTOOLS_PROJECT_ID", "\"$AXE_DEVTOOLS_PROJECT_ID\""
             buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
         }
@@ -67,63 +67,63 @@ android {
 def reportsDirectory = "$buildDir/reports/androidTests/connected/axe"
 def packageName = "com.deque.mobile.axedevtoolssampleapp"
 
-def createAndroidFolderDirectoryTask = task('createAndroidFolderDirectoryTask', type: Exec, group: 'reporting') {
-    executable "${android.getAdbExecutable().toString()}"
-    args 'shell', 'mkdir', '-p', '/storage/emulated/0/Android/data/' + packageName + '/files/AxeTestCases'
-}
-
-def clearAndroidDirectoryTask = task('clearAndroidDirectoryTask', type: Exec, group: 'reporting') {
-    executable "${android.getAdbExecutable().toString()}"
-    args 'shell', 'rm', '-r', '/storage/emulated/0/Android/data/' + packageName + '/files/AxeTestCases'
-}
-
-def fetchAndroidFolderAxeReportsTask = task('fetchAndroidFolderAxeReportsTask', type: Exec, group: 'reporting') {
-    executable "${android.getAdbExecutable().toString()}"
-    args 'pull', '/storage/emulated/0/Android/data/' + packageName + '/files/AxeTestCases', reportsDirectory
-
-    dependsOn {
-        createAndroidFolderDirectoryTask
-    }
-
-    finalizedBy {
-        clearAndroidDirectoryTask
-    }
-
-    doFirst {
-        new File(reportsDirectory).mkdirs()
-    }
-}
-
-def createDirectoryTask = task('createDirectoryTask', type: Exec, group: 'reporting') {
-    executable "${android.getAdbExecutable().toString()}"
-    args 'shell', 'mkdir', '-p', '/storage/emulated/0/Documents/AxeTestCases'
-}
-
-def clearDirectoryTask = task('clearDirectoryTask', type: Exec, group: 'reporting') {
-    executable "${android.getAdbExecutable().toString()}"
-    args 'shell', 'rm', '-r', '/storage/emulated/0/Documents/AxeTestCases'
-
-    finalizedBy {
-        fetchAndroidFolderAxeReportsTask
-    }
-}
-
-def fetchAxeReportsTask = task('fetchAxeReportsTask', type: Exec, group: 'reporting') {
-    executable "${android.getAdbExecutable().toString()}"
-    args 'pull', '/storage/emulated/0/Documents/AxeTestCases', reportsDirectory
-
-    dependsOn {
-        createDirectoryTask
-    }
-
-    finalizedBy {
-        clearDirectoryTask
-    }
-
-    doFirst {
-        new File(reportsDirectory).mkdirs()
-    }
-}
+//def createAndroidFolderDirectoryTask = task('createAndroidFolderDirectoryTask', type: Exec, group: 'reporting') {
+//    executable "${android.getAdbExecutable().toString()}"
+//    args 'shell', 'mkdir', '-p', '/storage/emulated/0/Android/data/' + packageName + '/files/AxeTestCases'
+//}
+//
+//def clearAndroidDirectoryTask = task('clearAndroidDirectoryTask', type: Exec, group: 'reporting') {
+//    executable "${android.getAdbExecutable().toString()}"
+//    args 'shell', 'rm', '-r', '/storage/emulated/0/Android/data/' + packageName + '/files/AxeTestCases'
+//}
+//
+//def fetchAndroidFolderAxeReportsTask = task('fetchAndroidFolderAxeReportsTask', type: Exec, group: 'reporting') {
+//    executable "${android.getAdbExecutable().toString()}"
+//    args 'pull', '/storage/emulated/0/Android/data/' + packageName + '/files/AxeTestCases', reportsDirectory
+//
+//    dependsOn {
+//        createAndroidFolderDirectoryTask
+//    }
+//
+//    finalizedBy {
+//        clearAndroidDirectoryTask
+//    }
+//
+//    doFirst {
+//        new File(reportsDirectory).mkdirs()
+//    }
+//}
+//
+//def createDirectoryTask = task('createDirectoryTask', type: Exec, group: 'reporting') {
+//    executable "${android.getAdbExecutable().toString()}"
+//    args 'shell', 'mkdir', '-p', '/storage/emulated/0/Documents/AxeTestCases'
+//}
+//
+//def clearDirectoryTask = task('clearDirectoryTask', type: Exec, group: 'reporting') {
+//    executable "${android.getAdbExecutable().toString()}"
+//    args 'shell', 'rm', '-r', '/storage/emulated/0/Documents/AxeTestCases'
+//
+//    finalizedBy {
+//        fetchAndroidFolderAxeReportsTask
+//    }
+//}
+//
+//def fetchAxeReportsTask = task('fetchAxeReportsTask', type: Exec, group: 'reporting') {
+//    executable "${android.getAdbExecutable().toString()}"
+//    args 'pull', '/storage/emulated/0/Documents/AxeTestCases', reportsDirectory
+//
+//    dependsOn {
+//        createDirectoryTask
+//    }
+//
+//    finalizedBy {
+//        clearDirectoryTask
+//    }
+//
+//    doFirst {
+//        new File(reportsDirectory).mkdirs()
+//    }
+//}
 
 tasks.configureEach { task ->
     if (task.name == 'connectedDebugAndroidTest') {
