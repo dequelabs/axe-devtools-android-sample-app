@@ -59,7 +59,14 @@ fun Menu() {
             )
             CustomerName()
             SaleInfoBox()
-            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                modifier = Modifier
+                    .semantics {
+                        heading()
+                    },
+                text = "Profile Settings",
+                fontSize = 20.sp
+            )
             MenuItem(icon = R.drawable.ic_user, text = R.string.my_details) {}
             MenuItem(icon = R.drawable.ic_note, text = R.string.my_orders) {}
             MenuItem(icon = R.drawable.ic_wallet, text = R.string.payment_methods) {
