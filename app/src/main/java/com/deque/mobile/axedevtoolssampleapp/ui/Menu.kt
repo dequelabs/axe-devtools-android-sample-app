@@ -326,9 +326,7 @@ private fun MenuItem(
         Icon(
             modifier = Modifier.align(Alignment.CenterVertically),
             painter = painterResource(id = icon),
-            contentDescription = stringResource(
-                id = R.string.my_details_icon
-            )
+            contentDescription = null
         )
         Text(
             modifier = Modifier
