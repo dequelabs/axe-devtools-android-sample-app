@@ -4,6 +4,15 @@ plugins {
     id 'com.perfectomobile.instrumentedtest.gradleplugin'
     id 'org.jetbrains.kotlin.plugin.serialization' version '2.2.20'
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.20"
+    id 'com.deque.android' version '1.0.1'
+}
+
+axeDevTools {
+    axeMobileApiKey = axe_apikey
+    axeProjectId = axe_project_id
+    axeAutoScanMode = true
+    axeServerUrl ="https://mobile-qa.dequelabs.com"
+    axeUploadResults = false
 }
 
 android {
@@ -156,8 +165,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
-
-    androidTestImplementation 'com.deque.android:axe-devtools-android:8.3.0'
 
     // MLKit implementation for use with ADT Library
     implementation 'com.google.mlkit:text-recognition:16.0.1'

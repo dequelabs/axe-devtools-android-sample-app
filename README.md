@@ -8,22 +8,44 @@ A sample application built solely to showcase axe DevTools Android automated esp
 
 ------
 
-## Getting Started:
+## Getting Started
+We currently support two ways users can implement our library
 
+#### Gradle Plugin
+Users looking to keep the amount of code needed to implement our library to a minimum should look at
+using our Gradle Plugin. Using this allows us to take on the boilerplate for you. With a few lines of
+code in your `build.gradle` file you can have a report generated for you that covers the accessibility
+violations in your app. We prefer this implementation in our own use of this library, so please try it out!
+
+#### Manual Dependencies
+For those who would like more control over the dependencies and how they are implemented we also provide
+our base library without implementing any code for you. Please note, we unfortunately cannot support 
+Auto Scan for users who opt to go this route. 
+
+### Setting Up The Plugin
 1. Clone the repository
 2. Set up a new project on [axe Developer Hub](https://axe.deque.com/axe-watcher) to set up a Project ID and API Key.
-      - Or Grab an API key from the [settings page](https://axe.deque.com/settings)
-3. In `app/build.gradle`, add your API Key in the `AXE_DEVTOOLS_APIKEY` variable
-4. If you set up a project add your Project ID in the `app/build.gradle` under the `AXE_DEVTOOLS_PROJECT_ID` variable
+3. In `app/build.gradle` Add `id 'com.deque.android' version '1.+'` to your plugins block and add your API key and project ID to the axeDevTools block shown in an example below.
 
 ```groovy
-android {
-    def AXE_DEVTOOLS_APIKEY = "YOUR_API_KEY_HERE"
-    def AXE_DEVTOOLS_PROJECT_ID = "AXE_PROJECT_ID_HERE"
+axeDevTools {
+    axeMobileApiKey = axe_api_key
+    axeProjectId = axe_project_id
+}
+```
+If you would like to customize the implementation of this further the following example shows all the configuration options we have available to you:
+```groovy
+axeDevTools {
+    axeMobileApiKey = axe_api_key
+    axeProjectId = axe_project_id
+    axeAutoScanMode = true // to enable auto scan mode (default false)
+    axeUploadResults = false // if you want to only look at results locally (default true)
+    axeAccountUrl = "www.custom-url.com" // found in your project settings on axe Developer Hub (default https://axe.deque.com)
+    axeHtmlReportPath = "/path/to/desired/folder" // customize where your accessibility reports are saved (defaults to your project's build/reports directory)
 }
 ```
 
-Once you add your variables you are ready to start scanning the application using the espresso tests.
+Once you add your credentials you are ready to start scanning the application using the espresso tests.
 
 You can see accessibility testing in action through the `ExampleEndToEndAccessibilityTest` Espresso test or any other test in the `androidTest` folder.
 The `androidTest` folder contains examples of `Jeptpack Compose`, `XML` and `UiAutomator`.

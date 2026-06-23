@@ -8,6 +8,7 @@ import androidx.test.uiautomator.Until
 import com.deque.mobile.axedevtoolssampleapp.test.BuildConfig
 import com.deque.mobile.devtools.AxeDevTools
 import org.junit.After
+import org.junit.AfterClass
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -82,5 +83,13 @@ class InstrumentationRegistryExampleTest {
     @After
     fun tearDown() {
         axe.tearDown()
+    }
+
+    companion object {
+        @JvmStatic
+        @AfterClass
+        fun afterClass() {
+
+        }
     }
 }
