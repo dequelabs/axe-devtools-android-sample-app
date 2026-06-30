@@ -5,35 +5,28 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
-import com.deque.mobile.axedevtoolssampleapp.test.BuildConfig
-import com.deque.mobile.devtools.AxeDevTools
-import org.junit.After
-import org.junit.AfterClass
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class InstrumentationRegistryExampleTest {
+/**
+ * Instrumentation Registry Sample Test Suite:
+ *
+ * The purpose of this test class is to provide a sample test suite that emulates what a typical user
+ * experience might be like while running a targeted scan via the InstrumentationRegistry.
+ *
+ * Please follow the README to ensure that you have properly set up the build.gradle file for this feature.
+ * If the project is properly set up you should see an HTML report show up in your build/reports
+ * directory as well as a result uploaded to your scan result dashboard.
+ *
+ * Please also reference the AxeTestClass.
+ */
+
+class InstrumentationRegistryExampleTest : AxeTestClass() {
 
     @Rule
     @JvmField
     val rule: ActivityScenarioRule<MainActivity> = ActivityScenarioRule(MainActivity::class.java)
-
-
-    private val axe = AxeDevTools()
-
-    init {
-        /**
-         * Start a session on axe Developer Hub with a valid API key and your project ID.
-         *
-         * You can find and create a projects here : https://axe.deque.com/axe-watcher
-         */
-
-        axe.startSession(
-            apiKey = BuildConfig.AXE_DEVTOOLS_APIKEY,
-            projectId = BuildConfig.AXE_DEVTOOLS_PROJECT_ID
-        )
-    }
 
     @Before
     fun setupAxeDevTools() {
@@ -78,18 +71,5 @@ class InstrumentationRegistryExampleTest {
 
 //        3. Save the result JSON to a local file for later use
         scanResultHandler?.saveResultToLocalStorage("axe")
-    }
-
-    @After
-    fun tearDown() {
-        axe.tearDown()
-    }
-
-    companion object {
-        @JvmStatic
-        @AfterClass
-        fun afterClass() {
-
-        }
     }
 }

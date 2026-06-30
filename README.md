@@ -25,7 +25,7 @@ Auto Scan for users who opt to go this route.
 ### Setting Up The Plugin
 1. Clone the repository
 2. Set up a new project on [axe Developer Hub](https://axe.deque.com/axe-watcher) to set up a Project ID and API Key.
-3. In `app/build.gradle` Add `id 'com.deque.android' version '1.+'` to your plugins block and add your API key and project ID to the axeDevTools block shown in an example below.
+3. In `app/build.gradle` Add `id 'com.deque.android' version '1.+'` to your plugins block and add your API key and project ID to the axeDevTools block shown in the example below.
 
 ```groovy
 axeDevTools {
@@ -44,6 +44,8 @@ axeDevTools {
     axeHtmlReportPath = "/path/to/desired/folder" // customize where your accessibility reports are saved (defaults to your project's build/reports directory)
 }
 ```
+### Setting Up Manual Dependencies
+
 
 Once you add your credentials you are ready to start scanning the application using the espresso tests.
 
