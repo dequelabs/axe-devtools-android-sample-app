@@ -19,7 +19,7 @@ import org.junit.Test
  * If the project is properly set up you should see an HTML report show up in your build/reports
  * directory as well as a result uploaded to your scan result dashboard.
  *
- * Please also reference the AxeTestClass.
+ * Please also check out the AxeTestClass for an example of how to set up our main interface.
  */
 
 class InstrumentationRegistryExampleTest : AxeTestClass() {
@@ -69,7 +69,7 @@ class InstrumentationRegistryExampleTest : AxeTestClass() {
 //        }
 //        assertEquals(6, fails)
 
-//        3. Save the result JSON to a local file for later use
+//        3. Save the AxeResult JSON to a local file for later use
         scanResultHandler?.saveResultToLocalStorage("axe")
     }
 }

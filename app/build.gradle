@@ -11,7 +11,7 @@ axeDevTools {
     axeMobileApiKey = axe_apikey
     axeProjectId = axe_project_id
     axeAutoScanMode = true
-    axeServerUrl ="https://mobile-qa.dequelabs.com"
+    axeAccountUrl = "https://axe.deque.com"
     axeUploadResults = false
 }
 

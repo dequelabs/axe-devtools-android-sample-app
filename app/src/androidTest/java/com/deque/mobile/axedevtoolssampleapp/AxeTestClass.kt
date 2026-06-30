@@ -28,6 +28,9 @@ abstract class AxeTestClass {
         @AfterClass
         fun afterClass() {
             axe.tearDown()
+
+            // Generates a report of all scans in a given test class to a report that
+            // tells you which accessibility violations we found.
             axe.generateHtmlReportAndSummary("name")
         }
     }
