@@ -12,7 +12,7 @@ abstract class AxeTestClass {
          * a session has already been started for this test suite, that session will be used instead
          * of creating a new session.
          *
-         * You can find and create a projects here : https://axe.deque.com/axe-watcher
+         * You can find and create projects here: https://axe.deque.com/axe-watcher
          */
 
         axe.startScanSession(
