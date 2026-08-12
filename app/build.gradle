@@ -4,14 +4,14 @@ plugins {
     id 'com.perfectomobile.instrumentedtest.gradleplugin'
     id 'org.jetbrains.kotlin.plugin.serialization' version '2.2.20'
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.20"
-    id 'com.deque.android' version '1.2.0'
+    id 'com.deque.android'
 }
 
 axeDevTools {
     axeMobileApiKey = project.findProperty('axe_apikey') ? axe_apikey : ""
     axeProjectId = project.findProperty('axe_project_id') ? axe_project_id : ""
     axeAutoScanMode = true
-    axeAccountUrl = "https://axe.deque.com"
+    axeAccountUrl = "https://axe-qa.dequelabs.com"
     axeUploadResults = false
 }
 
