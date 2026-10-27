@@ -21,6 +21,10 @@ jobs:
     steps:
       - checkout
       - install_reporter_cli
+      # AGP cannot find a platform it downloads mid-build, so install it first
+      - run:
+          name: Install Android SDK Platform 37
+          command: echo y | sdkmanager "platforms;android-37.0"
       # Create an AVD named "myavd"
       - android/create_avd:
           avd_name: myavd
